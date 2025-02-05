@@ -1,0 +1,23 @@
+.navegacion__menu {
+    display: flex;
+}
+
+.navegacion__enlace {
+    display: flex;
+    place-items: center;
+    justify-content: center; 
+    min-width: 120px;
+    height: 40px;
+    /* background-color: rgb(255, 255, 255); */
+    margin-right: 10px;
+    color: rgb(255, 255, 255);
+    border: white solid 1px;
+    border-radius: 3px;
+    font-weight: bolder;
+}
+
+.navegacion__enlace:hover {
+    /* background-color: rgb(216, 214, 214); */
+    border-color: grey;
+    color: white;
+} 

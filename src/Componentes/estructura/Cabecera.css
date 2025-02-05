@@ -1,0 +1,9 @@
+
+#cabecera {
+    width: 100%;
+    text-align: left;
+}
+
+.cabecera__sesion{
+    text-align: right;
+}

@@ -1,5 +1,5 @@
 import React, { createContext, useState, useEffect } from "react";
-import { supabaseConexion } from "../config/supabase.js";
+import supabaseConexion from "../Config/supabase.js";
 import { useNavigate } from "react-router-dom";
 
 // Crear el contexto para la sesión.

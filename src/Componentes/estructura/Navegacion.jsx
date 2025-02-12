@@ -47,27 +47,6 @@ const Navegacion = () => {
               <Person fontSize="large" />
               <span className="mt-2 text-sm">Perfil</span>
             </Link>
-            <Link
-              className="text-white flex flex-col items-center hover:text-gray-300 transition duration-300 border-b border-white pb-4"
-              to="/productos"
-            >
-              <ShoppingCart fontSize="large" />
-              <span className="mt-2 text-sm">Productos</span>
-            </Link>
-            <Link
-              className="text-white flex flex-col items-center hover:text-gray-300 transition duration-300 border-b border-white pb-4"
-              to="/productos/edicion"
-            >
-              <ShoppingCart fontSize="large" style={{ color: "black" }} />
-              <span className="mt-2 text-sm">Productos Edición</span>
-            </Link>
-            <Link
-              className="text-white flex flex-col items-center hover:text-gray-300 transition duration-300 border-b border-white pb-4"
-              to="/lista"
-            >
-              <ListAltIcon fontSize="large" />
-              <span className="mt-2 text-sm">Lista De La Compra</span>
-            </Link>
             <CerrarSesion />
           </>
         )}

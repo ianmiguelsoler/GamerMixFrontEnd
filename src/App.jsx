@@ -16,7 +16,7 @@ function App() {
       <div className="app">
         <div className="ml-[200px] p-6">
           {/* <ProveedorSesion> */}
-            <Navegacion />
+            {/* <Navegacion /> */}
             <Cabecera />
                 <Contenido>
                   <RutasGamerMix />

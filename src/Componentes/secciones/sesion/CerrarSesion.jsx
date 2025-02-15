@@ -1,13 +1,14 @@
 import React, { useContext } from "react";
 import { useNavigate } from "react-router-dom"; // Hook para redireccionar si es necesario.
 import { ExitToApp } from "@mui/icons-material"; // Ícono para representar el cierre de sesión.
-import { contextoSesion } from "../../../contextos/ProveedorSesion.jsx"; // Contexto para gestionar la sesión.
-import "./CerrarSesion.css"; // Archivo CSS opcional para personalizar estilos del botón.
+// import { contextoSesion } from "../../../contextos/ProveedorSesion.jsx"; // Contexto para gestionar la sesión.
 
 const CerrarSesion = () => {
   // Extrae la función "cerrarSesion" del contexto.
-  const { cerrarSesion } = useContext(contextoSesion);
-
+  // const { cerrarSesion } = useContext(contextoSesion);
+  const cerrarSesion = () => {
+    console.log("Cerrando sesión");
+  }
   return (
     <button
       // Estilos para el botón de cierre de sesión.

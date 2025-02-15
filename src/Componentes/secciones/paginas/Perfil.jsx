@@ -1,12 +1,16 @@
 import React, { useContext } from "react";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
-import { contextoSesion } from "../../../contextos/ProveedorSesion.jsx";
+// import { contextoSesion } from "../../../contextos/ProveedorSesion.jsx";
 
 const Perfil = () => {
-  const { usuario } = useContext(contextoSesion); // Obtiene los datos del usuario desde el contexto.
+  // const { usuario } = useContext(contextoSesion); // Obtiene los datos del usuario desde el contexto.
   const navegar = useNavigate(); // Hook para redireccionar.
-
+  const usuario = {
+    username: "gamer123",
+    email: "",
+    rol: "Administrador",
+  }; // Usuario simulado para pruebas.
   // Muestra una notificación indicando que la funcionalidad de edición no está disponible aún.
   const mostrarNotificacion = () => {
     Swal.fire({

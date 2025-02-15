@@ -2,11 +2,10 @@ import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Home, Login, ShoppingCart, Person, ListAlt as ListAltIcon } from "@mui/icons-material";
-import { contextoSesion } from "../../contextos/ProveedorSesion.jsx";
-import CerrarSesion from "../UT06/sesion/CerrarSesion.jsx";
+import CerrarSesion from "../secciones/sesion/CerrarSesion.jsx";
 
 const Navegacion = () => {
-  const { usuario, sesionIniciada } = useContext(contextoSesion);
+  // const { usuario, sesionIniciada } = useContext(contextoSesion);
   return (
     <motion.nav
       className="bg-green-500 p-3 shadow-lg flex flex-col items-center h-screen w-48 fixed left-0 top-0"

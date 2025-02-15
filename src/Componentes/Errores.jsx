@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import Swal from "sweetalert2";
-import "./Errores.css"; // Archivo CSS opcional para personalizar estilos (no es estrictamente necesario).
 
 const Errores = ({ children }) => {
   // Utiliza el hook useEffect para mostrar un mensaje cuando "children" cambia.

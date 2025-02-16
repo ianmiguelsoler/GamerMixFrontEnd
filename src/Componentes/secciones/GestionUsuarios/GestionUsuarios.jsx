@@ -6,6 +6,7 @@ import "./GestionUsuarios.css";
 
 const GestionUsuarios = () => {
   const { usuarios, cargando, error } = useContext(ProveedorSesion);
+  console.log(usuarios);
 
   if (cargando) return <p className="loading">Cargando usuarios...</p>;
 

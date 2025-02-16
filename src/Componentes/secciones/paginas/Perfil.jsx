@@ -1,17 +1,18 @@
-import React, { useContext } from "react";
+import React from "react";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
-// import { contextoSesion } from "../../../contextos/ProveedorSesion.jsx";
+import StarBorder from "../../../bibliotecas/StarBorder.jsx";
 
 const Perfil = () => {
-  // const { usuario } = useContext(contextoSesion); // Obtiene los datos del usuario desde el contexto.
-  const navegar = useNavigate(); // Hook para redireccionar.
+  const navegar = useNavigate();
+
   const usuario = {
     username: "gamer123",
-    email: "",
+    email: "gamer@example.com",
     rol: "Administrador",
-  }; // Usuario simulado para pruebas.
-  // Muestra una notificación indicando que la funcionalidad de edición no está disponible aún.
+    createdAt: "2024-02-15T12:00:00Z",
+  };
+
   const mostrarNotificacion = () => {
     Swal.fire({
       title: "Próximamente",
@@ -25,13 +26,10 @@ const Perfil = () => {
     });
   };
 
-  // Redirige a la página de recuperación de contraseña.
-  // Actualmente no implementa lógica adicional.
   const irARecuperarContrasena = () => {
     navegar("/recuperar-contraseña");
   };
 
-  // Si no hay un usuario autenticado, muestra un mensaje indicando que no se tiene acceso.
   if (!usuario) {
     return (
       <div className="flex items-center justify-center h-screen">
@@ -43,44 +41,61 @@ const Perfil = () => {
   }
 
   return (
-    <div className="flex flex-col items-center justify-center h-screen bg-gray-100">
-      <div className="bg-white shadow-md rounded-lg p-8 w-96">
-        {/* Título del perfil */}
-        <h1 className="text-2xl font-bold text-center text-green-600 mb-4">
-          Perfil del Usuario
+    <div className="flex flex-col items-center justify-center h-screen bg-gradient-to-b from-gray-900 to-gray-700">
+      <div className="bg-gray-800 shadow-2xl rounded-2xl p-10 w-96 border border-gray-600 transform transition-all hover:scale-105 hover:shadow-cyan-500/50">
+        
+        {/* Imagen del perfil */}
+        <div className="flex justify-center mb-6">
+          <img
+            src="https://i.pravatar.cc/100"
+            alt="Avatar de usuario"
+            className="w-24 h-24 rounded-full border-4 border-cyan-400 shadow-lg"
+          />
+        </div>
+
+        {/* Título con la fuente retro */}
+        <h1 className="text-xl text-center text-cyan-300 mb-6 tracking-wide pixelated">
+          PERFIL DEL USUARIO
         </h1>
-        {/* Información del usuario */}
-        <div className="text-lg text-gray-800 mb-4 space-y-2">
+
+        {/* Información del usuario con la fuente retro */}
+        <div className="text-sm text-gray-300 mb-6 space-y-3 p-4 bg-gray-700 rounded-lg shadow-md font-pixel">
           <p>
-            <strong>Nombre de usuario:</strong> {usuario.username}
+            <strong className="text-cyan-400">Usuario:</strong> {usuario.username}
           </p>
           <p>
-            <strong>Email:</strong> {usuario.email}
+            <strong className="text-cyan-400">Email:</strong> {usuario.email}
           </p>
           <p>
-            <strong>Rol:</strong> {usuario.rol || "Usuario"} {/* Rol por defecto */}
+            <strong className="text-cyan-400">Rol:</strong> {usuario.rol || "Usuario"}
           </p>
           <p>
-            <strong>Fecha de creación:</strong>{" "}
-            {new Date(usuario.createdAt).toLocaleDateString()} {/* Formato legible */}
+            <strong className="text-cyan-400">Creación:</strong>{" "}
+            {new Date(usuario.createdAt).toLocaleDateString()}
           </p>
         </div>
-        {/* Botones de acción */}
+
+        {/* Botones con React Bits y efectos retro */}
         <div className="text-center space-y-4">
-          {/* Botón para editar perfil */}
-          <button
-            className="bg-green-500 text-white py-2 px-4 rounded hover:bg-green-600 transition duration-300"
-            onClick={mostrarNotificacion} // Llama a la notificación de funcionalidad futura.
+          <StarBorder
+            as="button"
+            className="w-full py-3 text-sm tracking-wide font-semibold rounded transition duration-300 shadow-md hover:shadow-cyan-500/40 pixelated"
+            color="cyan"
+            speed="2s"
+            onClick={mostrarNotificacion}
           >
-            Editar Perfil
-          </button>
-          {/* Botón para recuperar contraseña */}
-          <button
-            className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition duration-300"
-            onClick={irARecuperarContrasena} // Redirige a la página de recuperación.
+            ✨ EDITAR PERFIL
+          </StarBorder>
+
+          <StarBorder
+            as="button"
+            className="w-full py-3 text-sm tracking-wide font-semibold rounded transition duration-300 shadow-md hover:shadow-blue-500/40 pixelated"
+            color="blue"
+            speed="2s"
+            onClick={irARecuperarContrasena}
           >
-            Recuperar Contraseña
-          </button>
+            🔑 RECUPERAR CONTRASEÑA
+          </StarBorder>
         </div>
       </div>
     </div>

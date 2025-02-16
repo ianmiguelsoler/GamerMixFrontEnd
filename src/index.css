@@ -2,72 +2,141 @@
 @tailwind components;
 @tailwind utilities;
 
-
+/* Ajustes globales */
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
-
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
   background-color: #242424;
-
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
-}
-
+/* Estructura Principal */
 body {
   margin: 0;
   display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
+  min-height: 100vh; /* Para que el contenido ocupe toda la altura */
+  overflow-x: hidden; /* Evita scroll horizontal */
 }
 
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
+/* Contenedor principal */
+#root {
+  display: flex;
+  width: 100%;
 }
 
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
-  cursor: pointer;
-  transition: border-color 0.25s;
-}
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
+/* Barra de Navegación */
+.navegacion {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100px;
+  height: 100vh;
+  background-color: #1f2937;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 0;
+  box-shadow: 3px 0 10px rgba(0, 0, 0, 0.2);
+  overflow-y: auto;
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
+/* Espaciado para evitar solapamiento del contenido */
+.contenido {
+  flex-grow: 1;
+  padding: 20px;
+  margin-left: 80px; /* Asegura que el contenido no se solape con la barra */
+  width: calc(100% - 80px);
+}
+
+/* Íconos de Navegación */
+.navegacion__menu {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 30px;
+}
+
+.navegacion__icono {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  color: white;
+  border-radius: 50%;
+  transition: background 0.3s ease, transform 0.2s ease;
+  font-size: 24px;
+}
+
+.navegacion__icono:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: scale(1.1);
+}
+
+/* Mensaje de usuario en la parte inferior */
+.navegacion__mensaje {
+  font-size: 12px;
+  color: white;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+/* Tarjetas de contenido */
+.card {
+  padding: 2em;
+}
+
+/* Animaciones y efectos */
+.logo {
+  height: 6em;
+  padding: 1.5em;
+  will-change: filter;
+  transition: filter 300ms;
+}
+
+.logo:hover {
+  filter: drop-shadow(0 0 2em #646cffaa);
+}
+
+.logo.react:hover {
+  filter: drop-shadow(0 0 2em #61dafbaa);
+}
+
+@keyframes logo-spin {
+  from {
+    transform: rotate(0deg);
   }
-  a:hover {
-    color: #747bff;
+  to {
+    transform: rotate(360deg);
   }
-  button {
-    background-color: #f9f9f9;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  a:nth-of-type(2) .logo {
+    animation: logo-spin infinite 20s linear;
+  }
+}
+
+/* Responsive para pantallas pequeñas */
+@media (max-width: 768px) {
+  .navegacion {
+    width: 60px;
+  }
+
+  .contenido {
+    margin-left: 60px;
+    width: calc(100% - 60px);
+  }
+
+  .navegacion__icono {
+    width: 48px;
+    height: 48px;
   }
 }

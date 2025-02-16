@@ -11,20 +11,18 @@ import "primeicons/primeicons.css";
 
 function App() {
   return (
-    <>
-      <div className="app">
-        <div className="ml-[200px] p-6">
-          <ProveedorSesion>
-          {/* <Navegacion /> */}
+    <div className="app flex">
+      <Navegacion />
+      <div className="ml-[80px] p-6 flex-1"> 
+        <ProveedorSesion>
           <Cabecera />
           <Contenido>
             <RutasGamerMix />
           </Contenido>
           <Pie />
-          </ProveedorSesion>
-        </div>
+        </ProveedorSesion>
       </div>
-    </>
+    </div>
   );
 }
 

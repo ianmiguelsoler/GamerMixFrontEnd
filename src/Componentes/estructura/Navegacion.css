@@ -1,23 +1,89 @@
+.navegacion {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100px; /* Más ancha por defecto */
+    height: 100vh;
+    background-color: #1f2937;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px 0;
+    box-shadow: 4px 0 10px rgba(0, 0, 0, 0.2);
+    overflow-y: auto;
+    transition: width 0.3s ease-in-out;
+}
+
+.navegacion--expandida {
+    width: 220px; /* Se expande cuando el mouse está sobre ella */
+}
+
+/* Logo y botón de menú */
+.navegacion__top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 10px;
+}
+
+.navegacion__logo-img {
+    width: 80px;
+    height: auto;
+}
+
+.navegacion__menu-icon {
+    color: white;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.navegacion--expandida .navegacion__menu-icon {
+    transform: rotate(180deg);
+}
+
+/* Íconos y nombres */
 .navegacion__menu {
     display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+    width: 100%;
+    padding-top: 20px;
 }
 
-.navegacion__enlace {
+.navegacion__item {
     display: flex;
-    place-items: center;
-    justify-content: center; 
-    min-width: 120px;
-    height: 40px;
-    /* background-color: rgb(255, 255, 255); */
-    margin-right: 10px;
-    color: rgb(255, 255, 255);
-    border: white solid 1px;
-    border-radius: 3px;
-    font-weight: bolder;
+    align-items: center;
+    width: 100%;
+    padding: 10px;
+    color: white;
+    text-decoration: none;
+    font-size: 18px;
+    transition: background 0.3s ease-in-out;
 }
 
-.navegacion__enlace:hover {
-    /* background-color: rgb(216, 214, 214); */
-    border-color: grey;
+.navegacion__item:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.navegacion__texto {
+    display: none;
+    margin-left: 10px;
+    transition: opacity 0.3s ease-in-out;
+}
+
+/* Mostrar texto solo cuando se expande */
+.navegacion--expandida .navegacion__texto {
+    display: inline;
+    opacity: 1;
+}
+
+/* Mensaje de usuario */
+.navegacion__mensaje {
+    font-size: 12px;
     color: white;
-} 
+    text-align: center;
+    margin-top: auto;
+    padding: 10px;
+}

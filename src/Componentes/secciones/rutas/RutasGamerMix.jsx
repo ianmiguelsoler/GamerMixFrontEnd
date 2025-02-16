@@ -4,10 +4,10 @@ import Inicio from "../paginas/Inicio.jsx";
 import Perfil from "../paginas/Perfil.jsx";
 import Login from "../paginas/Login.jsx";
 import Error from "../paginas/Error.jsx";
-import GestionUsuarios from "../administracionUsuarios/GestionUsuarios.jsx";
+import GestionUsuarios from "../GestionUsuarios/GestionUsuarios.jsx";
 
 
-const RutasUT06 = () => {
+const RutasGamerMix = () => {
   return (
     <>
       <Routes>
@@ -21,4 +21,4 @@ const RutasUT06 = () => {
   );
 };
 
-export default RutasUT06;
+export default RutasGamerMix;

@@ -1,6 +1,22 @@
 #pie {
-    text-align: right;
-    font-size: small;
-    padding-top: 10px;
-   
+  position: relative;
+  width: 50vw; /* Asegura que ocupe todo el ancho de la pantalla */
+  background-color: #1f2937; /* Color oscuro para contraste */
+  color: white;
+  text-align: center;
+  padding: 10px 0;
+  z-index: 1000; /* Asegura que esté por encima de otros elementos */
+  margin-top: auto; /* Empuja el footer hacia abajo si el contenido no llena la página */
+}
+
+#pie p {
+  margin: 0;
+  font-size: 14px;
+}
+
+#pie div {
+  position: relative;
+  width: 100%;
+  height: 250px;
+  overflow: hidden;
 }

@@ -1,15 +1,114 @@
+/* Fondo con imagen y desenfoque */
+.inicio__fondo {
+    background: url('https://images.unsplash.com/photo-1524661135-423995f22d0f') no-repeat center center/cover;
+    backdrop-filter: blur(8px);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Título */
+.inicio__titulo {
+    font-size: 3rem;
+    font-weight: bold;
+    color: white;
+    text-align: center;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-shadow: 2px 2px 10px rgba(255, 255, 0, 0.8);
+}
+
+/* Descripción */
+.inicio__descripcion {
+    font-size: 1.2rem;
+    color: white;
+    text-align: center;
+    background: rgba(0, 0, 0, 0.5);
+    padding: 15px;
+    border-radius: 10px;
+    max-width: 800px;
+}
+
+/* Contenedor de columnas con flex-wrap */
 .inicio__columnas {
     display: flex;
-    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    width: 100%;
+    max-width: 1200px;
     margin-top: 20px;
 }
 
+/* Cada tarjeta */
 .inicio__columna {
-    margin: 15px;
-    text-align: justify;
-    width: 50%;
+    text-align: center;
+    width: 280px;
+    padding: 15px;
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 12px;
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.4);
+    transition: transform 0.3s ease-in-out;
+    overflow: hidden;
 }
 
-.inicio__terminal{
-    font-family: 'Courier New', Courier, monospace;
+/* Efecto de hover en las tarjetas */
+.inicio__columna:hover {
+    transform: scale(1.05);
+}
+
+/* Imagen */
+.inicio__terminal {
+    width: 100%;
+    height: 350px;
+    object-fit: cover;
+    border-radius: 10px;
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+/* Contenedor de la imagen */
+.inicio__imagen-container {
+    padding: 5px;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 4px solid rgba(0, 255, 255, 0.6);
+    box-shadow: 0px 4px 10px rgba(0, 255, 255, 0.5);
+    transition: all 0.3s ease-in-out;
+}
+
+/* Efecto de animación en la imagen */
+.inicio__imagen-container:hover {
+    box-shadow: 0px 8px 20px rgba(0, 255, 255, 0.8);
+    border-color: rgba(0, 255, 255, 1);
+}
+
+/* Nombre del campeón */
+.inicio__nombre {
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: white;
+    margin-top: 10px;
+    text-shadow: 1px 1px 5px rgba(0, 255, 255, 0.8);
+}
+
+/* Texto de la descripción */
+.inicio__texto {
+    font-size: 1rem;
+    color: white;
+    padding: 8px;
+    background: rgba(0, 0, 0, 0.4);
+    border-radius: 5px;
+}
+
+/* Interactividad de Swapy */
+.swapy-item {
+    cursor: grab;
+}
+
+.swapy-item:active {
+    cursor: grabbing;
+    transform: scale(0.95);
 }

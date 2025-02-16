@@ -1,86 +1,95 @@
-// import React, { useContext } from "react";
-// import { motion } from "framer-motion";
-// import { FaShoppingCart, FaSignInAlt } from "react-icons/fa";
-// import { useNavigate } from "react-router-dom";
+import React, { useEffect } from "react";
+import { motion } from "framer-motion";
+import { FaGamepad } from "react-icons/fa";
+import { createSwapy } from "swapy";
+import "./inicio.css";
 
-// const Inicio = () => {
+const champions = [
+  {
+    id: 1,
+    name: "Ahri",
+    description: "Una maga encantadora con gran movilidad y daño explosivo.",
+    image: "https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Ahri_0.jpg",
+  },
+  {
+    id: 2,
+    name: "Yasuo",
+    description: "Un espadachín ágil con un alto dominio del viento y daño crítico.",
+    image: "https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Yasuo_0.jpg",
+  },
+  {
+    id: 3,
+    name: "Jinx",
+    description: "Una tiradora caótica con explosivos y muchas balas.",
+    image: "https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Jinx_0.jpg",
+  },
+  {
+    id: 4,
+    name: "Darius",
+    description: "Un guerrero brutal con un enorme hacha y gran daño físico.",
+    image: "https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Darius_0.jpg",
+  },
+  {
+    id: 5,
+    name: "Lux",
+    description: "Una maga brillante con control de luz y grandes efectos visuales.",
+    image: "https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Lux_0.jpg",
+  },
+  {
+    id: 6,
+    name: "Ekko",
+    description: "Un genio que manipula el tiempo con un ingenioso dispositivo.",
+    image: "https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Ekko_0.jpg",
+  }
+];
 
-//   return (
-//     <motion.div
-//       initial={{ opacity: 0, y: 20 }}
-//       animate={{ opacity: 1, y: 0 }}
-//       transition={{ duration: 0.5 }}
-//       className="bg-gray-100 min-h-screen flex flex-col items-center p-6"
-//     >
-//       <h2 className="text-4xl font-bold text-gray-800 mb-6 text-center flex items-center gap-2">
-//         <FaShoppingCart className="text-green-500" /> Bienvenido a tu Lista de la Compra
-//       </h2>
+const Inicio = () => {
+  useEffect(() => {
+    const container = document.querySelector(".swapy-container");
+    if (container) {
+      createSwapy(container, {
+        animation: "dynamic",
+      });
+    }
+  }, []);
 
-//       <div className="bg-white shadow-lg p-6 rounded-lg w-full max-w-4xl flex flex-col gap-6">
-//         <motion.div
-//           initial={{ opacity: 0 }}
-//           animate={{ opacity: 1 }}
-//           transition={{ delay: 0.3 }}
-//         >
-//           <p className="text-lg text-gray-700 leading-relaxed">
-//             Esta aplicación te permite gestionar tu lista de la compra de manera
-//             fácil y eficiente. Está desarrollada con <strong>React</strong> y
-//             utiliza <strong>Supabase</strong> como backend para ofrecer una
-//             experiencia fluida y en tiempo real. Con esta herramienta podrás
-//             añadir, editar y eliminar elementos de tu lista, y mantener todo
-//             organizado desde cualquier dispositivo.
-//           </p>
-//         </motion.div>
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5 }}
+      className="inicio__fondo min-h-screen flex flex-col items-center p-6"
+    >
+      <h2 className="inicio__titulo">
+        <FaGamepad className="text-yellow-400" /> Bienvenido a GamerMix
+      </h2>
 
-//         <motion.div
-//           initial={{ opacity: 0 }}
-//           animate={{ opacity: 1 }}
-//           transition={{ delay: 0.5 }}
-//         >
-//           <h3 className="text-2xl font-semibold text-gray-800 mb-4">
-//             Extensiones instaladas
-//           </h3>
-//           <ul className="list-disc list-inside text-gray-700">
-//             <li>
-//               <strong>Tailwind CSS:</strong> Biblioteca de utilidades CSS para
-//               un diseño rápido y eficiente.
-//             </li>
-//             <li>
-//               <strong>Framer Motion:</strong> Animaciones fluidas e interactivas
-//               para mejorar la experiencia de usuario.
-//             </li>
-//             <li>
-//               <strong>Material Icons:</strong> Iconos modernos y listos para
-//               usar.
-//             </li>
-//             <li>
-//               <strong>PrimeReact:</strong> Biblioteca con una amplia gama de
-//               componentes para aplicaciones profesionales.
-//             </li>
-//             <li>
-//               <strong>SweetAlert2:</strong> Alertas personalizables y atractivas
-//               para notificaciones.
-//             </li>
-//             <li>
-//               <strong>Swapy:</strong> Implementación intuitiva de
-//               funcionalidades drag-and-drop.
-//             </li>
-//           </ul>
-//         </motion.div>
+      <p className="inicio__descripcion">
+        Esta aplicación te permitirá combinar skins con elementos y probar cómo se ven juntos. 
+        Puedes arrastrar y soltar los campeones para experimentar con diferentes combinaciones.
+      </p>
 
-//         {/* {!sesionIniciada && (
-//           <div className="flex justify-center mt-6">
-//             <button
-//               className="bg-blue-500 text-white py-2 px-4 rounded-lg flex items-center gap-2 hover:bg-blue-600 transition"
-//               onClick={() => navigate('/login')}
-//             >
-//               <FaSignInAlt /> Inicia sesión
-//             </button>
-//           </div>
-//         )} */}
-//       </div>
-//     </motion.div>
-//   );
-// };
+      <div className="swapy-container inicio__columnas">
+        {champions.map((champion) => (
+          <div key={champion.id} className="swapy-slot inicio__columna" data-swapy-slot={champion.id}>
+            <div className="swapy-item cursor-grab active:scale-95" data-swapy-item={champion.id}>
+              <motion.div
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="flex flex-col items-center text-center"
+              >
+                <div className="inicio__imagen-container">
+                  <img src={champion.image} alt={champion.name} className="inicio__terminal" />
+                </div>
+                <h3 className="inicio__nombre">{champion.name}</h3>
+                <p className="inicio__texto">{champion.description}</p>
+              </motion.div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </motion.div>
+  );
+};
 
-// export default Inicio;
+export default Inicio;

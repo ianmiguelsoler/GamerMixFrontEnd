@@ -1,74 +1,84 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { motion } from "framer-motion";
 import {
   Home,
   Login,
   Person,
   AdminPanelSettings,
   Logout,
+  Menu as MenuIcon,
+  Close as CloseIcon,
 } from "@mui/icons-material";
 import logoGamerMix from "../../assets/logoGamerMix.png";
 import "./Navegacion.css";
 
 const Navegacion = () => {
   const [sesionIniciada, setSesionIniciada] = useState(false);
+  const [menuAbierto, setMenuAbierto] = useState(false);
   const usuarioPrueba = { username: "Ian Miguel" };
 
+  const cerrarMenu = (accion) => {
+    setMenuAbierto(false);
+    if (accion) accion();
+  };
+
   return (
-    <motion.nav
-      className="navegacion"
-      initial={{ x: -100, opacity: 0 }}
-      animate={{ x: 0, opacity: 1 }}
-      transition={{ duration: 0.5 }}
-    >
-      {/* Logo en la parte superior */}
-      <div className="navegacion__logo">
-        <img
-          src={logoGamerMix}
-          alt="Logo GamerMix"
-          className="navegacion__logo-img"
-        />
-      </div>
+    <>
+      {/* Botón hamburguesa (visible solo en móvil) */}
+      <button className="menu-toggle" onClick={() => setMenuAbierto(!menuAbierto)}>
+  {menuAbierto ? <CloseIcon /> : <MenuIcon />}
+</button>
 
-      <div className="navegacion__menu flex flex-col flex-grow items-center justify-center gap-10">
-        <Link className="navegacion__icono" to="/">
-          <Home fontSize="large" />
-        </Link>
 
-        {!sesionIniciada ? (
-          <button
-            className="navegacion__icono"
-            onClick={() => setSesionIniciada(true)}
-          >
-            <Login fontSize="large" />
-          </button>
-        ) : (
-          <>
-            <Link className="navegacion__icono" to="/perfil">
-              <Person fontSize="large" />
-            </Link>
+      {/* Fondo oscuro (solo móvil) */}
+      {menuAbierto && window.innerWidth <= 768 && (
+        <div className="navegacion-overlay" onClick={() => setMenuAbierto(false)} />
+      )}
 
-            <Link className="navegacion__icono" to="/gestionusuarios">
-              <AdminPanelSettings fontSize="large" />
-            </Link>
+      {/* Menú de navegación */}
+      <nav className={`navegacion ${menuAbierto ? "navegacion--abierta" : ""}`}>
+        {/* Logo */}
+        <div className="navegacion__logo">
+          <img src={logoGamerMix} alt="Logo GamerMix" className="navegacion__logo-img" />
+        </div>
 
+        {/* Íconos */}
+        <div className="navegacion__menu flex flex-col flex-grow items-center justify-center gap-10">
+          <Link className="navegacion__icono" to="/" onClick={() => cerrarMenu()}>
+            <Home fontSize="large" />
+          </Link>
+
+          {!sesionIniciada ? (
             <button
               className="navegacion__icono"
-              onClick={() => setSesionIniciada(false)}
+              onClick={() => cerrarMenu(() => setSesionIniciada(true))}
             >
-              <Logout fontSize="large" />
+              <Login fontSize="large" />
             </button>
-          </>
-        )}
-      </div>
+          ) : (
+            <>
+              <Link className="navegacion__icono" to="/perfil" onClick={() => cerrarMenu()}>
+                <Person fontSize="large" />
+              </Link>
+              <Link className="navegacion__icono" to="/gestionusuarios" onClick={() => cerrarMenu()}>
+                <AdminPanelSettings fontSize="large" />
+              </Link>
+              <button
+                className="navegacion__icono"
+                onClick={() => cerrarMenu(() => setSesionIniciada(false))}
+              >
+                <Logout fontSize="large" />
+              </button>
+            </>
+          )}
+        </div>
 
-      <div className="navegacion__mensaje">
-        {sesionIniciada
-          ? `Hola, ${usuarioPrueba.username}`
-          : "No has iniciado sesión"}
-      </div>
-    </motion.nav>
+        {/* Mensaje del usuario */}
+        <div className="navegacion__mensaje">
+          {sesionIniciada ? `Hola, ${usuarioPrueba.username}` : "No has iniciado sesión"}
+        </div>
+      </nav>
+    </>
   );
 };
 

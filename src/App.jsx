@@ -8,6 +8,7 @@ import "./App.css";
 import "primereact/resources/themes/saga-blue/theme.css";
 import "primereact/resources/primereact.min.css";
 import "primeicons/primeicons.css";
+import './i18n/i18n.js';
 
 function App() {
   return (

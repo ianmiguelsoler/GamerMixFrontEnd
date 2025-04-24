@@ -11,11 +11,13 @@ import {
 } from "@mui/icons-material";
 import logoGamerMix from "../../assets/logoGamerMix.png";
 import "./Navegacion.css";
+import { useTranslation } from "react-i18next";
 
 const Navegacion = () => {
   const [sesionIniciada, setSesionIniciada] = useState(false);
   const [menuAbierto, setMenuAbierto] = useState(false);
   const usuarioPrueba = { username: "Ian Miguel" };
+  const { t } = useTranslation("navegacion");
 
   const cerrarMenu = (accion) => {
     setMenuAbierto(false);
@@ -25,26 +27,39 @@ const Navegacion = () => {
   return (
     <>
       {/* Botón hamburguesa (visible solo en móvil) */}
-      <button className="menu-toggle" onClick={() => setMenuAbierto(!menuAbierto)}>
-  {menuAbierto ? <CloseIcon /> : <MenuIcon />}
-</button>
-
+      <button
+        className="menu-toggle"
+        onClick={() => setMenuAbierto(!menuAbierto)}
+      >
+        {menuAbierto ? <CloseIcon /> : <MenuIcon />}
+      </button>
 
       {/* Fondo oscuro (solo móvil) */}
       {menuAbierto && window.innerWidth <= 768 && (
-        <div className="navegacion-overlay" onClick={() => setMenuAbierto(false)} />
+        <div
+          className="navegacion-overlay"
+          onClick={() => setMenuAbierto(false)}
+        />
       )}
 
       {/* Menú de navegación */}
       <nav className={`navegacion ${menuAbierto ? "navegacion--abierta" : ""}`}>
         {/* Logo */}
         <div className="navegacion__logo">
-          <img src={logoGamerMix} alt="Logo GamerMix" className="navegacion__logo-img" />
+          <img
+            src={logoGamerMix}
+            alt="Logo GamerMix"
+            className="navegacion__logo-img"
+          />
         </div>
 
         {/* Íconos */}
         <div className="navegacion__menu flex flex-col flex-grow items-center justify-center gap-10">
-          <Link className="navegacion__icono" to="/" onClick={() => cerrarMenu()}>
+          <Link
+            className="navegacion__icono"
+            to="/"
+            onClick={() => cerrarMenu()}
+          >
             <Home fontSize="large" />
           </Link>
 
@@ -57,10 +72,18 @@ const Navegacion = () => {
             </button>
           ) : (
             <>
-              <Link className="navegacion__icono" to="/perfil" onClick={() => cerrarMenu()}>
+              <Link
+                className="navegacion__icono"
+                to="/perfil"
+                onClick={() => cerrarMenu()}
+              >
                 <Person fontSize="large" />
               </Link>
-              <Link className="navegacion__icono" to="/gestionusuarios" onClick={() => cerrarMenu()}>
+              <Link
+                className="navegacion__icono"
+                to="/gestionusuarios"
+                onClick={() => cerrarMenu()}
+              >
                 <AdminPanelSettings fontSize="large" />
               </Link>
               <button
@@ -75,7 +98,9 @@ const Navegacion = () => {
 
         {/* Mensaje del usuario */}
         <div className="navegacion__mensaje">
-          {sesionIniciada ? `Hola, ${usuarioPrueba.username}` : "No has iniciado sesión"}
+          {sesionIniciada
+            ? t("helloUser", { name: usuarioPrueba.username })
+            : t("notLoggedIn")}
         </div>
       </nav>
     </>

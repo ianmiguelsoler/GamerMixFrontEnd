@@ -1,12 +1,13 @@
 import React from "react";
 import "./Pie.css";
-import Ballpit from "../../bibliotecas/Ballpit.jsx";
+import { useTranslation } from "react-i18next";
 
 const Pie = () => {
+  const { t } = useTranslation("footer");
+
   return (
     <footer id="pie">
-      <p>© 2025 - Todos los derechos reservados Ian Miguel Soler</p>
-      
+      <p>{t("rights")}</p>
     </footer>
   );
 };

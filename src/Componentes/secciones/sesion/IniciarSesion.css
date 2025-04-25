@@ -1,0 +1,101 @@
+ 
+  .gameboy-body {
+    width: 300px;
+    height: 600px;
+    margin: 50px auto;
+    padding: 20px;
+    border-radius: 20px;
+    background: red;
+    box-shadow: inset -4px -4px 8px #f0f0f0, inset 4px 4px 8px #aaa;
+    position: relative;
+  }
+  
+  .gameboy-screen {
+    background: #9bbc0f;
+    border: 8px solid #333;
+    border-radius: 10px;
+    padding: 20px;
+    color: #0f380f;
+    text-align: center;
+  }
+  
+  .screen-title {
+    margin-bottom: 20px;
+    font-size: 14px;
+  }
+  
+  .gameboy-input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    background: #cde099;
+    border: 2px solid #0f380f;
+    color: #0f380f;
+    font-size: 12px;
+    border-radius: 4px;
+    outline: none;
+  }
+  
+  .toggle-icon {
+    position: absolute;
+    right: 54px;
+    top: 156px;
+    cursor: pointer;
+    color: #0f380f;
+  }
+  
+  .btn-a {
+    background: #e06666;
+    color: white;
+    padding: 10px;
+    font-weight: bold;
+    border: none;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    margin-top: 10px;
+    cursor: pointer;
+    font-size: 10px;
+  }
+  
+  .gameboy-buttons {
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 30px;
+  }
+  
+  .btn-b {
+    background: #6fa8dc;
+    color: white;
+    padding: 10px;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    text-align: center;
+    line-height: 20px;
+    font-weight: bold;
+    font-size: 12px;
+  }
+  
+  .dpad {
+    display: grid;
+    grid-template-areas:
+      ". up ."
+      "left . right"
+      ". down .";
+    gap: 4px;
+    width: 60px;
+  }
+  
+  .dpad div {
+    width: 20px;
+    height: 20px;
+    background: #333;
+  }
+  
+  .up { grid-area: up; }
+  .down { grid-area: down; }
+  .left { grid-area: left; }
+  .right { grid-area: right; }
+  

@@ -24,11 +24,6 @@ body {
   overflow-x: hidden; /* Evita scroll horizontal */
 }
 
-/* Contenedor principal */
-#root {
-  display: flex;
-  width: 100%;
-}
 
 
 /* Espaciado para evitar solapamiento del contenido */

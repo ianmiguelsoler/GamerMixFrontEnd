@@ -1,6 +1,221 @@
- 
+/* --- Estilos generales (se aplican siempre) --- */
+
+.gameboy-body {
+  width: 300px;
+  height: 600px;
+  margin: 50px auto;
+  padding: 20px;
+  border-radius: 20px;
+  background: red;
+  box-shadow: inset -4px -4px 8px #f0f0f0, inset 4px 4px 8px #aaa;
+  position: relative;
+}
+
+.gameboy-screen {
+  background: #9bbc0f;
+  border: 8px solid #333;
+  border-radius: 10px;
+  padding: 20px 10px;
+  color: #0f380f;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  height: 300px;
+}
+
+.gameboy-ballpit {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.gameboy-content {
+  position: relative;
+  z-index: 2;
+}
+
+.screen-title {
+  margin-bottom: 20px;
+  font-size: 14px;
+}
+
+.gameboy-form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.gameboy-input {
+  width: 90%;
+  padding: 10px;
+  margin-bottom: 10px;
+  background: #cde099;
+  border: 2px solid #0f380f;
+  color: #0f380f;
+  font-size: 12px;
+  border-radius: 4px;
+  outline: none;
+}
+
+.password-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.toggle-icon {
+  position: absolute;
+  right: 25px;
+  top: 44%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: #0f380f;
+}
+
+.btn-a {
+  background: #e06666;
+  color: white;
+  padding: 10px;
+  font-weight: bold;
+  border: none;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  margin-top: 10px;
+  margin-left: 20px;
+  cursor: pointer;
+  font-size: 10px;
+}
+
+.gameboy-buttons {
+  margin-top: 33px;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 30px;
+}
+
+.btn-b {
+  background: #6fa8dc;
+  color: white;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  font-weight: bold;
+  font-size: 14px;
+  display: flex; /* 👈 añadimos flex */
+  justify-content: center; /* 👈 centramos horizontalmente */
+  align-items: center; /* 👈 centramos verticalmente */
+}
+
+
+.dpad {
+  position: relative;
+  width: 60px;
+  height: 60px;
+}
+
+.dpad div {
+  position: absolute;
+  background: #333;
+}
+
+.up,
+.down,
+.left,
+.right {
+  width: 20px;
+  height: 20px;
+}
+
+.up {
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.down {
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.left {
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.right {
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.center {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  background: #333;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* --- Versión de ESCRITORIO (Desktop) --- */
+@media (min-width: 768px) {
   .gameboy-body {
     width: 300px;
+    height: 600px;
+  }
+
+  .gameboy-screen {
+    height: 300px;
+  }
+
+  .gameboy-buttons {
+    display: flex;
+  }
+
+  .btn-a,
+  .btn-b,
+  .dpad {
+    display: block;
+  }
+  .btn-a{
+    background: #e06666;
+    color: white;
+    padding: 10px;
+    font-weight: bold;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    margin-top: 10px;
+    margin-left: 20px;
+    cursor: pointer;
+    font-size: 13px;
+  }
+  .btn-b {
+    background: #6fa8dc;
+    color: white;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    font-weight: bold;
+    font-size: 18px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }	
+}
+
+/* --- Versión de MÓVIL (Mobile) --- */
+@media (max-width: 767px) {
+  .gameboy-body {
+    width: 490px;
     height: 600px;
     margin: 50px auto;
     padding: 20px;
@@ -9,41 +224,10 @@
     box-shadow: inset -4px -4px 8px #f0f0f0, inset 4px 4px 8px #aaa;
     position: relative;
   }
-  
-  .gameboy-screen {
-    background: #9bbc0f;
-    border: 8px solid #333;
-    border-radius: 10px;
-    padding: 20px;
-    color: #0f380f;
-    text-align: center;
-  }
-  
   .screen-title {
     margin-bottom: 20px;
-    font-size: 14px;
+    font-size: 24px;
   }
-  
-  .gameboy-input {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 10px;
-    background: #cde099;
-    border: 2px solid #0f380f;
-    color: #0f380f;
-    font-size: 12px;
-    border-radius: 4px;
-    outline: none;
-  }
-  
-  .toggle-icon {
-    position: absolute;
-    right: 54px;
-    top: 156px;
-    cursor: pointer;
-    color: #0f380f;
-  }
-  
   .btn-a {
     background: #e06666;
     color: white;
@@ -51,51 +235,24 @@
     font-weight: bold;
     border: none;
     border-radius: 50%;
-    width: 60px;
-    height: 60px;
+    width: 120px;
+    height: 120px;
     margin-top: 10px;
+    margin-left: 10px;
     cursor: pointer;
-    font-size: 10px;
+    font-size: 18px;
   }
-  
-  .gameboy-buttons {
-    margin-top: 20px;
-    display: flex;
-    justify-content: space-between;
-    padding: 0 30px;
-  }
-  
   .btn-b {
     background: #6fa8dc;
     color: white;
-    padding: 10px;
     border-radius: 50%;
-    width: 40px;
-    height: 40px;
-    text-align: center;
-    line-height: 20px;
+    width: 80px;
+    height: 80px;
     font-weight: bold;
-    font-size: 12px;
+    font-size: 24px; /* 👈 Subimos tamaño de la letra para móvil */
+    display: flex; /* 👈 mantenemos flex */
+    justify-content: center;
+    align-items: center;
   }
   
-  .dpad {
-    display: grid;
-    grid-template-areas:
-      ". up ."
-      "left . right"
-      ". down .";
-    gap: 4px;
-    width: 60px;
-  }
-  
-  .dpad div {
-    width: 20px;
-    height: 20px;
-    background: #333;
-  }
-  
-  .up { grid-area: up; }
-  .down { grid-area: down; }
-  .left { grid-area: left; }
-  .right { grid-area: right; }
-  
+}

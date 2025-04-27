@@ -1,6 +1,4 @@
 #pie {
-  position: relative;
-  width: 50vw; /* Asegura que ocupe todo el ancho de la pantalla */
   background-color: transparent; /* Color oscuro para contraste */
   color: white;
   text-align: center;

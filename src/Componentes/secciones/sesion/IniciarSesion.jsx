@@ -1,15 +1,18 @@
 import React, { useState } from "react";
+import { useTranslation } from "react-i18next";
 import Swal from "sweetalert2";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import "./IniciarSesion.css";
+import Ballpit from "../../../bibliotecas/Ballpit.jsx";
 
 const IniciarSesion = () => {
   const [showPassword, setShowPassword] = useState(false);
+  const { t } = useTranslation("login");
 
   const handleLogin = () => {
     Swal.fire({
-      title: "¡Conectado!",
-      text: "Inicio de sesión exitoso (GameBoy Style)",
+      title: t("connected"),
+      text: t("successMessage"),
       icon: "success",
       position: "top-end",
       showConfirmButton: false,
@@ -28,34 +31,62 @@ const IniciarSesion = () => {
   return (
     <div className="gameboy-body">
       <div className="gameboy-screen">
-        <h2 className="screen-title">GamerMix</h2>
-        <form onKeyDown={handleKeyDown}>
-          <input type="text" placeholder="Usuario" className="gameboy-input" />
-          <input
-            type={showPassword ? "text" : "password"}
-            placeholder="Contraseña"
-            className="gameboy-input"
+        {/* Ballpit de fondo */}
+        <div className="gameboy-ballpit">
+          <Ballpit
+            count={200}
+            gravity={1.5}
+            friction={0.9}
+            wallBounce={0.95}
+            followCursor={false}
+            colors={["#6fa8dc", "#a64dff", "#ff6666", "#f0f0f0", "#0f380f"]}
+            ambientColor={0xffffff}
+            ambientIntensity={0.8}
+            lightIntensity={100}
+            minSize={0.3}
+            maxSize={0.8}
           />
-          <div className="toggle-icon">
-            {showPassword ? (
-              <VisibilityOff onClick={() => setShowPassword(false)} />
-            ) : (
-              <Visibility onClick={() => setShowPassword(true)} />
-            )}
-          </div>
-        </form>
-        <button className="btn-a" onClick={handleLogin}>
-          A (Entrar)
-        </button>
+        </div>
+        {/* Contenido delante */}
+        <div className="gameboy-content">
+          <h2 className="screen-title">GamerMix</h2>
+          <form onKeyDown={handleKeyDown}>
+            <input
+              type="text"
+              placeholder={t("username")}
+              className="gameboy-input"
+            />
+            <div className="password-wrapper">
+              <input
+                type={showPassword ? "text" : "password"}
+                placeholder={t("password")}
+                className="gameboy-input"
+              />
+              <div className="toggle-icon">
+                {showPassword ? (
+                  <VisibilityOff onClick={() => setShowPassword(false)} />
+                ) : (
+                  <Visibility onClick={() => setShowPassword(true)} />
+                )}
+              </div>
+            </div>
+          </form>
+        </div>
       </div>
+
+      {/* Botones fuera de la pantalla */}
       <div className="gameboy-buttons">
-        <div className="btn-b">B</div>
-        <div className="dpad">
+      <div className="dpad">
           <div className="up" />
           <div className="left" />
+          <div className="center" />
           <div className="right" />
           <div className="down" />
         </div>
+        <button className="btn-a" onClick={handleLogin}>
+          A ({t("login")})
+        </button>
+        <div className="btn-b">B</div>
       </div>
     </div>
   );

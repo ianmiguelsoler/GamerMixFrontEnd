@@ -1,19 +1,24 @@
 import React, { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { motion } from "framer-motion";
-import { Email, Lock, Person, Visibility, VisibilityOff } from "@mui/icons-material";
+import { Email, Person, Visibility, VisibilityOff } from "@mui/icons-material";
 import Swal from "sweetalert2";
+import "./CrearCuenta.css";
+import ShinyText from "../../../bibliotecas/ShinyText.jsx";
+import TextPressure from "../../../bibliotecas/TextPressure.jsx";
 
 const CrearCuenta = () => {
+  const { t } = useTranslation("registro");
   const [showPassword, setShowPassword] = useState(false);
 
   const togglePasswordVisibility = () => {
-    setShowPassword((prevShowPassword) => !prevShowPassword);
+    setShowPassword((prev) => !prev);
   };
 
   const handleRegister = () => {
     Swal.fire({
-      title: "Registrarse",
-      text: "¡Registro simulado con éxito!",
+      title: t("title"),
+      text: t("successMessage"),
       icon: "success",
       confirmButtonText: "Aceptar",
       position: "top-end",
@@ -31,125 +36,109 @@ const CrearCuenta = () => {
   };
 
   return (
-    <>
-      <motion.div
-        className="bg-white p-8 rounded shadow-md w-full max-w-sm relative"
-        initial={{ x: 100 }}
-        animate={{ x: 0 }}
-        transition={{ duration: 1 }}
-      >
-        <h2 className="text-2xl font-bold mb-6 text-center">Registrarse</h2>
+    <motion.div
+      initial={{ opacity: 0, y: -30 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.8 }}
+      className="crear-cuenta-container"
+    >
+      <div style={{ position: "relative", height: "200px" }}>
+        <TextPressure
+          text={t("title")}
+          flex={true}
+          alpha={false}
+          stroke={false}
+          width={true}
+          weight={true}
+          italic={true}
+          textColor="#ffffff"
+          strokeColor="#ff0000"
+          minFontSize={36}
+        />
+      </div>
+      <form onKeyDown={handleKeyDown} className="crear-cuenta-form">
+        {/* Usuario */}
+        <div className="form-row">
+          <label className="form-label">
+            {" "}
+            <ShinyText
+              text={t("username")}
+              disabled={false}
+              speed={3}
+              className="custom-class"
+            />
+          </label>
 
-        <form onKeyDown={handleKeyDown}>
-          {/* Nombre de usuario */}
-          <div className="mb-4">
-            <label
-              className="block text-gray-700 text-sm font-bold mb-2 ml-2"
-              htmlFor="username"
-            >
-              Nombre de usuario
-            </label>
-            <div className="relative">
-              <input
-                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                id="username"
-                type="text"
-                placeholder="Su nombre de usuario"
-                name="username"
-              />
-              <Person
-                style={{
-                  position: "absolute",
-                  right: "10px",
-                  top: "50%",
-                  transform: "translateY(-50%)",
-                }}
-              />
-            </div>
+          <div className="form-input-icon">
+            <input
+              type="text"
+              placeholder={t("usernamePlaceholder")}
+              className="form-input"
+            />
+            <Person className="form-icon" />
           </div>
-
-          {/* Email */}
-          <div className="mb-4">
-            <label
-              className="block text-gray-700 text-sm font-bold mb-2 ml-2"
-              htmlFor="email"
-            >
-              Email
-            </label>
-            <div className="relative">
-              <input
-                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                id="email"
-                type="email"
-                placeholder="Su correo electrónico"
-                name="email"
-              />
-              <Email
-                style={{
-                  position: "absolute",
-                  right: "10px",
-                  top: "50%",
-                  transform: "translateY(-50%)",
-                }}
-              />
-            </div>
-          </div>
-
-          {/* Contraseña */}
-          <div className="mb-6">
-            <label
-              className="block text-gray-700 text-sm font-bold mb-2 ml-2"
-              htmlFor="password"
-            >
-              Contraseña
-            </label>
-            <div className="relative">
-              <input
-                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
-                id="password"
-                type={showPassword ? "text" : "password"}
-                placeholder="******************"
-                name="password"
-              />
-              {showPassword ? (
-                <VisibilityOff
-                  onClick={togglePasswordVisibility}
-                  style={{
-                    position: "absolute",
-                    right: "10px",
-                    top: "50%",
-                    transform: "translateY(-50%)",
-                    cursor: "pointer",
-                  }}
-                />
-              ) : (
-                <Visibility
-                  onClick={togglePasswordVisibility}
-                  style={{
-                    position: "absolute",
-                    right: "10px",
-                    top: "50%",
-                    transform: "translateY(-50%)",
-                    cursor: "pointer",
-                  }}
-                />
-              )}
-            </div>
-          </div>
-        </form>
-
-        {/* Botón */}
-        <div className="absolute bottom-4 right-4">
-          <button
-            className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-            type="button"
-            onClick={handleRegister}
-          >
-            Registrarse
-          </button>
         </div>
-      </motion.div>
-    </>
+
+        {/* Email */}
+        <div className="form-row">
+          <label className="form-label">
+            <ShinyText
+              text={t("email")}
+              disabled={false}
+              speed={3}
+              className="custom-class"
+            />
+          </label>
+          <div className="form-input-icon">
+            <input
+              type="email"
+              placeholder={t("emailPlaceholder")}
+              className="form-input"
+            />
+            <Email className="form-icon" />
+          </div>
+        </div>
+
+        {/* Contraseña */}
+        <div className="form-row">
+          <label className="form-label">
+            <ShinyText
+              text={t("password")}
+              disabled={false}
+              speed={3}
+              className="custom-class"
+            />
+          </label>
+          <div className="form-input-icon">
+            <input
+              type={showPassword ? "text" : "password"}
+              placeholder={t("passwordPlaceholder")}
+              className="form-input"
+            />
+            {showPassword ? (
+              <VisibilityOff
+                onClick={togglePasswordVisibility}
+                className="form-icon clickable"
+              />
+            ) : (
+              <Visibility
+                onClick={togglePasswordVisibility}
+                className="form-icon clickable"
+              />
+            )}
+          </div>
+        </div>
+      </form>
+
+      <motion.button
+        whileHover={{ scale: 1.05 }}
+        whileTap={{ scale: 0.95 }}
+        onClick={handleRegister}
+        className="form-button"
+      >
+        {t("registerButton")}
+      </motion.button>
+    </motion.div>
   );
 };
 

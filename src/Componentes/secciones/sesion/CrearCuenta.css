@@ -1,0 +1,150 @@
+/* CONTENEDOR */
+.crear-cuenta-container {
+    margin: 40px auto;
+    padding: 2rem;
+    background-color: #121212;
+    border: 1px solid #2c2c2c;
+    border-radius: 12px;
+    color: white;
+    font-family: monospace;
+    box-shadow: 0 0 12px rgba(0, 0, 0, 0.5);
+  }
+  
+  /* TÍTULO */
+  .crear-cuenta-title {
+    text-align: center;
+    font-size: 2rem;
+    color: #9e79ff;
+    margin-bottom: 2rem;
+    font-weight: bold;
+    letter-spacing: 1px;
+  }
+  
+  /* FORMULARIO */
+  .crear-cuenta-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+  
+  /* FILA DE CAMPO */
+  .form-row {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    justify-content: space-between;
+  }
+  
+  /* ETIQUETA */
+  .form-label {
+    width: 40%;
+    font-size: 0.9rem;
+    color: #dddddd;
+  }
+  
+  /* INPUT + ÍCONO */
+  .form-input-icon {
+    position: relative;
+    width: 60%;
+  }
+  
+  .form-input {
+    width: 100%;
+    padding: 0.5rem 2.5rem 0.5rem 0.75rem;
+    background-color: #1e1e1e;
+    color: white;
+    border: 1px solid #3a3a3a;
+    border-radius: 8px;
+    outline: none;
+    font-size: 0.9rem;
+  }
+  
+  .form-input:focus {
+    border-color: #9e79ff;
+    box-shadow: 0 0 0 2px rgba(158, 121, 255, 0.3);
+  }
+  
+  .form-icon {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #888;
+  }
+  
+  .clickable {
+    cursor: pointer;
+  }
+  
+  /* BOTÓN */
+  .form-button {
+    margin-top: 1.5rem;
+    width: 100%;
+    padding: 0.75rem;
+    background: linear-gradient(to right, #6b21a8, #2563eb);
+    color: white;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(158, 121, 255, 0.3);
+    transition: background 0.3s ease;
+  }
+  
+  .form-button:hover {
+    background: linear-gradient(to right, #581c87, #1e40af);
+  }
+  
+  /* MEDIA QUERY PARA MÓVILES */
+  @media (max-width: 767px) {
+
+    .crear-cuenta-container {
+        max-width: 600px;
+        width: 450px;
+        margin: 40px 10px;
+        padding: 2rem;
+        background-color: #121212;
+        border: 1px solid #2c2c2c;
+        border-radius: 12px;
+        color: white;
+        font-family: monospace;
+        box-shadow: 0 0 12px rgba(0, 0, 0, 0.5);
+      }
+    .form-row {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  
+    .form-label,
+    .form-input-icon {
+      width: 100%;
+    }
+  }
+
+  /* --- Versión de ESCRITORIO (Desktop) --- */
+@media (min-width: 768px) {
+    .crear-cuenta-container {
+        max-width: 800px; /* Aumenta el ancho máximo para pantallas grandes */
+        padding: 3rem; /* Aumenta el padding para pantallas grandes */
+    }
+    
+    .crear-cuenta-title {
+        font-size: 2.5rem; /* Aumenta el tamaño de la fuente del título */
+    }
+    
+    .form-row {
+        gap: 2rem; /* Aumenta el espacio entre los campos en pantallas grandes */
+    }
+    
+    .form-label {
+        font-size: 1rem; /* Aumenta el tamaño de la fuente de las etiquetas */
+    }
+    
+    .form-input {
+        font-size: 1rem; /* Aumenta el tamaño de la fuente de los inputs */
+    }
+    
+    .form-button {
+        padding: 1rem; /* Aumenta el padding del botón */
+        font-size: 1rem; /* Aumenta el tamaño de la fuente del botón */
+    }
+    }

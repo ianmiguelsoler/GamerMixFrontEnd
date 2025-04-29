@@ -18,20 +18,27 @@ import enContenido from "./locales/en/contenido/contenido.js";
 import esLogin from "./locales/es/login/login.js";
 import enLogin from "./locales/en/login/login.js";
 
+// Registro
+import esRegistro from "./locales/es/Registro/registro.js";
+import enRegistro from "./locales/en/Registro/registro.js";
+
 const resources = {
   es: {
     navegacion: esNavegacion,
     footer: esFooter,
     contenido: esContenido,
     login: esLogin,
+    registro: esRegistro,
   },
   en: {
     navegacion: enNavegacion,
     footer: enFooter,
     contenido: enContenido,
     login: enLogin,
+    registro: enRegistro,
   },
 };
+
 
 i18n
   .use(LanguageDetector)
@@ -39,7 +46,7 @@ i18n
   .init({
     resources,
     fallbackLng: "es",
-    ns: ["navegacion", "footer", "contenido", "login"],
+    ns: ["navegacion", "footer", "contenido", "login", "registro"],
     defaultNS: "navegacion",
     interpolation: {
       escapeValue: false,

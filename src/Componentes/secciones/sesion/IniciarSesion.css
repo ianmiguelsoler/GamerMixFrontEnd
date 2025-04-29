@@ -106,9 +106,9 @@
   height: 40px;
   font-weight: bold;
   font-size: 14px;
-  display: flex; /* 👈 añadimos flex */
-  justify-content: center; /* 👈 centramos horizontalmente */
-  align-items: center; /* 👈 centramos verticalmente */
+  display: flex;
+  justify-content: center; 
+  align-items: center; 
 }
 
 
@@ -196,7 +196,7 @@
     margin-top: 10px;
     margin-left: 20px;
     cursor: pointer;
-    font-size: 13px;
+    font-size: 9px;
   }
   .btn-b {
     background: #6fa8dc;
@@ -249,8 +249,8 @@
     width: 80px;
     height: 80px;
     font-weight: bold;
-    font-size: 24px; /* 👈 Subimos tamaño de la letra para móvil */
-    display: flex; /* 👈 mantenemos flex */
+    font-size: 24px; 
+    display: flex;
     justify-content: center;
     align-items: center;
   }

@@ -42,13 +42,36 @@
   }
   
   .tilted-card-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: 2;
-    will-change: transform;
-    transform: translateZ(30px);
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    padding-bottom: 12px;
+    pointer-events: none;
   }
+  
+
+  .tilted-card-overlay .tilted-card-demo-text {
+    font-family: 'Press Start 2P';
+    font-size: 1rem;
+    color: cyan;
+    background: rgba(0, 0, 0, 0.6);
+    padding: 6px 12px;
+    border-radius: 6px;
+    text-align: center;
+    box-shadow: 0 0 8px cyan;
+    animation: aparecer-texto 0.5s ease forwards;
+    opacity: 0;
+    transform: translateY(-10px);
+    transition: all 0.3s ease-in-out;
+  }
+  
+  @keyframes aparecer-texto {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
   
   .tilted-card-caption {
     pointer-events: none;

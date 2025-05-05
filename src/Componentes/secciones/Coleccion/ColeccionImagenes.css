@@ -10,19 +10,41 @@
 .coleccion__cuadro {
   width: 100%;
   aspect-ratio: 1 / 1;
-  background-color: #e5e7eb;
-  border-radius: 8px;
   position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
+  border-radius: 16px;
+  overflow: hidden;
+  background: linear-gradient(135deg, #1e293b, #334155, #1e293b);
+  background-size: 400% 400%;
+  animation: fondo-movil 8s ease infinite;
+  box-shadow: 0 0 15px rgba(0, 255, 255, 0.3);
+  transition: transform 0.3s ease, box-shadow 0.4s ease, border 0.3s;
+  border: 2px solid transparent;
 }
 
-  
-  .coleccion__cuadro:hover {
-    transform: scale(1.1);
-    z-index: 2;
+.coleccion__cuadro:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 20px rgba(0, 255, 255, 0.7);
+  border-image: linear-gradient(90deg, cyan, transparent, cyan) 1;
+  border-width: 2px;
+  border-style: solid;
+}
+
+@keyframes fondo-movil {
+  0% {
+    background-position: 0% 50%;
   }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+
   
   .coleccion__cuadro img {
     width: 100%;
@@ -33,11 +55,14 @@
   .coleccion__locked {
     width: 100%;
     height: 100%;
-    background-color: #d1d5db;
+    background: linear-gradient(to bottom, #cbd5e1, #94a3b8);
     display: flex;
     align-items: center;
     justify-content: center;
+    border-radius: 12px;
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.3);
   }
+  
   
   .candado {
     font-size: 2rem;
@@ -71,6 +96,7 @@
   
     .coleccion__cuadro {
       margin-top: 10px;
+      padding: 20px;
     }
   }
   

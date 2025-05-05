@@ -8,7 +8,9 @@ const navegacion = {
   backpack: "Collection",
   logout: "Log out",
   changeLanguageButton: "Change language",
-  language: "Language"
+  language: "Language",
+  soundOn: "🔊 Sound",
+  soundOff: "🔇 Muted"
 };
 
 export default navegacion;

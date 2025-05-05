@@ -9,18 +9,22 @@ import {
   Menu as MenuIcon,
   Close as CloseIcon,
   Backpack,
+  VolumeUp,
+  VolumeOff,
 } from "@mui/icons-material";
 import logoGamerMix from "../../assets/logoGamerMix.png";
 import "./Navegacion.css";
 import { useTranslation } from "react-i18next";
 import { mostrarModalIdioma } from "../../bibliotecas/funciones/funciones.js";
 import StarBorder from "../../bibliotecas/StarBorder.jsx";
+import { useSound } from "../../contextos/AdministradorDeSonido.jsx";
 
 const Navegacion = () => {
   const [sesionIniciada, setSesionIniciada] = useState(false);
   const [menuAbierto, setMenuAbierto] = useState(false);
   const usuarioPrueba = { username: "Ian Miguel" };
   const { t } = useTranslation("navegacion");
+  const { sonidoActivo, setSonidoActivo } = useSound();
 
   const cerrarMenu = (accion) => {
     setMenuAbierto(false);
@@ -62,6 +66,15 @@ const Navegacion = () => {
             <Home fontSize="large" />
             <span className="navegacion__texto">{t("home")}</span>
           </Link>
+          <button
+            className={`boton-pixel navegacion__boton-sonido ${
+              sonidoActivo ? "activo" : "inactivo"
+            }`}
+            onClick={() => setSonidoActivo(!sonidoActivo)}
+            title={sonidoActivo ? t("soundOff") : t("soundOn")}
+          >
+            {sonidoActivo ? t("soundOn") : t("soundOff")}
+          </button>
 
           {!sesionIniciada ? (
             <button

@@ -13,7 +13,7 @@ const ColeccionImagenes = ({ skins }) => {
               altText={`Skin ${skin.id}`}
               captionText={`Skin ${skin.id}`}
               containerHeight="300px"
-              containerWidth="300px"
+              containerWidth="200px"
               imageHeight="300px"
               imageWidth="300px"
               rotateAmplitude={12}

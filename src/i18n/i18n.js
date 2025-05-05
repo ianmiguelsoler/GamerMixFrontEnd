@@ -22,6 +22,10 @@ import enLogin from "./locales/en/login/login.js";
 import esRegistro from "./locales/es/Registro/registro.js";
 import enRegistro from "./locales/en/Registro/registro.js";
 
+// Colección
+import esColeccion from "./locales/es/coleccion/coleccion.js";
+import enColeccion from "./locales/en/coleccion/coleccion.js";
+
 const resources = {
   es: {
     navegacion: esNavegacion,
@@ -29,6 +33,7 @@ const resources = {
     contenido: esContenido,
     login: esLogin,
     registro: esRegistro,
+    coleccion: esColeccion,
   },
   en: {
     navegacion: enNavegacion,
@@ -36,6 +41,7 @@ const resources = {
     contenido: enContenido,
     login: enLogin,
     registro: enRegistro,
+    coleccion: enColeccion,
   },
 };
 
@@ -46,7 +52,7 @@ i18n
   .init({
     resources,
     fallbackLng: "es",
-    ns: ["navegacion", "footer", "contenido", "login", "registro"],
+    ns: ["navegacion", "footer", "contenido", "login", "registro", "coleccion"],
     defaultNS: "navegacion",
     interpolation: {
       escapeValue: false,

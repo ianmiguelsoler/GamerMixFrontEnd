@@ -6,6 +6,7 @@ import Error from "../paginas/Error.jsx";
 import GestionUsuarios from "../GestionUsuarios/GestionUsuarios.jsx";
 import CrearCuenta from "../sesion/CrearCuenta.jsx";
 import IniciarSesion from "../sesion/IniciarSesion.jsx";
+import Coleccion from "../Coleccion/Coleccion.jsx";
 
 const RutasGamerMix = () => {
   return (
@@ -16,6 +17,7 @@ const RutasGamerMix = () => {
         <Route path="/perfil" element={<Perfil />} />
         <Route path="/crearcuenta" element={<CrearCuenta />} />
         <Route path="/iniciarsesion" element={<IniciarSesion />} />
+        <Route path="/coleccion" element={<Coleccion />} />
         <Route path="*" element={<Error />} />
       </Routes>
     </>

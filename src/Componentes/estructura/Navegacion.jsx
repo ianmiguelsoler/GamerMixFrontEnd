@@ -8,6 +8,7 @@ import {
   Logout,
   Menu as MenuIcon,
   Close as CloseIcon,
+  Backpack,
 } from "@mui/icons-material";
 import logoGamerMix from "../../assets/logoGamerMix.png";
 import "./Navegacion.css";
@@ -58,39 +59,58 @@ const Navegacion = () => {
           <Link
             className="navegacion__icono"
             to="/"
+            title={t("home")}
             onClick={() => cerrarMenu()}
           >
             <Home fontSize="large" />
+            <span className="navegacion__texto">{t("home")}</span>
           </Link>
 
           {!sesionIniciada ? (
             <button
               className="navegacion__icono"
+              title={t("login")}
               onClick={() => cerrarMenu(() => setSesionIniciada(true))}
             >
               <Login fontSize="large" />
+              <span className="navegacion__texto">{t("login")}</span>
             </button>
           ) : (
             <>
               <Link
                 className="navegacion__icono"
                 to="/perfil"
+                title={t("profile")}
                 onClick={() => cerrarMenu()}
               >
                 <Person fontSize="large" />
+                <span className="navegacion__texto">{t("profile")}</span>
               </Link>
               <Link
                 className="navegacion__icono"
                 to="/gestionusuarios"
+                title={t("users")}
                 onClick={() => cerrarMenu()}
               >
                 <AdminPanelSettings fontSize="large" />
+                <span className="navegacion__texto">{t("users")}</span>
+              </Link>
+              <Link
+                className="navegacion__icono"
+                to="/coleccion"
+                title={t("backpack")}
+                onClick={() => cerrarMenu()}
+              >
+                <Backpack fontSize="large" />
+                <span className="navegacion__texto">{t("backpack")}</span>
               </Link>
               <button
                 className="navegacion__icono"
+                title={t("logout")}
                 onClick={() => cerrarMenu(() => setSesionIniciada(false))}
               >
                 <Logout fontSize="large" />
+                <span className="navegacion__texto">{t("logout")}</span>
               </button>
             </>
           )}

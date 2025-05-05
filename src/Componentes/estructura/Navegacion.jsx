@@ -13,6 +13,8 @@ import {
 import logoGamerMix from "../../assets/logoGamerMix.png";
 import "./Navegacion.css";
 import { useTranslation } from "react-i18next";
+import { mostrarModalIdioma } from "../../bibliotecas/funciones/funciones.js";
+import StarBorder from "../../bibliotecas/StarBorder.jsx";
 
 const Navegacion = () => {
   const [sesionIniciada, setSesionIniciada] = useState(false);
@@ -27,7 +29,6 @@ const Navegacion = () => {
 
   return (
     <>
-      {/* Botón hamburguesa (visible solo en móvil) */}
       <button
         className="menu-toggle"
         onClick={() => setMenuAbierto(!menuAbierto)}
@@ -35,7 +36,6 @@ const Navegacion = () => {
         {menuAbierto ? <CloseIcon /> : <MenuIcon />}
       </button>
 
-      {/* Fondo oscuro (solo móvil) */}
       {menuAbierto && window.innerWidth <= 768 && (
         <div
           className="navegacion-overlay"
@@ -43,9 +43,7 @@ const Navegacion = () => {
         />
       )}
 
-      {/* Menú de navegación */}
       <nav className={`navegacion ${menuAbierto ? "navegacion--abierta" : ""}`}>
-        {/* Logo */}
         <div className="navegacion__logo">
           <img
             src={logoGamerMix}
@@ -54,7 +52,6 @@ const Navegacion = () => {
           />
         </div>
 
-        {/* Íconos */}
         <div className="navegacion__menu flex flex-col flex-grow items-center justify-center gap-10">
           <Link
             className="navegacion__icono"
@@ -104,6 +101,16 @@ const Navegacion = () => {
                 <Backpack fontSize="large" />
                 <span className="navegacion__texto">{t("backpack")}</span>
               </Link>
+              {/* 🌍 Botón de cambio de idioma */}
+              <StarBorder
+                as="button"
+                className="navegacion__boton-idioma boton-pixel"
+                color="blue"
+                speed="2s"
+                onClick={mostrarModalIdioma}
+              >
+                🌍 {t("language")}
+              </StarBorder>
               <button
                 className="navegacion__icono"
                 title={t("logout")}
@@ -116,7 +123,6 @@ const Navegacion = () => {
           )}
         </div>
 
-        {/* Mensaje del usuario */}
         <div className="navegacion__mensaje">
           {sesionIniciada
             ? t("helloUser", { name: usuarioPrueba.username })

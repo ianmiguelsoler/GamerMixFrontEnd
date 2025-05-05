@@ -6,7 +6,9 @@ const navegacion = {
   profile: "Perfil",
   users: "Gestión de usuarios",
   backpack: "Colección",
-  logout: "Cerrar sesión"
+  logout: "Cerrar sesión",
+  changeLanguageButton: "Cambiar idioma",
+  language: "Idioma"
 };
 
 export default navegacion;

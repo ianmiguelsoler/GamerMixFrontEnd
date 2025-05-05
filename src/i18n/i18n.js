@@ -26,6 +26,10 @@ import enRegistro from "./locales/en/Registro/registro.js";
 import esColeccion from "./locales/es/coleccion/coleccion.js";
 import enColeccion from "./locales/en/coleccion/coleccion.js";
 
+// Perfil
+import esPerfil from "./locales/es/perfil/perfil.js";
+import enPerfil from "./locales/en/perfil/perfil.js";
+
 const resources = {
   es: {
     navegacion: esNavegacion,
@@ -34,6 +38,7 @@ const resources = {
     login: esLogin,
     registro: esRegistro,
     coleccion: esColeccion,
+    perfil: esPerfil,
   },
   en: {
     navegacion: enNavegacion,
@@ -42,9 +47,9 @@ const resources = {
     login: enLogin,
     registro: enRegistro,
     coleccion: enColeccion,
+    perfil: enPerfil,
   },
 };
-
 
 i18n
   .use(LanguageDetector)
@@ -52,7 +57,7 @@ i18n
   .init({
     resources,
     fallbackLng: "es",
-    ns: ["navegacion", "footer", "contenido", "login", "registro", "coleccion"],
+    ns: ["navegacion", "footer", "contenido", "login", "registro", "coleccion", "perfil"],
     defaultNS: "navegacion",
     interpolation: {
       escapeValue: false,

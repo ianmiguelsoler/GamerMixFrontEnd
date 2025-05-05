@@ -1,10 +1,14 @@
 import React from "react";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import StarBorder from "../../../bibliotecas/StarBorder.jsx";
+import { mostrarModalIdioma } from "../../../bibliotecas/funciones/funciones.js"; 
+import "./Perfil.css";
 
 const Perfil = () => {
   const navegar = useNavigate();
+  const { t } = useTranslation("perfil");
 
   const usuario = {
     username: "gamer123",
@@ -15,10 +19,10 @@ const Perfil = () => {
 
   const mostrarNotificacion = () => {
     Swal.fire({
-      title: "Próximamente",
-      text: "La funcionalidad para editar el perfil estará disponible en el futuro.",
+      title: t("toastTitle"),
+      text: t("toastMessage"),
       icon: "info",
-      confirmButtonText: "Entendido",
+      confirmButtonText: "OK",
       showConfirmButton: false,
       timer: 2500,
       position: "top-end",
@@ -33,69 +37,58 @@ const Perfil = () => {
   if (!usuario) {
     return (
       <div className="flex items-center justify-center h-screen">
-        <p className="text-gray-700 text-lg">
-          No tienes acceso a esta página. Por favor, inicia sesión.
-        </p>
+        <p className="text-gray-700 text-lg">{t("noAccess")}</p>
       </div>
     );
   }
 
   return (
-    <div className="flex flex-col items-center justify-center h-screen bg-gradient-to-b from-gray-900 to-gray-700">
-      <div className="bg-gray-800 shadow-2xl rounded-2xl p-10 w-96 border border-gray-600 transform transition-all hover:scale-105 hover:shadow-cyan-500/50">
-        
-        {/* Imagen del perfil */}
-        <div className="flex justify-center mb-6">
-          <img
-            src="https://i.pravatar.cc/100"
-            alt="Avatar de usuario"
-            className="w-24 h-24 rounded-full border-4 border-cyan-400 shadow-lg"
-          />
+    <div className="perfil-container">
+      <div className="perfil-card">
+        <div className="perfil-contenido">
+          <div className="perfil-avatar">
+            <img src="https://i.pravatar.cc/150" alt={t("title")} />
+          </div>
+
+          <div className="perfil-info">
+            <h1 className="perfil-titulo pixelated">{usuario.username}</h1>
+            <p>
+              <span className="perfil-label">{t("email")}</span> {usuario.email}
+            </p>
+            <p>
+              <span className="perfil-label">{t("role")}</span>{" "}
+              {usuario.rol || "Usuario"}
+            </p>
+          </div>
         </div>
 
-        {/* Título con la fuente retro */}
-        <h1 className="text-xl text-center text-cyan-300 mb-6 tracking-wide pixelated">
-          PERFIL DEL USUARIO
-        </h1>
-
-        {/* Información del usuario con la fuente retro */}
-        <div className="text-sm text-gray-300 mb-6 space-y-3 p-4 bg-gray-700 rounded-lg shadow-md font-pixel">
-          <p>
-            <strong className="text-cyan-400">Usuario:</strong> {usuario.username}
-          </p>
-          <p>
-            <strong className="text-cyan-400">Email:</strong> {usuario.email}
-          </p>
-          <p>
-            <strong className="text-cyan-400">Rol:</strong> {usuario.rol || "Usuario"}
-          </p>
-          <p>
-            <strong className="text-cyan-400">Creación:</strong>{" "}
+        <div className="perfil-detalles">
+          <p className="perfil-creacion">
+            <span className="perfil-label">{t("creation")}</span>{" "}
             {new Date(usuario.createdAt).toLocaleDateString()}
           </p>
-        </div>
 
-        {/* Botones con React Bits y efectos retro */}
-        <div className="text-center space-y-4">
-          <StarBorder
-            as="button"
-            className="w-full py-3 text-sm tracking-wide font-semibold rounded transition duration-300 shadow-md hover:shadow-cyan-500/40 pixelated"
-            color="cyan"
-            speed="2s"
-            onClick={mostrarNotificacion}
-          >
-            ✨ EDITAR PERFIL
-          </StarBorder>
+          <div className="perfil-botones">
+            <StarBorder
+              as="button"
+              className="boton-pixel boton-editar"
+              color="cyan"
+              speed="2s"
+              onClick={mostrarNotificacion}
+            >
+              {t("editButton")}
+            </StarBorder>
 
-          <StarBorder
-            as="button"
-            className="w-full py-3 text-sm tracking-wide font-semibold rounded transition duration-300 shadow-md hover:shadow-blue-500/40 pixelated"
-            color="blue"
-            speed="2s"
-            onClick={irARecuperarContrasena}
-          >
-            🔑 RECUPERAR CONTRASEÑA
-          </StarBorder>
+            <StarBorder
+              as="button"
+              className="boton-pixel boton-idioma"
+              color="blue"
+              speed="2s"
+              onClick={mostrarModalIdioma}
+            >
+              {t("changeLanguageButton")}
+            </StarBorder>
+          </div>
         </div>
       </div>
     </div>

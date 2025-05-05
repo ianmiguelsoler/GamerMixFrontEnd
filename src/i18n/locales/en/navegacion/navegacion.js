@@ -5,8 +5,10 @@ const navegacion = {
   login: "Log in",
   profile: "Profile",
   users: "User management",
-  backpack: "Colecction",
-  logout: "Log out"
+  backpack: "Collection",
+  logout: "Log out",
+  changeLanguageButton: "Change language",
+  language: "Language"
 };
 
 export default navegacion;

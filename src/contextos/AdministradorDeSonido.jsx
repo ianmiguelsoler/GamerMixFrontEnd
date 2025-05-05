@@ -18,40 +18,61 @@ export const AdministradorDeSonidoProvider = ({ children }) => {
   const [volumen, setVolumen] = useState(0.4);
   const [sonidoActivo, setSonidoActivo] = useState(true);
   const talkRef = useRef(null);
+  const talkTimeout = useRef(null);
 
   const playSound = (type) => {
     if (!sonidoActivo || !sounds[type]) return;
 
-    // Evita solapamiento de sonidos tipo "talk"
     if (type === "talk") {
-      if (talkRef.current && !talkRef.current.ended) return;
+      // Si ya hay un audio cargado y no ha terminado
+      if (talkRef.current) {
+        if (!talkRef.current.ended) {
+          talkRef.current.play().catch(() => {});
+        }
+        clearTimeout(talkTimeout.current);
 
+        // Detener si no se vuelve a pulsar después de 300ms
+        talkTimeout.current = setTimeout(() => {
+          talkRef.current.pause();
+        }, 300);
+        return;
+      }
+
+      // Crear nuevo audio
       const audio = new Audio(sounds[type]);
       talkRef.current = audio;
       audio.volume = volumen;
       audio.playbackRate = 0.95 + Math.random() * 0.1;
+
       audio.play().catch(() => {});
 
-      // Detener el sonido manualmente a los 200ms
-     
-    } else {
-      const audio = new Audio(sounds[type]);
-      audio.volume = volumen;
-      audio.play();
+      // Pausar después de 300ms si no se escribe más
+      talkTimeout.current = setTimeout(() => {
+        audio.pause();
+      }, 300);
+
+      // Reiniciar el ciclo si se termina
+      audio.onended = () => {
+        talkRef.current = null;
+        clearTimeout(talkTimeout.current);
+      };
+
+      return;
     }
+
+    const audio = new Audio(sounds[type]);
+    audio.volume = volumen;
+    audio.play().catch(() => {});
   };
 
-  // Sonido global al hacer clic
   useEffect(() => {
     const handleClick = () => playSound("click");
     document.addEventListener("click", handleClick);
     return () => document.removeEventListener("click", handleClick);
   }, [sonidoActivo, volumen]);
 
-  // Sonido global al escribir (tipo Animal Crossing)
   useEffect(() => {
     const handleKeyPress = (e) => {
-      // Solo si se está escribiendo en un input, textarea o editable
       const target = e.target;
       const isInput = ["INPUT", "TEXTAREA"].includes(target.tagName) || target.isContentEditable;
       if (isInput) playSound("talk");

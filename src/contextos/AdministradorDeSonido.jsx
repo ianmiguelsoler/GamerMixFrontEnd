@@ -1,8 +1,8 @@
-// contextos/AdministradorDeSonido.jsx
 import { createContext, useContext, useEffect, useRef, useState } from "react";
-import click from "../assets/click-sound.mp3";
-import select from "../assets/select-sound.mp3";
-import popup from "../assets/popup-sound.mp3";
+import click from "../assets/audio/click-sound.mp3";
+import select from "../assets/audio/select-sound.mp3";
+import popup from "../assets/audio/popup-sound.mp3";
+import talk from "../assets/audio/talk-sound.mp3";
 
 const AdministradorDeSonido = createContext();
 export const useSound = () => useContext(AdministradorDeSonido);
@@ -11,34 +11,65 @@ const sounds = {
   click,
   select,
   popup,
+  talk,
 };
 
 export const AdministradorDeSonidoProvider = ({ children }) => {
-  const audioRefs = useRef({});
   const [volumen, setVolumen] = useState(0.4);
   const [sonidoActivo, setSonidoActivo] = useState(true);
+  const talkRef = useRef(null);
 
   const playSound = (type) => {
     if (!sonidoActivo || !sounds[type]) return;
-    const audio = new Audio(sounds[type]);
-    audio.volume = volumen;
-    audio.play().catch(() => {});
+
+    // Evita solapamiento de sonidos tipo "talk"
+    if (type === "talk") {
+      if (talkRef.current && !talkRef.current.ended) return;
+
+      const audio = new Audio(sounds[type]);
+      talkRef.current = audio;
+      audio.volume = volumen;
+      audio.playbackRate = 0.95 + Math.random() * 0.1;
+      audio.play().catch(() => {});
+
+      // Detener el sonido manualmente a los 200ms
+     
+    } else {
+      const audio = new Audio(sounds[type]);
+      audio.volume = volumen;
+      audio.play();
+    }
   };
 
+  // Sonido global al hacer clic
   useEffect(() => {
     const handleClick = () => playSound("click");
     document.addEventListener("click", handleClick);
     return () => document.removeEventListener("click", handleClick);
   }, [sonidoActivo, volumen]);
 
+  // Sonido global al escribir (tipo Animal Crossing)
+  useEffect(() => {
+    const handleKeyPress = (e) => {
+      // Solo si se está escribiendo en un input, textarea o editable
+      const target = e.target;
+      const isInput = ["INPUT", "TEXTAREA"].includes(target.tagName) || target.isContentEditable;
+      if (isInput) playSound("talk");
+    };
+    document.addEventListener("keypress", handleKeyPress);
+    return () => document.removeEventListener("keypress", handleKeyPress);
+  }, [sonidoActivo, volumen]);
+
   return (
-    <AdministradorDeSonido.Provider value={{ playSound, volumen, setVolumen, sonidoActivo, setSonidoActivo }}>
+    <AdministradorDeSonido.Provider
+      value={{ playSound, volumen, setVolumen, sonidoActivo, setSonidoActivo }}
+    >
       {children}
     </AdministradorDeSonido.Provider>
   );
 };
 
-// Componente visual de control de sonido como botón de icono
+// Componente visual opcional (control de sonido)
 import VolumeUpIcon from "@mui/icons-material/VolumeUp";
 import VolumeOffIcon from "@mui/icons-material/VolumeOff";
 

@@ -3,9 +3,10 @@ import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import StarBorder from "../../../bibliotecas/StarBorder.jsx";
-import { mostrarModalIdioma } from "../../../bibliotecas/funciones/funciones.js"; 
+import { mostrarModalIdioma } from "../../../bibliotecas/funciones/funciones.js";
 import "./Perfil.css";
-
+import DecryptedText from "../../../bibliotecas/DecryptedText.jsx";
+import Ballpit from "../../../bibliotecas/Ballpit.jsx";
 const Perfil = () => {
   const navegar = useNavigate();
   const { t } = useTranslation("perfil");
@@ -44,6 +45,21 @@ const Perfil = () => {
 
   return (
     <div className="perfil-container">
+      <div className="ballpit-background">
+        <Ballpit
+          count={200}
+          gravity={1.5}
+          friction={0.9}
+          wallBounce={0.95}
+          followCursor={false}
+          colors={["#6fa8dc", "#a64dff", "#ff6666", "#f0f0f0", "#0f380f"]}
+          ambientColor={0xffffff}
+          ambientIntensity={0.8}
+          lightIntensity={100}
+          minSize={0.3}
+          maxSize={0.8}
+        />
+      </div>
       <div className="perfil-card">
         <div className="perfil-contenido">
           <div className="perfil-avatar">
@@ -51,13 +67,43 @@ const Perfil = () => {
           </div>
 
           <div className="perfil-info">
-            <h1 className="perfil-titulo pixelated">{usuario.username}</h1>
+            <DecryptedText
+              text={usuario.username}
+              speed={70}
+              maxIterations={15}
+              sequential={true}
+              revealDirection="center"
+              className="perfil-titulo pixelated"
+              parentClassName="perfil-decrypt-container"
+              encryptedClassName="perfil-encrypted"
+            />
+
             <p>
-              <span className="perfil-label">{t("email")}</span> {usuario.email}
+              <span className="perfil-label">{t("email")}</span>{" "}
+              <DecryptedText
+                text={usuario.email}
+                speed={60}
+                maxIterations={10}
+                sequential={true}
+                revealDirection="start"
+                className="perfil-texto"
+                parentClassName="perfil-decrypt-container"
+                encryptedClassName="perfil-encrypted"
+              />
             </p>
+
             <p>
               <span className="perfil-label">{t("role")}</span>{" "}
-              {usuario.rol || "Usuario"}
+              <DecryptedText
+                text={usuario.rol || "Usuario"}
+                speed={60}
+                maxIterations={10}
+                sequential={true}
+                revealDirection="start"
+                className="perfil-texto"
+                parentClassName="perfil-decrypt-container"
+                encryptedClassName="perfil-encrypted"
+              />
             </p>
           </div>
         </div>
@@ -65,7 +111,16 @@ const Perfil = () => {
         <div className="perfil-detalles">
           <p className="perfil-creacion">
             <span className="perfil-label">{t("creation")}</span>{" "}
-            {new Date(usuario.createdAt).toLocaleDateString()}
+            <DecryptedText
+              text={new Date(usuario.createdAt).toLocaleDateString()}
+              speed={50}
+              maxIterations={8}
+              sequential={true}
+              revealDirection="end"
+              className="perfil-texto"
+              parentClassName="perfil-decrypt-container"
+              encryptedClassName="perfil-encrypted"
+            />
           </p>
 
           <div className="perfil-botones">

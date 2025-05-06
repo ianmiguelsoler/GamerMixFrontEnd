@@ -31,19 +31,73 @@
 .boton-idioma {
   border-color: #63b3ed;
 }
+.perfil-decrypt-container {
+  display: inline-block;
+}
+
+.perfil-encrypted {
+  color: #0ff;
+  text-shadow: 0 0 4px #0ff;
+}
+
+.perfil-titulo {
+  font-size: 1.8rem;
+  color: #63b3ed;
+  margin-bottom: 12px;
+}
+
+.perfil-texto {
+  color: #e2e8f0;
+}
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
 
 /* =====================
        MEDIA QUERY: DESKTOP
      ===================== */
 @media (min-width: 769px) {
+  .ballpit-background {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh; 
+    z-index: 0;
+    pointer-events: none;
+  }
+  
+  .perfil-card {
+    position: relative;
+    z-index: 1;
+  }
+  
   .perfil-container {
-    height: 100vh;
+    height: 85vh;
     width: 77vw;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: linear-gradient(to bottom, #1f2937, #111827);
+    background-size: 600% 600%;
+    animation: fondoAnimado 15s ease infinite;
     padding: 20px;
+    position: relative;
+    overflow: hidden;
+    border-radius: 20px;
+  }
+
+  @keyframes fondoAnimado {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
   }
 
   .perfil-card {
@@ -113,77 +167,92 @@
 /* =====================
        MEDIA QUERY: MÓVIL
      ===================== */
-@media (max-width: 768px) {
-  .perfil-container {
-    width: 140vw;
-    height: 120vh;
-    min-height: 100vh;
-    background: linear-gradient(to bottom, #1f2937, #111827);
-    padding: 20px;
-    display: flex;
-    justify-content: center;
-  }
-
-  .perfil-card {
-    width: 100%;
-    max-width: 112vw;
-    background-color: #2d3748;
-    border: 2px solid #4fd1c5;
-    border-radius: 12px;
-    box-shadow: 0 0 12px #0ff;
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-  }
-
-  .perfil-contenido {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 16px;
-  }
-
-  .perfil-avatar img {
-    width: 120px;
-    height: 120px;
-    border-radius: 12px;
-    border: 4px solid #63b3ed;
-    box-shadow: 0 0 10px #0ff;
-  }
-
-  .perfil-info {
-    text-align: center;
-    color: #e2e8f0;
-  }
-
-  .perfil-titulo {
-    font-size: 1.2rem;
-    color: #63b3ed;
-    margin-bottom: 10px;
-  }
-
-  .perfil-label {
-    font-weight: bold;
-    color: #0ff;
-  }
-
-  .perfil-detalles {
-    margin-top: 10px;
-    padding-top: 10px;
-    border-top: 2px dashed #4fd1c5;
-    text-align: center;
-  }
-
-  .perfil-creacion {
-    font-size: 0.85rem;
-    color: #a0aec0;
-    margin-bottom: 16px;
-  }
-
-  .perfil-botones {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
-}
+     @media (max-width: 768px) {
+      .perfil-container {
+        width: 140vw;
+        min-height: 130vh;
+        background: linear-gradient(to bottom, #1f2937, #111827);
+        padding: 20px 16px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+        overflow: hidden;
+      }
+    
+      .ballpit-background {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 180px;
+        z-index: 0;
+        pointer-events: none;
+      }
+    
+      .perfil-card {
+        position: relative;
+        z-index: 1;
+        width: 100%;
+        max-width: 380px;
+        background-color: #2d3748;
+        border: 2px solid #4fd1c5;
+        border-radius: 12px;
+        box-shadow: 0 0 12px #0ff;
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+      }
+    
+      .perfil-contenido {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 16px;
+      }
+    
+      .perfil-avatar img {
+        width: 110px;
+        height: 110px;
+        border-radius: 12px;
+        border: 4px solid #63b3ed;
+        box-shadow: 0 0 10px #0ff;
+      }
+    
+      .perfil-info {
+        text-align: center;
+        color: #e2e8f0;
+      }
+    
+      .perfil-titulo {
+        font-size: 1.2rem;
+        color: #63b3ed;
+        margin-bottom: 10px;
+      }
+    
+      .perfil-label {
+        font-weight: bold;
+        color: #0ff;
+      }
+    
+      .perfil-detalles {
+        margin-top: 10px;
+        padding-top: 10px;
+        border-top: 2px dashed #4fd1c5;
+        text-align: center;
+      }
+    
+      .perfil-creacion {
+        font-size: 0.85rem;
+        color: #a0aec0;
+        margin-bottom: 16px;
+      }
+    
+      .perfil-botones {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+    }
+    

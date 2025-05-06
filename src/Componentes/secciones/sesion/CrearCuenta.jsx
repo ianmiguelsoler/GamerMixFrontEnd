@@ -6,6 +6,7 @@ import Swal from "sweetalert2";
 import "./CrearCuenta.css";
 import ShinyText from "../../../bibliotecas/ShinyText.jsx";
 import TextPressure from "../../../bibliotecas/TextPressure.jsx";
+import RandomSkinBackground  from "../../../bibliotecas/RandomSkinBackground.jsx";
 
 const CrearCuenta = () => {
   const { t } = useTranslation("registro");
@@ -36,11 +37,14 @@ const CrearCuenta = () => {
   };
 
   return (
+    <div style={{ position: "relative", width: "100%", height: "100vh", overflow: "hidden" }}>
+  <RandomSkinBackground />
     <motion.div
       initial={{ opacity: 0, y: -30 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.8 }}
       className="crear-cuenta-container"
+      style={{ position: "relative", zIndex: 1 }}
     >
       <div style={{ position: "relative", height: "200px" }}>
         <TextPressure
@@ -139,6 +143,7 @@ const CrearCuenta = () => {
         {t("registerButton")}
       </motion.button>
     </motion.div>
+    </div>
   );
 };
 

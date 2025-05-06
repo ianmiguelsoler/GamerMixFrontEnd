@@ -50,7 +50,7 @@
 /* MEDIA QUERY: MÓVIL */
 @media (max-width: 768px) {
   .coleccion {
-    width: 77vh;
+    width: 72vh;
     height: 160vh;
   }
 

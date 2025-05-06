@@ -169,8 +169,8 @@
      ===================== */
      @media (max-width: 768px) {
       .perfil-container {
-        width: 140vw;
-        min-height: 130vh;
+        width: 130vw;
+        min-height: 118vh;
         background: linear-gradient(to bottom, #1f2937, #111827);
         padding: 20px 16px;
         display: flex;

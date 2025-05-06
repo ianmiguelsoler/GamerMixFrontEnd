@@ -63,6 +63,9 @@
 
 /* ==== Posición absoluta en escritorio ==== */
 @media (min-width: 769px) {
+  #cabecera {
+    width: 68vw;
+  }
   .contenido__topbar {
     position: absolute;
     top: 4%;
@@ -75,6 +78,7 @@
     flex-direction: row;
     gap: 15px;
   }
+ 
 }
 
 /* ==== Responsive en móvil ==== */

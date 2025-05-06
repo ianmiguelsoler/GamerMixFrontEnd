@@ -8,7 +8,7 @@ const navegacion = {
   backpack: "Collection",
   logout: "Log out",
   changeLanguageButton: "Change language",
-  language: "Language",
+  language: "Lang",
   soundOn: "🔊 Sound",
   soundOff: "🔇 Muted"
 };

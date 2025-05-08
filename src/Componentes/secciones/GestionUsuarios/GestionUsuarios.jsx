@@ -1,4 +1,5 @@
 import React from "react";
+import { useTranslation } from "react-i18next";
 import { motion } from "framer-motion";
 import Errores from "../../Errores.jsx";
 import { Edit, Delete } from "@mui/icons-material";
@@ -32,15 +33,17 @@ const usuariosEjemplo = [
 ];
 
 const GestionUsuarios = () => {
+  const { t } = useTranslation("gestionUsuarios");
+
   const usuarios = usuariosEjemplo;
   const cargando = false;
   const error = null;
 
-  if (cargando) return <p className="loading">Cargando usuarios...</p>;
+  if (cargando) return <p className="loading">{t("loading")}</p>;
 
   return (
     <div className="gestion-usuarios-container">
-      <h2 className="title">Gestión de Usuarios</h2>
+      <h2 className="title">{t("title")}</h2>
 
       {error && <Errores>{error}</Errores>}
 
@@ -52,13 +55,13 @@ const GestionUsuarios = () => {
       >
         <thead>
           <tr>
-            <th>ID</th>
-            <th>Nombre de Usuario</th>
-            <th>Email</th>
-            <th>Fecha de Registro</th>
-            <th>Nivel</th>
-            <th>Experiencia</th>
-            <th>Acciones</th>
+            <th>{t("table.id")}</th>
+            <th>{t("table.username")}</th>
+            <th>{t("table.email")}</th>
+            <th>{t("table.registrationDate")}</th>
+            <th>{t("table.level")}</th>
+            <th>{t("table.experience")}</th>
+            <th>{t("table.actions")}</th>
           </tr>
         </thead>
         <tbody>
@@ -77,10 +80,10 @@ const GestionUsuarios = () => {
               <td>{user.nivel}</td>
               <td>{user.experiencia}</td>
               <td className="acciones">
-                <button className="icon-button editar" title="Editar">
+                <button className="icon-button editar" title={t("edit")}>
                   <Edit />
                 </button>
-                <button className="icon-button borrar" title="Borrar">
+                <button className="icon-button borrar" title={t("delete")}>
                   <Delete />
                 </button>
               </td>

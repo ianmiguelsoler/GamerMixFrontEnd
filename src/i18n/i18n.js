@@ -34,6 +34,10 @@ import enPerfil from "./locales/en/perfil/perfil.js";
 import esZonaDeMezcla from "./locales/es/zonaDeMezcla/zonaDeMezcla.js";
 import enZonaDeMezcla from "./locales/en/zonaDeMezcla/zonaDeMezcla.js";
 
+// Gestión de Usuarios
+import esGestionUsuarios from "./locales/es/gestionUsuarios/gestionUsuarios.js";
+import enGestionUsuarios from "./locales/en/gestionUsuarios/gestionUsuarios.js";
+
 const resources = {
   es: {
     navegacion: esNavegacion,
@@ -43,7 +47,8 @@ const resources = {
     registro: esRegistro,
     coleccion: esColeccion,
     perfil: esPerfil,
-    zonaDeMezcla: esZonaDeMezcla, 
+    zonaDeMezcla: esZonaDeMezcla,
+    gestionUsuarios: esGestionUsuarios,
   },
   en: {
     navegacion: enNavegacion,
@@ -53,10 +58,10 @@ const resources = {
     registro: enRegistro,
     coleccion: enColeccion,
     perfil: enPerfil,
-    zonaDeMezcla: enZonaDeMezcla, 
+    zonaDeMezcla: enZonaDeMezcla,
+    gestionUsuarios: enGestionUsuarios,
   },
 };
-
 
 i18n
   .use(LanguageDetector)
@@ -64,7 +69,17 @@ i18n
   .init({
     resources,
     fallbackLng: "es",
-    ns: ["navegacion", "footer", "contenido", "login", "registro", "coleccion", "perfil", "zonaDeMezcla"],
+    ns: [
+      "navegacion",
+      "footer",
+      "contenido",
+      "login",
+      "registro",
+      "coleccion",
+      "perfil",
+      "zonaDeMezcla",
+      "gestionUsuarios",
+    ],
     defaultNS: "navegacion",
     interpolation: {
       escapeValue: false,

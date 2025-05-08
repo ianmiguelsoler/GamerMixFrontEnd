@@ -2,17 +2,18 @@ import React, { useEffect, useState, useRef } from "react";
 import Swal from "sweetalert2";
 import InfoIcon from "@mui/icons-material/Info";
 import "./ZonaDeMezcla.css";
-import ShinyText from "../../../bibliotecas/ShinyText.jsx";
+
 import { useTranslation } from "react-i18next";
 import ZonaDeMezclaBarraLateral from "./ZonaDeMezclaBarraLateral/ZonaDeMezclaBarraLateral.jsx";
+import ZonaDeMezclaTablero from "./ZonaDeMezclaTablero/ZonaDeMezclaTablero.jsx";
 
 const ZonaDeMezcla = () => {
   const { t } = useTranslation("zonaDeMezcla");
 
-  const [mezclasHechas, setMezclasHechas] = useState(0); // Cambia a 0 para ver el popup
+  const [mezclasHechas, setMezclasHechas] = useState(0);
   const [mezclasTotales, setMezclasTotales] = useState(10);
   const [iconos, setIconos] = useState([]);
-  const [mezclasActivas, setMezclasActivas] = useState([]); // [{url, x, y}]
+  const [mezclasActivas, setMezclasActivas] = useState([]);
 
   const zonaRef = useRef(null);
 
@@ -40,9 +41,7 @@ const ZonaDeMezcla = () => {
   useEffect(() => {
     const cargarIconos = async () => {
       try {
-        const versionsRes = await fetch(
-          "https://ddragon.leagueoflegends.com/api/versions.json"
-        );
+        const versionsRes = await fetch("https://ddragon.leagueoflegends.com/api/versions.json");
         const versions = await versionsRes.json();
         const latestVersion = versions[0];
 
@@ -52,9 +51,7 @@ const ZonaDeMezcla = () => {
         const championsData = await championsRes.json();
         const championKeys = Object.keys(championsData.data);
 
-        const seleccionados = championKeys
-          .sort(() => 0.5 - Math.random())
-          .slice(0, 20);
+        const seleccionados = championKeys.sort(() => 0.5 - Math.random()).slice(0, 20);
 
         const urls = seleccionados.map(
           (champ) =>
@@ -70,77 +67,20 @@ const ZonaDeMezcla = () => {
     cargarIconos();
   }, []);
 
-  const handleDrop = (e) => {
-    e.preventDefault();
-    const url = e.dataTransfer.getData("skinURL");
-
-    const rect = zonaRef.current.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-
-    if (url) {
-      setMezclasActivas((prev) => [...prev, { url, x, y }]);
-    }
-  };
-
-  const handleDragOver = (e) => {
-    e.preventDefault();
-  };
-
   return (
     <div className="zona-de-mezcla">
-      <div className="zona-central">
-        <div className="zona-cabecera">
-          <button
-            className="info-boton"
-            onClick={mostrarInfo}
-            title="Información"
-          >
-            <InfoIcon />
-          </button>
-          <div
-            className={`marcador-mezclas ${
-              mezclasHechas >= mezclasTotales ? "completo" : "normal"
-            }`}
-          >
-            <ShinyText
-              text={t("markerText", {
-                hechas: mezclasHechas,
-                totales: mezclasTotales,
-              })}
-              disabled={false}
-              speed={3}
-              className="custom-class"
-            />
-          </div>
-        </div>
-
-        <div
-          className="zona-soltar"
-          ref={zonaRef}
-          onDrop={handleDrop}
-          onDragOver={handleDragOver}
-        >
-          {mezclasActivas.length === 0 ? (
-            <p className="zona-indicacion">Arrastra aquí tus skins...</p>
-          ) : (
-            mezclasActivas.map((mezcla, index) => (
-              <img
-                key={index}
-                src={mezcla.url}
-                alt={`mezcla-${index}`}
-                className="mezcla-preview"
-                style={{
-                  position: "absolute",
-                  left: mezcla.x,
-                  top: mezcla.y,
-                }}
-              />
-            ))
-          )}
-        </div>
-      </div>
-
+      <ZonaDeMezclaTablero
+        mezclasActivas={mezclasActivas}
+        setMezclasActivas={setMezclasActivas}
+        zonaRef={zonaRef}
+        mostrarInfo={mostrarInfo}
+        mezclasHechas={mezclasHechas}
+        mezclasTotales={mezclasTotales}
+        markerText={t("markerText", {
+          hechas: mezclasHechas,
+          totales: mezclasTotales,
+        })}
+      />
       <ZonaDeMezclaBarraLateral iconos={iconos} />
     </div>
   );

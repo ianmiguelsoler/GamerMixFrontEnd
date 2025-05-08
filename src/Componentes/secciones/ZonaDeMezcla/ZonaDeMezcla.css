@@ -1,13 +1,14 @@
 .zona-de-mezcla {
-    display: flex;
-    width: 100%;
-    height: 90vh;
-    background: linear-gradient(135deg, #cfcfcf, #e8e8e8);
-    border-radius: 12px;
-    overflow: hidden;
-    position: relative;
-    box-shadow: inset 0 0 30px rgba(255, 255, 255, 0.2);
-  }
+  display: flex;
+  width: 100%;
+  height: 90vh;
+  background: linear-gradient(135deg, #cfcfcf, #e8e8e8);
+  border-radius: 12px;
+  overflow: hidden;
+  position: relative;
+  box-shadow: inset 0 0 30px rgba(255, 255, 255, 0.2);
+  flex-direction: row;
+}
   
   /* Parte central (tablero de mezcla) */
   .zona-central {
@@ -111,6 +112,15 @@
     }
     100% {
       transform: scale(1);
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .zona-de-mezcla {
+      width: 150vw;
+      flex-direction: column;
+      height: calc(140vh - 50px); 
+      border-radius: 0;
     }
   }
   

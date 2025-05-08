@@ -10,6 +10,12 @@
     box-shadow: 0 0 12px rgba(0, 0, 0, 0.5);
   }
   
+  .contenedor-principal-registro{
+    position: relative; 
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+  }
   /* TÍTULO */
   .crear-cuenta-title {
     text-align: center;
@@ -96,10 +102,14 @@
   
   /* MEDIA QUERY PARA MÓVILES */
   @media (max-width: 767px) {
-
+    .contenedor-principal-registro{
+      position: relative; 
+      width: 100%;
+      height: 125vh !important;
+      overflow: hidden;
+    }
     .crear-cuenta-container {
-        max-width: 600px;
-        width: 450px;
+        width: 145vw;
         margin: 40px 10px;
         padding: 2rem;
         background-color: #121212;
@@ -113,10 +123,21 @@
       flex-direction: column;
       align-items: flex-start;
     }
+    .custom-class {
+      font-size: 26px;
+    }
   
     .form-label,
     .form-input-icon {
       width: 100%;
+    }
+    .form-input {
+      padding: 20px;
+    }
+    .form-button{
+      font-family: "Press Start 2P", cursive;
+      font-size: 30px;
+      padding: 20px;
     }
   }
 
@@ -146,5 +167,12 @@
     .form-button {
         padding: 1rem; /* Aumenta el padding del botón */
         font-size: 1rem; /* Aumenta el tamaño de la fuente del botón */
+        font-family: "Press Start 2P", cursive;
+    }
+    .contenedor-principal-registro{
+      position: relative; 
+      width: 100%;
+      height: 120vh;
+      overflow: hidden;
     }
     }

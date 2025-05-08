@@ -44,19 +44,6 @@ const IniciarSesion = () => {
       <RandomSkinBackground />
       <div style={{ position: "relative", zIndex: 1 }}>
         <div className="gameboy-body">
-          {/* Decoración izquierda */}
-          <div className="decoration-side left">
-            <div className="decoration-circle"></div>
-            <div className="decoration-circle"></div>
-            <div className="decoration-circle"></div>
-          </div>
-
-          {/* Decoración derecha */}
-          <div className="decoration-side right">
-            <div className="decoration-circle"></div>
-            <div className="decoration-circle"></div>
-            <div className="decoration-circle"></div>
-          </div>
 
           <div className="gameboy-screen">
             {/* Ballpit de fondo */}

@@ -37,14 +37,15 @@ const CrearCuenta = () => {
   };
 
   return (
-    <div style={{ position: "relative", width: "100%", height: "100vh", overflow: "hidden" }}>
+    <>
+    <div className="contenedor-principal-registro" style={{ height: "65vh" }}>
   <RandomSkinBackground />
     <motion.div
       initial={{ opacity: 0, y: -30 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.8 }}
       className="crear-cuenta-container"
-      style={{ position: "relative", zIndex: 1 }}
+      style={{ position: "relative", zIndex: 1, height: "140vh" }}
     >
       <div style={{ position: "relative", height: "200px" }}>
         <TextPressure
@@ -144,6 +145,7 @@ const CrearCuenta = () => {
       </motion.button>
     </motion.div>
     </div>
+    </>
   );
 };
 

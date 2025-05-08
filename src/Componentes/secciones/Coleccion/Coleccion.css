@@ -1,27 +1,95 @@
 .coleccion {
+  position: relative;
   height: 100vh;
   width: 68vw;
   display: flex;
   flex-direction: column;
-  padding: 20px;
-  background-color: white;
-  color: black;
-  overflow: hidden; /* No permitir scroll global */
+  padding: 24px;
+  background: rgba(17, 24, 39, 0.85);
+  backdrop-filter: blur(8px);
+  border-radius: 16px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6);
+  color: white;
+  overflow: hidden;
+  z-index: 1;
+}
+.coleccion__separador {
+  height: 3px;
+  width: 100%;
+  margin-top: 12px;
+  margin-bottom: 20px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, #9333ea, #3b82f6, #9333ea);
+  box-shadow: 0 0 8px #9333ea, 0 0 16px #3b82f6;
+  animation: glowBorde 5s ease-in-out infinite;
+}
+
+/* Animación suave del glow */
+@keyframes glowBorde {
+  0% {
+    filter: brightness(1) drop-shadow(0 0 6px #9333ea);
+  }
+  50% {
+    filter: brightness(1.5) drop-shadow(0 0 12px #3b82f6);
+  }
+  100% {
+    filter: brightness(1) drop-shadow(0 0 6px #9333ea);
+  }
+}
+
+/* Borde animado con capa superpuesta */
+.coleccion::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 2px;
+  background: linear-gradient(270deg, #9333ea, #3b82f6, #9333ea);
+  background-size: 400% 400%;
+  animation: moverBorde 8s linear infinite;
+  -webkit-mask: 
+    linear-gradient(#000 0 0) content-box, 
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  z-index: -1;
+}
+
+@keyframes moverBorde {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
 }
 
 .coleccion__titulo {
   font-size: 1.8rem;
+  font-family: "Press Start 2P", monospace;
   margin-bottom: 20px;
-  font-weight: bold;
+  background: linear-gradient(90deg, #9333ea, #3b82f6);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  text-shadow: 0 0 6px rgba(147, 51, 234, 0.4);
+  text-align: left;
 }
 
 .coleccion__scrollable {
   flex: 1;
   overflow-y: auto;
   padding-right: 4px;
-  scrollbar-width: thin; /* Firefox */
-  scrollbar-color: #0ff #1a202c; /* thumb y track */
+  border-radius: 8px;
+  scrollbar-width: thin;
+  scrollbar-color: #0ff #1a202c;
+
+  margin-top: 20px;
 }
+
 
 /* Scrollbar para Chrome, Edge, Safari */
 .coleccion__scrollable::-webkit-scrollbar {
@@ -50,18 +118,23 @@
 /* MEDIA QUERY: MÓVIL */
 @media (max-width: 768px) {
   .coleccion {
-    width: 72vh;
-    height: 160vh;
+    width: 118vw;
+    height: 170vh;
+    padding: 16px;
+    border-radius: 14px;
   }
 
   .coleccion__titulo {
-    font-size: 1.5rem;
+    font-size: 1.4rem;
     text-align: center;
   }
 }
 
 /* MEDIA QUERY: DESKTOP */
 @media (min-width: 769px) {
+  .coleccion {
+    height: 130vh;
+  }
   .coleccion__titulo {
     font-size: 2rem;
     text-align: left;

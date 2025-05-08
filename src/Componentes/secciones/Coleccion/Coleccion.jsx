@@ -27,6 +27,7 @@ const Coleccion = () => {
     <section className="coleccion">
       <h1 className="coleccion__titulo">{t("title")}</h1>
       <ColeccionFiltros />
+      <div className="coleccion__separador"></div>
       <div className="coleccion__scrollable">
         <ColeccionImagenes skins={todasLasSkins} />
       </div>

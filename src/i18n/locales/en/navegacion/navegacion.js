@@ -10,7 +10,8 @@ const navegacion = {
   changeLanguageButton: "Change language",
   language: "Lang",
   soundOn: "🔊 Sound",
-  soundOff: "🔇 Muted"
+  soundOff: "🔇 Muted",
+  play: "Play", 
 };
 
 export default navegacion;

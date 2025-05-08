@@ -11,6 +11,7 @@ import {
   Backpack,
   VolumeUp,
   VolumeOff,
+  SportsEsports,
 } from "@mui/icons-material";
 import logoGamerMix from "../../assets/logoGamerMix.png";
 import "./Navegacion.css";
@@ -87,6 +88,15 @@ const Navegacion = () => {
             </button>
           ) : (
             <>
+             <Link
+                className="navegacion__icono"
+                to="/jugar"
+                title={t("play")}
+                onClick={() => cerrarMenu()}
+              >
+                <SportsEsports fontSize="large" />
+                <span className="navegacion__texto">{t("play")}</span>
+              </Link>
               <Link
                 className="navegacion__icono"
                 to="/perfil"

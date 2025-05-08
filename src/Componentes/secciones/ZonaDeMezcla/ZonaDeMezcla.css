@@ -1,0 +1,105 @@
+.zona-de-mezcla {
+    display: flex;
+    width: 100%;
+    height: 90vh;
+    background: linear-gradient(135deg, #cfcfcf, #e8e8e8);
+    border-radius: 12px;
+    overflow: hidden;
+    position: relative;
+    box-shadow: inset 0 0 30px rgba(255, 255, 255, 0.2);
+  }
+  
+  /* Parte central */
+  .zona-central {
+    flex: 1;
+    background: linear-gradient(145deg, #c4c4c4 40%, #ffffff 100%);
+    box-shadow: inset 0 0 6px rgba(255, 255, 255, 0.3);
+    border-radius: 10px 0 0 10px;
+    margin: 1rem;
+  }
+  
+  /* Cabecera (info + marcador) */
+  .zona-cabecera {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+  }
+  
+  .info-boton {
+    background: none;
+    border: none;
+    color: #9e79ff;
+    font-size: 1.5rem;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+  }
+  
+  .info-boton:hover {
+    transform: scale(1.2);
+  }
+  
+  .marcador-mezclas {
+    padding: 10px 14px;
+    border-radius: 10px;
+    display: inline-block;
+    color: #ffffff;
+    box-shadow: 0 0 6px rgba(0, 0, 0, 0.6);
+    transition: all 0.3s ease-in-out;
+  }
+  
+  .marcador-mezclas.normal {
+    background-color: #000000cc;
+  }
+  
+  .marcador-mezclas.completo {
+    background: linear-gradient(135deg, #ffcc00, #f7e58c);
+    color: #000;
+    box-shadow: 0 0 12px rgba(255, 204, 0, 0.6);
+    font-weight: bold;
+  }
+  
+  /* Zona de soltar skins */
+  .zona-soltar {
+    position: relative;
+    min-height: 700px;
+    border: 2px dashed #9e79ff;
+    border-radius: 12px;
+    margin: 1rem;
+    background-color: #f9f9f9;
+    overflow: hidden;
+  }
+  
+  .zona-indicacion {
+    color: #555;
+    font-size: 12px;
+    font-family: monospace;
+  }
+  
+  /* Imagen soltada */
+  .mezcla-preview {
+    width: 70px;
+    height: 70px;
+    border-radius: 12px;
+    border: 2px solid #9e79ff;
+    object-fit: cover;
+    position: absolute;
+    animation: popIn 0.4s ease;
+    box-shadow: 0 0 8px #9e79ff55;
+  }
+  
+  /* Animación de aparición tipo pop */
+  @keyframes popIn {
+    0% {
+      transform: scale(0.4);
+      opacity: 0;
+    }
+    80% {
+      transform: scale(1.1);
+      opacity: 1;
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
+  

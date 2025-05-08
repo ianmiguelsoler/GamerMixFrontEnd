@@ -1,36 +1,7 @@
-
-/* Estilo general para fuente pixelada */
 .pixelated {
   font-family: "Press Start 2P", monospace;
 }
 
-/* Estilo para botones pixelados */
-.boton-pixel {
-  width: 100%;
-  padding: 12px 16px;
-  background-color: #1a202c;
-  color: white;
-  font-family: "Press Start 2P", monospace;
-  font-size: 12px;
-  cursor: pointer;
-  text-align: center;
-  transition: all 0.2s ease;
-  box-shadow: 4px 4px 0px #0ff;
-  border: 2px solid;
-}
-
-.boton-pixel:hover {
-  transform: translateY(-2px);
-  box-shadow: 6px 6px 0px #0ff;
-}
-
-.boton-editar {
-  border-color: #4fd1c5;
-}
-
-.boton-idioma {
-  border-color: #63b3ed;
-}
 .perfil-decrypt-container {
   display: inline-block;
 }
@@ -40,15 +11,10 @@
   text-shadow: 0 0 4px #0ff;
 }
 
-.perfil-titulo {
-  font-size: 1.8rem;
-  color: #63b3ed;
-  margin-bottom: 12px;
-}
-
 .perfil-texto {
   color: #e2e8f0;
 }
+
 .sr-only {
   position: absolute;
   width: 1px;
@@ -61,25 +27,18 @@
   border: 0;
 }
 
-/* =====================
-       MEDIA QUERY: DESKTOP
-     ===================== */
+/* ========== DESKTOP ========== */
 @media (min-width: 769px) {
   .ballpit-background {
     position: absolute;
     bottom: 0;
     left: 0;
     width: 100%;
-    height: 100vh; 
+    height: 100vh;
     z-index: 0;
     pointer-events: none;
   }
-  
-  .perfil-card {
-    position: relative;
-    z-index: 1;
-  }
-  
+
   .perfil-container {
     height: 85vh;
     width: 77vw;
@@ -101,16 +60,21 @@
   }
 
   .perfil-card {
-    background-color: #2d3748;
-    border: 3px solid #4fd1c5;
-    border-radius: 12px;
-    box-shadow: 0 0 20px #0ff;
+    background: rgba(17, 24, 39, 0.85);
+    border: 2px solid transparent;
+    border-image: linear-gradient(to right, #9333ea, #3b82f6) 1;
+    border-radius: 16px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(8px);
     padding: 24px;
     max-width: 800px;
     width: 100%;
     display: flex;
     flex-direction: column;
     gap: 20px;
+    position: relative;
+    z-index: 1;
+    transition: all 0.3s ease;
   }
 
   .perfil-contenido {
@@ -122,10 +86,14 @@
   .perfil-avatar img {
     width: 150px;
     height: 150px;
-    object-fit: cover;
-    border-radius: 12px;
-    border: 4px solid #63b3ed;
-    box-shadow: 0 0 12px #0ff;
+    border-radius: 16px;
+    border: 3px solid #60a5fa;
+    box-shadow: 0 0 20px #3b82f6;
+    transition: transform 0.3s ease;
+  }
+
+  .perfil-avatar img:hover {
+    transform: scale(1.05);
   }
 
   .perfil-info {
@@ -135,14 +103,17 @@
 
   .perfil-titulo {
     font-size: 1.8rem;
-    color: #63b3ed;
+    background: linear-gradient(90deg, #9333ea, #3b82f6);
+    -webkit-background-clip: text;
+    color: transparent;
+    text-shadow: 0 0 6px rgba(147, 51, 234, 0.4);
     margin-bottom: 12px;
   }
 
   .perfil-label {
     font-weight: bold;
-    color: #0ff;
-    margin-right: 6px;
+    color: #a78bfa;
+    text-shadow: 0 0 2px #3b82f6;
   }
 
   .perfil-detalles {
@@ -162,97 +133,141 @@
     flex-direction: column;
     gap: 12px;
   }
+
+  .boton-pixel {
+    width: 100%;
+    padding: 12px 16px;
+    font-family: "Press Start 2P", monospace;
+    font-size: 12px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background: linear-gradient(135deg, #9333ea, #3b82f6);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(147, 51, 234, 0.4);
+  }
+
+  .boton-pixel:hover {
+    transform: translateY(-2px) scale(1.03);
+    box-shadow: 0 6px 16px rgba(59, 130, 246, 0.6);
+  }
 }
 
-/* =====================
-       MEDIA QUERY: MÓVIL
-     ===================== */
-     @media (max-width: 768px) {
-      .perfil-container {
-        width: 130vw;
-        min-height: 118vh;
-        background: linear-gradient(to bottom, #1f2937, #111827);
-        padding: 20px 16px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        position: relative;
-        overflow: hidden;
-      }
-    
-      .ballpit-background {
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        width: 100%;
-        height: 180px;
-        z-index: 0;
-        pointer-events: none;
-      }
-    
-      .perfil-card {
-        position: relative;
-        z-index: 1;
-        width: 100%;
-        max-width: 380px;
-        background-color: #2d3748;
-        border: 2px solid #4fd1c5;
-        border-radius: 12px;
-        box-shadow: 0 0 12px #0ff;
-        padding: 20px;
-        display: flex;
-        flex-direction: column;
-        gap: 16px;
-      }
-    
-      .perfil-contenido {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 16px;
-      }
-    
-      .perfil-avatar img {
-        width: 110px;
-        height: 110px;
-        border-radius: 12px;
-        border: 4px solid #63b3ed;
-        box-shadow: 0 0 10px #0ff;
-      }
-    
-      .perfil-info {
-        text-align: center;
-        color: #e2e8f0;
-      }
-    
-      .perfil-titulo {
-        font-size: 1.2rem;
-        color: #63b3ed;
-        margin-bottom: 10px;
-      }
-    
-      .perfil-label {
-        font-weight: bold;
-        color: #0ff;
-      }
-    
-      .perfil-detalles {
-        margin-top: 10px;
-        padding-top: 10px;
-        border-top: 2px dashed #4fd1c5;
-        text-align: center;
-      }
-    
-      .perfil-creacion {
-        font-size: 0.85rem;
-        color: #a0aec0;
-        margin-bottom: 16px;
-      }
-    
-      .perfil-botones {
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-      }
-    }
-    
+/* ========== MÓVIL ========== */
+@media (max-width: 768px) {
+  .perfil-container {
+    width: 130vw;
+    min-height: 118vh;
+    background: linear-gradient(to bottom, #1f2937, #111827);
+    padding: 20px 16px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+    border-radius: 20px;
+  }
+
+  .ballpit-background {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 180px;
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  .perfil-card {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 380px;
+    background: rgba(17, 24, 39, 0.85);
+    border: 2px solid transparent;
+    border-image: linear-gradient(to right, #9333ea, #3b82f6) 1;
+    border-radius: 16px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(8px);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .perfil-contenido {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .perfil-avatar img {
+    width: 110px;
+    height: 110px;
+    border-radius: 12px;
+    border: 3px solid #60a5fa;
+    box-shadow: 0 0 12px #3b82f6;
+  }
+
+  .perfil-info {
+    text-align: center;
+    color: #e2e8f0;
+  }
+
+  .perfil-titulo {
+    font-size: 1.2rem;
+    background: linear-gradient(90deg, #9333ea, #3b82f6);
+    -webkit-background-clip: text;
+    color: transparent;
+    margin-bottom: 10px;
+    text-shadow: 0 0 6px rgba(147, 51, 234, 0.4);
+  }
+
+  .perfil-label {
+    font-weight: bold;
+    color: #a78bfa;
+    text-shadow: 0 0 2px #3b82f6;
+  }
+
+  .perfil-detalles {
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 2px dashed #4fd1c5;
+    text-align: center;
+  }
+
+  .perfil-creacion {
+    font-size: 0.85rem;
+    color: #a0aec0;
+    margin-bottom: 16px;
+  }
+
+  .perfil-botones {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .boton-pixel {
+    width: 100%;
+    padding: 12px 16px;
+    font-family: "Press Start 2P", monospace;
+    font-size: 12px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background: linear-gradient(135deg, #9333ea, #3b82f6);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(147, 51, 234, 0.4);
+  }
+
+  .boton-pixel:hover {
+    transform: translateY(-2px) scale(1.03);
+    box-shadow: 0 6px 16px rgba(59, 130, 246, 0.6);
+  }
+}

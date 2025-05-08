@@ -144,6 +144,7 @@
   position: relative;
   width: 60px;
   height: 60px;
+  padding-right: 70px;
 }
 
 .dpad div {
@@ -261,8 +262,9 @@
    RESPONSIVE: MÓVIL
 ===================== */
 @media (max-width: 767px) {
+  
   .gameboy-body {
-    width: 480px;
+    width: 146vw;
     background-color: #121212;
   }
 

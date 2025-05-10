@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import "./IniciarSesion.css";
@@ -7,22 +8,39 @@ import "./IniciarSesion.css";
 import Ballpit from "../../../bibliotecas/Ballpit.jsx";
 import ShinyText from "../../../bibliotecas/ShinyText.jsx";
 
-import RandomSkinBackground from "../../../bibliotecas/RandomSkinBackground.jsx";
+import RandomSkinBackground  from "../../../bibliotecas/RandomSkinBackground.jsx";
+import { contextoSesion } from "../../../contextos/ProveedorSesion.jsx";
 
 const IniciarSesion = () => {
   const [showPassword, setShowPassword] = useState(false);
   const { t } = useTranslation("login");
+  const { actualizarDato, iniciarSesion } = useContext(contextoSesion);
+  const navigate = useNavigate();
 
-  const handleLogin = () => {
-    Swal.fire({
-      title: t("connected"),
-      text: t("successMessage"),
-      icon: "success",
-      position: "top-end",
-      showConfirmButton: false,
-      timer: 3000,
-      toast: true,
-    });
+  const handleLogin = async () => {
+    const resultado = await iniciarSesion();
+
+    if (resultado.success) {
+      Swal.fire({
+        title: t("connected"),
+        text: t("successMessage"),
+        icon: "success",
+        position: "top-end",
+        showConfirmButton: false,
+        timer: 4000,
+        toast: true,
+      });
+
+      // Redirige tras iniciar sesión
+      navigate("/zona-mezcla");
+    } else {
+      Swal.fire({
+        title: t("errorTitle"),
+        text: resultado.message || t("errorMessage"),
+        icon: "error",
+        confirmButtonText: "OK",
+      });
+    }
   };
 
   const handleKeyDown = (e) => {

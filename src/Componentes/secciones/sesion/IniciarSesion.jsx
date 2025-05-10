@@ -4,11 +4,11 @@ import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import "./IniciarSesion.css";
-// Componentes de la biblioteca
+
+// Componentes
 import Ballpit from "../../../bibliotecas/Ballpit.jsx";
 import ShinyText from "../../../bibliotecas/ShinyText.jsx";
-
-import RandomSkinBackground  from "../../../bibliotecas/RandomSkinBackground.jsx";
+import RandomSkinBackground from "../../../bibliotecas/RandomSkinBackground.jsx";
 import { contextoSesion } from "../../../contextos/ProveedorSesion.jsx";
 
 const IniciarSesion = () => {
@@ -30,8 +30,6 @@ const IniciarSesion = () => {
         timer: 4000,
         toast: true,
       });
-
-      // Redirige tras iniciar sesión
       navigate("/zona-mezcla");
     } else {
       Swal.fire({
@@ -62,9 +60,7 @@ const IniciarSesion = () => {
       <RandomSkinBackground />
       <div style={{ position: "relative", zIndex: 1 }}>
         <div className="gameboy-body">
-
           <div className="gameboy-screen">
-            {/* Ballpit de fondo */}
             <div className="gameboy-ballpit">
               <Ballpit
                 count={200}
@@ -81,20 +77,23 @@ const IniciarSesion = () => {
               />
             </div>
 
-            {/* Contenido */}
             <div className="gameboy-content">
               <h2 className="screen-title">GamerMix</h2>
               <form onKeyDown={handleKeyDown}>
                 <input
-                  type="text"
-                  placeholder={t("username")}
+                  type="email"
+                  name="email"
+                  placeholder={t("email")}
                   className="gameboy-input"
+                  onChange={actualizarDato}
                 />
                 <div className="password-wrapper">
                   <input
                     type={showPassword ? "text" : "password"}
+                    name="password"
                     placeholder={t("password")}
                     className="gameboy-input"
+                    onChange={actualizarDato}
                   />
                   <div className="toggle-icon">
                     {showPassword ? (

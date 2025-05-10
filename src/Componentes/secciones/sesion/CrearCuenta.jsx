@@ -11,9 +11,7 @@ import { contextoSesion } from "../../../contextos/ProveedorSesion.jsx";
 
 const CrearCuenta = () => {
   const { t } = useTranslation("registro");
-  const { actualizarDato, errorUsuario, crearCuenta } =
-    useContext(contextoSesion);
-
+  const { actualizarDato, errorUsuario, crearCuenta } = useContext(contextoSesion);
   const [showPassword, setShowPassword] = useState(false);
 
   const togglePasswordVisibility = () => {
@@ -22,11 +20,11 @@ const CrearCuenta = () => {
 
   const handleRegister = async () => {
     await crearCuenta();
-  
+
     const recursionError =
       errorUsuario &&
       errorUsuario.includes("infinite recursion detected in policy");
-  
+
     if (!errorUsuario || recursionError) {
       Swal.fire({
         title: t("registrationSuccessTitle"),
@@ -50,7 +48,6 @@ const CrearCuenta = () => {
       });
     }
   };
-  
 
   const handleKeyDown = (e) => {
     if (e.key === "Enter") {
@@ -60,69 +57,59 @@ const CrearCuenta = () => {
   };
 
   return (
-    <>
     <div className="contenedor-principal-registro" style={{ height: "65vh" }}>
-  <RandomSkinBackground />
-    <motion.div
-      initial={{ opacity: 0, y: -30 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.8 }}
-      className="crear-cuenta-container"
-      style={{ position: "relative", zIndex: 1, height: "140vh" }}
-    >
-      <div style={{ position: "relative", height: "200px" }}>
-        <TextPressure
-          text={t("title")}
-          flex={true}
-          alpha={false}
-          stroke={false}
-          width={true}
-          weight={true}
-          italic={true}
-          textColor="#ffffff"
-          strokeColor="#ff0000"
-          minFontSize={36}
-        />
-      </div>
-      <form onKeyDown={handleKeyDown} className="crear-cuenta-form">
-        {/* Usuario */}
-        <div className="form-row">
-          <label className="form-label">
-            {" "}
-            <ShinyText
-              text={t("username")}
-              disabled={false}
-              speed={3}
-              className="custom-class"
-            />
-          </label>
-
-          <div className="form-input-icon">
-            <input
-              type="text"
-              placeholder={t("usernamePlaceholder")}
-              className="form-input"
-            />
-            <Person className="form-icon" />
-          </div>
+      <RandomSkinBackground />
+      <motion.div
+        initial={{ opacity: 0, y: -30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8 }}
+        className="crear-cuenta-container"
+        style={{ position: "relative", zIndex: 1, height: "140vh" }}
+      >
+        <div style={{ position: "relative", height: "200px" }}>
+          <TextPressure
+            text={t("title")}
+            flex={true}
+            alpha={false}
+            stroke={false}
+            width={true}
+            weight={true}
+            italic={true}
+            textColor="#ffffff"
+            strokeColor="#ff0000"
+            minFontSize={36}
+          />
         </div>
+
+        <form onKeyDown={handleKeyDown} className="crear-cuenta-form">
+          {/* Usuario */}
+          <div className="form-row">
+            <label className="form-label">
+              <ShinyText text={t("username")} disabled={false} speed={3} className="custom-class" />
+            </label>
+            <div className="form-input-icon">
+              <input
+                type="text"
+                name="nombre_usuario"
+                placeholder={t("usernamePlaceholder")}
+                className="form-input"
+                onChange={actualizarDato}
+              />
+              <Person className="form-icon" />
+            </div>
+          </div>
 
           {/* Email */}
           <div className="form-row">
             <label className="form-label">
-              <ShinyText
-                text={t("email")}
-                disabled={false}
-                speed={3}
-                className="custom-class"
-              />
+              <ShinyText text={t("email")} disabled={false} speed={3} className="custom-class" />
             </label>
             <div className="form-input-icon">
               <input
                 type="email"
+                name="email"
                 placeholder={t("emailPlaceholder")}
                 className="form-input"
-                name="email"
                 onChange={actualizarDato}
               />
               <Email className="form-icon" />
@@ -132,31 +119,20 @@ const CrearCuenta = () => {
           {/* Contraseña */}
           <div className="form-row">
             <label className="form-label">
-              <ShinyText
-                text={t("password")}
-                disabled={false}
-                speed={3}
-                className="custom-class"
-              />
+              <ShinyText text={t("password")} disabled={false} speed={3} className="custom-class" />
             </label>
             <div className="form-input-icon">
               <input
                 type={showPassword ? "text" : "password"}
+                name="password"
                 placeholder={t("passwordPlaceholder")}
                 className="form-input"
-                name="password"
                 onChange={actualizarDato}
               />
               {showPassword ? (
-                <VisibilityOff
-                  onClick={togglePasswordVisibility}
-                  className="form-icon clickable"
-                />
+                <VisibilityOff onClick={togglePasswordVisibility} className="form-icon clickable" />
               ) : (
-                <Visibility
-                  onClick={togglePasswordVisibility}
-                  className="form-icon clickable"
-                />
+                <Visibility onClick={togglePasswordVisibility} className="form-icon clickable" />
               )}
             </div>
           </div>
@@ -172,7 +148,6 @@ const CrearCuenta = () => {
         </motion.button>
       </motion.div>
     </div>
-    </>
   );
 };
 

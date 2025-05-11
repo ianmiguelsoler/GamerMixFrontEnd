@@ -5,7 +5,7 @@ import Contenido from "./Componentes/estructura/Contenido.jsx";
 import Pie from "./Componentes/estructura/Pie.jsx";
 import RutasGamerMix from "./Componentes/secciones/rutas/RutasGamerMix.jsx";
 import ProveedorSesion from "./contextos/ProveedorSesion.jsx";
-import AdministradorDeSonidoProvider  from "./contextos/AdministradorDeSonido.jsx";
+import AdministradorDeSonidoProvider from "./contextos/AdministradorDeSonido.jsx";
 
 import "./App.css";
 import "primereact/resources/themes/saga-blue/theme.css";
@@ -15,22 +15,21 @@ import "./i18n/i18n.js";
 
 function App() {
   return (
+    <ProveedorSesion> 
     <AdministradorDeSonidoProvider>
       <div className="app flex">
-        <Navegacion />
-        <div className="ml-[80px] p-6 flex-1">
-          <ProveedorSesion>
+          <Navegacion />
+          <div className="ml-[80px] p-6 flex-1">
             <Cabecera />
             <Contenido>
               <RutasGamerMix />
             </Contenido>
             <Pie />
-          </ProveedorSesion>
-        </div>
+          </div>
       </div>
     </AdministradorDeSonidoProvider>
+    </ProveedorSesion>
   );
 }
-
 
 export default App;

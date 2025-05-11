@@ -7,11 +7,10 @@ const navegacion = {
   users: "User management",
   backpack: "Collection",
   logout: "Log out",
-  changeLanguageButton: "Change language",
   language: "Lang",
   soundOn: "🔊 Sound",
   soundOff: "🔇 Muted",
-  play: "Play", 
+  play: "Play"
 };
 
 export default navegacion;

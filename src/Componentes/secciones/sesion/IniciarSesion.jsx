@@ -5,7 +5,6 @@ import Swal from "sweetalert2";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import "./IniciarSesion.css";
 
-// Componentes
 import Ballpit from "../../../bibliotecas/Ballpit.jsx";
 import ShinyText from "../../../bibliotecas/ShinyText.jsx";
 import RandomSkinBackground from "../../../bibliotecas/RandomSkinBackground.jsx";
@@ -15,7 +14,6 @@ const IniciarSesion = () => {
   const [showPassword, setShowPassword] = useState(false);
   const { t } = useTranslation("login");
   const { actualizarDato, iniciarSesion } = useContext(contextoSesion);
-  const navigate = useNavigate();
 
   const handleLogin = async () => {
     const resultado = await iniciarSesion();
@@ -30,7 +28,7 @@ const IniciarSesion = () => {
         timer: 4000,
         toast: true,
       });
-      navigate("/zona-mezcla");
+
     } else {
       Swal.fire({
         title: t("errorTitle"),

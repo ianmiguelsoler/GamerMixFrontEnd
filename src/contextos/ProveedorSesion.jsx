@@ -7,32 +7,30 @@ const contextoSesion = createContext();
 const ProveedorSesion = ({ children }) => {
   const navegar = useNavigate();
 
-  const [datosSesion, setDatosSesion] = useState({
+  const datosSesionInicial = {
     email: "",
     password: "",
-    nombre_usuario: ""
-  });
+    nombre_usuario: "",
+  };
 
+  const [datosSesion, setDatosSesion] = useState(datosSesionInicial);
   const [usuario, setUsuario] = useState(null);
   const [errorUsuario, setErrorUsuario] = useState("");
   const [sesionIniciada, setSesionIniciada] = useState(false);
 
-  const actualizarDato = (e) => {
-    const { name, value } = e.target;
-    setDatosSesion(prev => ({ ...prev, [name]: value }));
+  const actualizarDato = (evento) => {
+    const { name, value } = evento.target;
+    setDatosSesion((prev) => ({ ...prev, [name]: value }));
   };
 
   const crearCuenta = async () => {
     try {
       const { email, password, nombre_usuario } = datosSesion;
-
-      // Registro con Supabase Auth
       const { data, error } = await supabaseConexion.auth.signUp({ email, password });
       if (error) throw error;
 
       const userId = data.user.id;
 
-      // Insertar en la tabla "users"
       const { error: insertError } = await supabaseConexion
         .from("users")
         .insert([{ id: userId, email, nombre_usuario }]);
@@ -48,12 +46,10 @@ const ProveedorSesion = ({ children }) => {
   const iniciarSesion = async () => {
     try {
       const { email, password } = datosSesion;
-
-      const { data, error } = await supabaseConexion.auth.signInWithPassword({ email, password });
+      const { error } = await supabaseConexion.auth.signInWithPassword({ email, password });
       if (error) throw error;
 
-      await obtenerUsuario();
-      setSesionIniciada(true);
+      await obtenerUsuario(); // Solo al hacer login o recarga
       return { success: true };
     } catch (error) {
       setErrorUsuario(error.message);
@@ -66,32 +62,35 @@ const ProveedorSesion = ({ children }) => {
       const { data: sessionData, error: sessionError } = await supabaseConexion.auth.getSession();
       if (sessionError) throw sessionError;
 
-      if (sessionData?.session) {
-        const userId = sessionData.session.user.id;
+      const session = sessionData?.session;
+      if (!session) return;
 
-        const { data: profileData, error: profileError } = await supabaseConexion
-          .from("users")
-          .select("nombre_usuario, email, fecha_registro, nivel, experiencia, rol, inhabilitado")
-          .eq("id", userId)
-          .single();
+      const userId = session.user.id;
 
-        if (profileError) throw profileError;
+      const { data: profileData, error: profileError } = await supabaseConexion
+        .from("users")
+        .select("nombre_usuario, email, fecha_registro, nivel, experiencia, rol, inhabilitado")
+        .eq("id", userId)
+        .single();
 
-        setUsuario({
-          id: userId,
-          nombre_usuario: profileData.nombre_usuario,
-          email: profileData.email,
-          fecha_registro: profileData.fecha_registro,
-          nivel: profileData.nivel,
-          experiencia: profileData.experiencia,
-          rol: profileData.rol,
-          inhabilitado: profileData.inhabilitado
-        });
+      if (profileError) throw profileError;
 
-        setSesionIniciada(true);
-      }
+      setUsuario({
+        id: userId,
+        nombre_usuario: profileData.nombre_usuario,
+        email: profileData.email,
+        fecha_registro: profileData.fecha_registro,
+        nivel: profileData.nivel,
+        experiencia: profileData.experiencia,
+        rol: profileData.rol,
+        inhabilitado: profileData.inhabilitado,
+      });
+
+      setSesionIniciada(true);
     } catch (error) {
       setErrorUsuario(error.message);
+      setUsuario(null);
+      setSesionIniciada(false);
     }
   };
 
@@ -101,12 +100,13 @@ const ProveedorSesion = ({ children }) => {
       setUsuario(null);
       setSesionIniciada(false);
       setErrorUsuario("");
-      navegar("/login");
+      navegar("/iniciarsesion");
     } catch (error) {
       setErrorUsuario(error.message);
     }
   };
 
+  // Restaura sesión si ya está iniciada en Supabase al cargar la app
   useEffect(() => {
     obtenerUsuario();
   }, [sesionIniciada]);

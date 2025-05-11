@@ -1,6 +1,8 @@
 import React, { createContext, useState, useEffect } from "react";
 import { supabaseConexion } from "../config/supabase.js";
 import { useNavigate } from "react-router-dom";
+import imagenesPredefinidas from "../assets/imagenesPerfilUrls.js";
+
 
 const contextoSesion = createContext();
 
@@ -20,6 +22,7 @@ const ProveedorSesion = ({ children }) => {
   const [usuario, setUsuario] = useState(usuarioInicial);
   const [errorUsuario, setErrorUsuario] = useState(errorUsuarioInicial);
   const [sesionIniciada, setSesionIniciada] = useState(sesionIniciadaInicial);
+  const [imagenesDisponibles] = useState(imagenesPredefinidas); 
 
   // Actualiza los datos de inicio de sesión conforme se escribe en los campos del formulario.
   const actualizarDato = (evento) => {
@@ -82,7 +85,7 @@ const ProveedorSesion = ({ children }) => {
           await supabaseConexion
             .from("users")
             .select(
-              "nombre_usuario, email, fecha_registro, nivel, experiencia, rol, inhabilitado"
+              "nombre_usuario, email, fecha_registro, nivel, rol, inhabilitado, imagen"
             )
             .eq("id", userId)
             .single();
@@ -98,6 +101,7 @@ const ProveedorSesion = ({ children }) => {
           experiencia: profileData.experiencia,
           rol: profileData.rol,
           inhabilitado: profileData.inhabilitado,
+          imagen: profileData.imagen,
         });
 
         setSesionIniciada(true);
@@ -106,6 +110,27 @@ const ProveedorSesion = ({ children }) => {
       setErrorUsuario(error.message); // Guarda el mensaje de error.
     }
   };
+
+  const guardarPerfilUsuario = async (id, datosActualizados) => {
+    try {
+      const { data, error } = await supabaseConexion
+        .from("users")
+        .update(datosActualizados)
+        .eq("id", id)
+        .select()
+        .single();
+
+      if (error) throw error;
+
+      await obtenerUsuario(); // Refresca el estado del usuario
+
+      return { data, error: null };
+    } catch (error) {
+      console.error("Error al guardar perfil:", error.message);
+      return { data: null, error };
+    }
+  };
+
 
   // Cierra la sesión del usuario.
   const cerrarSesion = async () => {
@@ -132,6 +157,8 @@ const ProveedorSesion = ({ children }) => {
     errorUsuario,
     usuario,
     sesionIniciada,
+    imagenesDisponibles,
+    guardarPerfilUsuario,
     cerrarSesion,
     actualizarDato,
     crearCuenta,

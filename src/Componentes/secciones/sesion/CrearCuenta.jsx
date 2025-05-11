@@ -23,7 +23,8 @@ const CrearCuenta = () => {
 
     const recursionError =
       errorUsuario &&
-      errorUsuario.includes("infinite recursion detected in policy");
+      errorUsuario.includes("infinite recursion detected in policy")
+      || errorUsuario.includes("JSON");
 
     if (!errorUsuario || recursionError) {
       Swal.fire({

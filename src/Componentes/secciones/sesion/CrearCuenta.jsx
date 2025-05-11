@@ -21,12 +21,12 @@ const CrearCuenta = () => {
   const handleRegister = async () => {
     await crearCuenta();
 
-    const recursionError =
-      errorUsuario &&
-      errorUsuario.includes("infinite recursion detected in policy")
-      || errorUsuario.includes("JSON");
+    // const recursionError =
+    //   errorUsuario &&
+    //   errorUsuario.includes("infinite recursion detected in policy")
+    //   || errorUsuario.includes("JSON");
 
-    if (!errorUsuario || recursionError) {
+    if (!errorUsuario) {
       Swal.fire({
         title: t("registrationSuccessTitle"),
         text: t("registrationSuccessMessage"),

@@ -29,9 +29,10 @@ const Navegacion = () => {
     setMenuAbierto(false);
     if (accion) accion();
   };
-
+console.log("sesionIniciada", sesionIniciada);
+console.log("usuario", usuario);
   const sesionActiva = Boolean(sesionIniciada && usuario);
-
+console.log("sesionActiva", sesionActiva);
   return (
     <>
       <button className="menu-toggle" onClick={() => setMenuAbierto(!menuAbierto)}>
@@ -74,7 +75,7 @@ const Navegacion = () => {
             {sonidoActivo ? t("soundOn") : t("soundOff")}
           </button>
 
-          {!sesionActiva ? (
+          {!sesionIniciada ? (
             <Link className="navegacion__icono" to="/iniciarsesion" title={t("login")} onClick={() => cerrarMenu()}>
               <Login fontSize="large" />
               <span className="navegacion__texto">{t("login")}</span>
@@ -118,7 +119,7 @@ const Navegacion = () => {
 
         {/* 🧾 Mensaje inferior */}
         <div className="navegacion__mensaje">
-          {sesionActiva
+          {sesionIniciada
             ? t("helloUser", { name: usuario.nombre_usuario || "..." })
             : t("notLoggedIn")}
         </div>

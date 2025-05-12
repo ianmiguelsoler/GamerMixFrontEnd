@@ -47,14 +47,7 @@ const IniciarSesion = () => {
   };
 
   return (
-    <div
-      style={{
-        position: "relative",
-        width: "100%",
-        height: "100vh",
-        overflow: "hidden",
-      }}
-    >
+    <div className="gamboy-div-principal-contenido">
       <RandomSkinBackground />
       <div style={{ position: "relative", zIndex: 1 }}>
         <div className="gameboy-body">

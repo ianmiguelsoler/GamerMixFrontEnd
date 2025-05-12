@@ -122,7 +122,7 @@
   align-items: center;
   justify-content: space-between;
   gap: 0.5rem;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   word-break: break-word;
   overflow-wrap: anywhere;
 }
@@ -178,6 +178,9 @@
     position: relative;
     overflow: hidden;
     border-radius: 20px;
+  }
+  .perfil-email-container{
+    text-align: right;
   }
 
   @keyframes fondoAnimado {
@@ -298,6 +301,16 @@
     border-radius: 20px;
   }
 
+  .perfil-campo-editable {
+    justify-content: flex-start;
+    text-align: left;
+    width: 100%;
+    flex-direction: row-reverse;
+    gap: 0.5rem;
+  }
+  
+  
+
   .ballpit-background {
     position: absolute;
     bottom: 0;
@@ -354,10 +367,14 @@
     margin-bottom: 10px;
     text-shadow: 0 0 6px rgba(147, 51, 234, 0.4);
   }
+  .perfil-email-container{
+    margin-top: 20px;
+  }
 
   .perfil-label {
     font-weight: bold;
     color: #a78bfa;
+    font-size: 14px;
     text-shadow: 0 0 2px #3b82f6;
   }
 

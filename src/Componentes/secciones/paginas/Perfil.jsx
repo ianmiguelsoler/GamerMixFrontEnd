@@ -194,16 +194,9 @@ const Perfil = () => {
                     className="icono-editar"
                     onClick={() => activarEdicion("nombre_usuario")}
                   />
-                  <DecryptedText
-                    text={valoresEditables.nombre_usuario}
-                    speed={70}
-                    maxIterations={15}
-                    sequential={true}
-                    revealDirection="center"
-                    className="perfil-titulo pixelated"
-                    parentClassName="perfil-decrypt-container"
-                    encryptedClassName="perfil-encrypted"
-                  />
+                  <p className="perfil-titulo pixelated">
+                  {valoresEditables.nombre_usuario}
+                  </p>
                 </>
               ) : (
                 <input
@@ -226,7 +219,7 @@ const Perfil = () => {
                     className="icono-editar"
                     onClick={() => activarEdicion("email")}
                   />
-                  <span>
+                  <span className="perfil-email-container">
                     <span className="perfil-label">{t("email")}: </span>
                     <DecryptedText
                       text={valoresEditables.email}

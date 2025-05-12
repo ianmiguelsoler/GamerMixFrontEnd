@@ -1,7 +1,7 @@
 const enProfile = {
   title: "User Profile",
   username: "Username:",
-  email: "Email:",
+  email: "Email",
   role: "Role:",
   creation: "Account Created:",
   editButton: "✨ Edit Profile",

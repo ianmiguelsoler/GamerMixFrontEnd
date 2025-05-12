@@ -63,8 +63,9 @@ const ProveedorSesion = ({ children }) => {
       });
       if (error) throw error;
 
-      await obtenerUsuario(); // Solo al hacer login o recarga
+      await obtenerUsuario();
       setSesionIniciada(true);
+      navegar("/perfil");
       return { success: true };
     } catch (error) {
       setErrorUsuario(error.message);

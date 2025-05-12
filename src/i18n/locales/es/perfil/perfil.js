@@ -1,7 +1,7 @@
 const esPerfil = {
   title: "Perfil del Usuario",
   username: "Usuario:",
-  email: "Correo electrónico:",
+  email: "Correo electrónico",
   role: "Rol:",
   creation: "Cuenta creada:",
   editButton: "✨ Editar Perfil",
@@ -14,7 +14,7 @@ const esPerfil = {
   savedMessage: "Tus cambios han sido guardados.",
   saveChanges: "Guardar Cambios",
   chooseAvatarTitle: "¡Elige tu Avatar!",
-  chooseAvatarMessage: "Aún no has elegido una imagen de perfil."
+  chooseAvatarMessage: "Aún no has elegido una imagen de perfil. Se te asignará una aleatoriamente hasta que escojas una tú."
 };
 
 export default esPerfil;

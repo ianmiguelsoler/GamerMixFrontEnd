@@ -9,11 +9,13 @@ import DecryptedText from "../../../bibliotecas/DecryptedText.jsx";
 import Ballpit from "../../../bibliotecas/Ballpit.jsx";
 import EditIcon from "@mui/icons-material/Edit";
 import { contextoSesion } from "../../../contextos/ProveedorSesion.jsx";
+import imagenPorDefecto from "../../../assets/imagenPorDefecto.png";
 
 const Perfil = () => {
   const navegar = useNavigate();
   const { t } = useTranslation("perfil");
-  const { usuario, imagenesDisponibles, guardarPerfilUsuario } = useContext(contextoSesion);
+  const { usuario, imagenesDisponibles, guardarPerfilUsuario } =
+    useContext(contextoSesion);
 
   const [modalAbierto, setModalAbierto] = useState(false);
   const [avatarSeleccionado, setAvatarSeleccionado] = useState(null);
@@ -47,11 +49,14 @@ const Perfil = () => {
         setAvatarSeleccionado(aleatoria);
         Swal.fire({
           title: t("chooseAvatarTitle") || "¡Elige tu Avatar!",
-          text: t("chooseAvatarMessage") || "Aún no has elegido una imagen de perfil.",
+          text:
+            t("chooseAvatarMessage") ||
+            "Aún no has elegido una imagen de perfil. Se te asignará una aleatoriamente hasta que escojas una tú.",
           icon: "info",
           confirmButtonText: "OK",
           timer: 4000,
         });
+        
       } else {
         setAvatarSeleccionado(usuario.imagen);
       }
@@ -99,7 +104,10 @@ const Perfil = () => {
 
     if (Object.keys(camposActualizados).length === 0) return;
 
-    const resultado = await guardarPerfilUsuario(usuario.id, camposActualizados);
+    const resultado = await guardarPerfilUsuario(
+      usuario.id,
+      camposActualizados
+    );
 
     if (resultado?.error) {
       Swal.fire({
@@ -165,11 +173,15 @@ const Perfil = () => {
         <div className="perfil-contenido">
           <div className="perfil-avatar">
             <img
-              src={avatarSeleccionado || "https://i.pravatar.cc/150"}
+              src={avatarSeleccionado || imagenPorDefecto}
               alt={t("title")}
               className="perfil-avatar-img"
             />
-            <button className="boton-pixel boton-avatar" onClick={() => setModalAbierto(true)}>
+
+            <button
+              className="boton-pixel boton-avatar"
+              onClick={() => setModalAbierto(true)}
+            >
               ✨ {t("chooseAvatar")}
             </button>
           </div>
@@ -178,7 +190,10 @@ const Perfil = () => {
             <div className="perfil-editable perfil-campo-editable">
               {!modoEdicion.nombre_usuario ? (
                 <>
-                  <EditIcon className="icono-editar" onClick={() => activarEdicion("nombre_usuario")} />
+                  <EditIcon
+                    className="icono-editar"
+                    onClick={() => activarEdicion("nombre_usuario")}
+                  />
                   <DecryptedText
                     text={valoresEditables.nombre_usuario}
                     speed={70}
@@ -195,7 +210,9 @@ const Perfil = () => {
                   name="nombre_usuario"
                   value={valoresEditables.nombre_usuario}
                   onChange={manejarCambio}
-                  onKeyDown={(e) => e.key === "Enter" && desactivarEdicion("nombre_usuario")}
+                  onKeyDown={(e) =>
+                    e.key === "Enter" && desactivarEdicion("nombre_usuario")
+                  }
                   autoFocus
                   className="input-editar"
                 />
@@ -205,7 +222,10 @@ const Perfil = () => {
             <div className="perfil-editable perfil-campo-editable">
               {!modoEdicion.email ? (
                 <>
-                  <EditIcon className="icono-editar" onClick={() => activarEdicion("email")} />
+                  <EditIcon
+                    className="icono-editar"
+                    onClick={() => activarEdicion("email")}
+                  />
                   <span>
                     <span className="perfil-label">{t("email")}: </span>
                     <DecryptedText
@@ -225,7 +245,9 @@ const Perfil = () => {
                   name="email"
                   value={valoresEditables.email}
                   onChange={manejarCambio}
-                  onKeyDown={(e) => e.key === "Enter" && desactivarEdicion("email")}
+                  onKeyDown={(e) =>
+                    e.key === "Enter" && desactivarEdicion("email")
+                  }
                   autoFocus
                   className="input-editar"
                 />
@@ -308,10 +330,7 @@ const Perfil = () => {
         className={`modal-overlay ${modalAbierto ? "visible" : "hidden"}`}
         onClick={() => setModalAbierto(false)}
       >
-        <div
-          className="modal-avatar"
-          onClick={(e) => e.stopPropagation()}
-        >
+        <div className="modal-avatar" onClick={(e) => e.stopPropagation()}>
           <h2>{t("chooseAvatar")}</h2>
           <div className="galeria-avatars">
             {imagenesDisponibles.map((url, index) => (
@@ -319,7 +338,9 @@ const Perfil = () => {
                 key={index}
                 src={url}
                 loading="eager"
-                className={`avatar-opcion ${avatarSeleccionado === url ? "seleccionado" : ""}`}
+                className={`avatar-opcion ${
+                  avatarSeleccionado === url ? "seleccionado" : ""
+                }`}
                 onClick={() => {
                   setAvatarSeleccionado(url);
                   setImagenCambiada(true);

@@ -29,10 +29,7 @@ const Navegacion = () => {
     setMenuAbierto(false);
     if (accion) accion();
   };
-console.log("sesionIniciada", sesionIniciada);
-console.log("usuario", usuario);
   const sesionActiva = Boolean(sesionIniciada && usuario);
-console.log("sesionActiva", sesionActiva);
   return (
     <>
       <button className="menu-toggle" onClick={() => setMenuAbierto(!menuAbierto)}>

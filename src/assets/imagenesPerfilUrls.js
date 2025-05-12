@@ -1,13 +1,13 @@
 const imagenesPredefinidas = [
-    "https://qzrkjngofmilloizeedz.supabase.co/storage/v1/object/sign/imagenes/IMG_4848.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InN0b3JhZ2UtdXJsLXNpZ25pbmcta2V5XzdlZjM1NjE2LTY3ZjktNDhlOS04ZTkyLWRiMDczZWY5MzcwZCJ9.eyJ1cmwiOiJpbWFnZW5lcy9JTUdfNDg0OC5wbmciLCJpYXQiOjE3NDY5NjYxMzMsImV4cCI6MTc3ODUwMjEzM30.7Fq98lPSCjB93tQw8vsvRNPxpLv_R0c5kPfF4XagngY",
-    "https://qzrkjngofmilloizeedz.supabase.co/storage/v1/object/sign/imagenes/IMG_4920.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InN0b3JhZ2UtdXJsLXNpZ25pbmcta2V5XzdlZjM1NjE2LTY3ZjktNDhlOS04ZTkyLWRiMDczZWY5MzcwZCJ9.eyJ1cmwiOiJpbWFnZW5lcy9JTUdfNDkyMC5wbmciLCJpYXQiOjE3NDY5NjYxNjQsImV4cCI6MTc0NzA1MjU2NH0.sH3UV0Jai8FhzD0Bm1tU-zITjkfKWsK1Z_gBNaZufPw",
-    "https://qzrkjngofmilloizeedz.supabase.co/storage/v1/object/sign/imagenes/IMG_4921.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InN0b3JhZ2UtdXJsLXNpZ25pbmcta2V5XzdlZjM1NjE2LTY3ZjktNDhlOS04ZTkyLWRiMDczZWY5MzcwZCJ9.eyJ1cmwiOiJpbWFnZW5lcy9JTUdfNDkyMS5wbmciLCJpYXQiOjE3NDY5NjYxNzgsImV4cCI6MTc0NzA1MjU3OH0.p9Ozj0Wv8G3RVgpPvhNkgcXFLjRqgVpo7PnsY16J_AQ",
-    "https://qzrkjngofmilloizeedz.supabase.co/storage/v1/object/sign/imagenes/IMG_4922.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InN0b3JhZ2UtdXJsLXNpZ25pbmcta2V5XzdlZjM1NjE2LTY3ZjktNDhlOS04ZTkyLWRiMDczZWY5MzcwZCJ9.eyJ1cmwiOiJpbWFnZW5lcy9JTUdfNDkyMi5wbmciLCJpYXQiOjE3NDY5NjYxOTIsImV4cCI6MTc0NzA1MjU5Mn0.62XBLG5KvjpWe8K_PLcfy-kTiB8F-qkTwiUbponZwjc",
-    "https://qzrkjngofmilloizeedz.supabase.co/storage/v1/object/sign/imagenes/IMG_4923.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InN0b3JhZ2UtdXJsLXNpZ25pbmcta2V5XzdlZjM1NjE2LTY3ZjktNDhlOS04ZTkyLWRiMDczZWY5MzcwZCJ9.eyJ1cmwiOiJpbWFnZW5lcy9JTUdfNDkyMy5wbmciLCJpYXQiOjE3NDY5NjYyMDcsImV4cCI6MTc0NzA1MjYwN30.hjcxHVTYpZpXEDK-jcKZDjcdjKe8Oa3AgL-1-MljSks",
-    "https://qzrkjngofmilloizeedz.supabase.co/storage/v1/object/sign/imagenes/IMG_4925.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InN0b3JhZ2UtdXJsLXNpZ25pbmcta2V5XzdlZjM1NjE2LTY3ZjktNDhlOS04ZTkyLWRiMDczZWY5MzcwZCJ9.eyJ1cmwiOiJpbWFnZW5lcy9JTUdfNDkyNS5wbmciLCJpYXQiOjE3NDY5NjYyMTksImV4cCI6MTc0NzA1MjYxOX0._83U72BhzLF5Z6sj1jzKI-t0xss9_CMXR8EkYOzDGfk",
-    "https://qzrkjngofmilloizeedz.supabase.co/storage/v1/object/sign/imagenes/IMG_5056.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InN0b3JhZ2UtdXJsLXNpZ25pbmcta2V5XzdlZjM1NjE2LTY3ZjktNDhlOS04ZTkyLWRiMDczZWY5MzcwZCJ9.eyJ1cmwiOiJpbWFnZW5lcy9JTUdfNTA1Ni5wbmciLCJpYXQiOjE3NDY5NjYyODcsImV4cCI6MTc0NzA1MjY4N30.msrYxddEbRsy_y4dkZpdbRn2p_CHRG2UHVgTyFay27E",
-    "https://qzrkjngofmilloizeedz.supabase.co/storage/v1/object/sign/imagenes/IMG_5089.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InN0b3JhZ2UtdXJsLXNpZ25pbmcta2V5XzdlZjM1NjE2LTY3ZjktNDhlOS04ZTkyLWRiMDczZWY5MzcwZCJ9.eyJ1cmwiOiJpbWFnZW5lcy9JTUdfNTA4OS5wbmciLCJpYXQiOjE3NDY5NjYzMDEsImV4cCI6MTc0NzA1MjcwMX0.kTqEU1VjRTwHVfDUnahnMd5pJsqwlO55xFh0gByzlXc",
-    "https://qzrkjngofmilloizeedz.supabase.co/storage/v1/object/sign/imagenes/IMG_5096.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InN0b3JhZ2UtdXJsLXNpZ25pbmcta2V5XzdlZjM1NjE2LTY3ZjktNDhlOS04ZTkyLWRiMDczZWY5MzcwZCJ9.eyJ1cmwiOiJpbWFnZW5lcy9JTUdfNTA5Ni5wbmciLCJpYXQiOjE3NDY5NjcxODksImV4cCI6MTc0NzA1MzU4OX0.CNSF8dQXAzW3_uG6C5-oNK7ih7Mi6blbYopXCRjwJ6A"
+    "https://qzrkjngofmilloizeedz.supabase.co/storage/v1/object/public/imagenes//IMG_4848.png",
+    "https://qzrkjngofmilloizeedz.supabase.co/storage/v1/object/public/imagenes//IMG_4920.png",
+    "https://qzrkjngofmilloizeedz.supabase.co/storage/v1/object/public/imagenes//IMG_4921.png",
+    "https://qzrkjngofmilloizeedz.supabase.co/storage/v1/object/public/imagenes//IMG_4922.png",
+    "https://qzrkjngofmilloizeedz.supabase.co/storage/v1/object/public/imagenes//IMG_4923.png",
+    "https://qzrkjngofmilloizeedz.supabase.co/storage/v1/object/public/imagenes//IMG_4925.png",
+    "https://qzrkjngofmilloizeedz.supabase.co/storage/v1/object/public/imagenes//IMG_5056.png",
+    "https://qzrkjngofmilloizeedz.supabase.co/storage/v1/object/public/imagenes//IMG_5089.png",
+    "https://qzrkjngofmilloizeedz.supabase.co/storage/v1/object/public/imagenes//IMG_5096.png"
   ];
   
   export default imagenesPredefinidas;

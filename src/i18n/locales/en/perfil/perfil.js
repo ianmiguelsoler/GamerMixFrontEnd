@@ -14,7 +14,7 @@ const enProfile = {
   savedMessage: "Your changes have been saved.",
   saveChanges: "Save Changes",
   chooseAvatarTitle: "Choose Your Avatar!",
-  chooseAvatarMessage: "You haven't selected a profile picture yet."
+  chooseAvatarMessage: "You haven't selected a profile picture yet. One will be randomly assigned to you until you pick your own."
 };
 
 export default enProfile;

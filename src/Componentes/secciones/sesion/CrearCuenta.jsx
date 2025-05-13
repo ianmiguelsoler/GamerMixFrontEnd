@@ -8,6 +8,7 @@ import ShinyText from "../../../bibliotecas/ShinyText.jsx";
 import TextPressure from "../../../bibliotecas/TextPressure.jsx";
 import RandomSkinBackground from "../../../bibliotecas/RandomSkinBackground.jsx";
 import { contextoSesion } from "../../../contextos/ProveedorSesion.jsx";
+import { mostrarNotificacion } from "../../../bibliotecas/notificacionesUsuario/notificacionesUsuario.js"; 
 
 const CrearCuenta = () => {
   const { t } = useTranslation("registro");
@@ -21,11 +22,12 @@ const CrearCuenta = () => {
     setShowPassword((prev) => !prev);
   };
 
- const handleRegister = async () => {
+const handleRegister = async () => {
   const { email, password, nombre_usuario } = datosSesion;
 
+  // 🟡 Alerta: Campos vacíos
   if (!email || !password || !nombre_usuario) {
-    return Swal.fire({
+    return mostrarNotificacion({
       title: t("errorTitle"),
       text: t("missingFields"),
       icon: "warning",
@@ -33,9 +35,10 @@ const CrearCuenta = () => {
     });
   }
 
+  // 🔴 Alerta: Email inválido
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   if (!emailRegex.test(email)) {
-    return Swal.fire({
+    return mostrarNotificacion({
       title: t("errorTitle"),
       text: t("invalidEmail"),
       icon: "error",
@@ -43,8 +46,9 @@ const CrearCuenta = () => {
     });
   }
 
+  // 🔴 Alerta: Contraseña débil
   if (password.length < 6) {
-    return Swal.fire({
+    return mostrarNotificacion({
       title: t("errorTitle"),
       text: t("weakPassword"),
       icon: "error",
@@ -58,29 +62,29 @@ const CrearCuenta = () => {
 
   setLoading(false);
 
+  // 🔵 Alerta: Registro exitoso
   if (resultado.success) {
-    Swal.fire({
+    return mostrarNotificacion({
       title: t("registrationSuccessTitle"),
       text: t("registrationSuccessMessage"),
       icon: "info",
-      position: "top",
-      showConfirmButton: false,
-      timer: 4000,
       toast: true,
-    });
-  } else {
-    Swal.fire({
-      title: t("errorTitle"),
-      text: t(resultado.error) || t("errorMessage"),
-      icon: "error",
-      confirmButtonText: "Aceptar",
-      customClass: {
-        popup: "z-top-alert",
-      },
+      timer: 4000,
+      position: "top",
     });
   }
-};
 
+  // 🔴 Alerta: Error al registrar
+  return mostrarNotificacion({
+    title: t("errorTitle"),
+    text: t(resultado.error) || t("errorMessage"),
+    icon: "error",
+    confirmButtonText: "Aceptar",
+    customClass: {
+      popup: "z-top-alert",
+    },
+  });
+};
 
   const handleKeyDown = (e) => {
     if (e.key === "Enter") {

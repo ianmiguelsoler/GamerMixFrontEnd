@@ -27,6 +27,9 @@
   border: 0;
 }
 
+/* ==================
+   Imagen de Avatar
+================== */
 .perfil-avatar-img {
   width: 150px;
   height: 150px;
@@ -40,14 +43,10 @@
 .boton-avatar {
   margin-top: 0.5rem;
 }
-.modal-overlay.hidden {
-  display: none;
-}
 
-.modal-overlay.visible {
-  display: flex;
-}
-
+/* ================
+   Modal Avatar
+================ */
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -60,6 +59,8 @@
   justify-content: center;
   z-index: 100;
 }
+.modal-overlay.hidden { display: none; }
+.modal-overlay.visible { display: flex; }
 
 .modal-avatar {
   background: rgb(0, 0, 0);
@@ -88,32 +89,25 @@
   transition: transform 0.2s;
   border: 2px solid transparent;
 }
-
-.avatar-opcion:hover {
-  transform: scale(1.1);
-}
-
+.avatar-opcion:hover { transform: scale(1.1); }
 .avatar-opcion.seleccionado {
   border-color: #a64dff;
   box-shadow: 0 0 8px #a64dff;
 }
 
-.icono-editar {
-  font-size: 1rem;
-  cursor: pointer;
-  vertical-align: middle;
-  color: #a64dff;
-}
-
+/* ====================
+   Campos Editables
+==================== */
 .input-editar {
-  max-width: 100%;
-  min-width: 180px;
-  padding: 6px 10px;
+  font-family: Arial, sans-serif;
   font-size: 1rem;
-  border: 2px solid #a64dff;
-  border-radius: 8px;
+  padding: 8px 12px;
   background: #1e1e2f;
+  border: 2px solid #9333ea;
+  border-radius: 10px;
   color: white;
+  width: 100%;
+  max-width: 280px;
   text-align: center;
 }
 
@@ -123,38 +117,50 @@
   justify-content: space-between;
   gap: 0.5rem;
   flex-wrap: nowrap;
+  margin-bottom: 16px;
   word-break: break-word;
   overflow-wrap: anywhere;
 }
 
 .icono-editar {
   font-size: 1rem;
-  margin-left: auto;
   cursor: pointer;
   vertical-align: middle;
   color: #a64dff;
   transition: transform 0.2s ease;
 }
+.icono-editar:hover { transform: scale(1.1); }
 
-.icono-editar:hover {
-  transform: scale(1.1);
+.perfil-email-container {
+  text-align: right;
+  margin-top: 12px;
 }
 
-
-.perfil-linea-editable {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  flex-wrap: nowrap;
-  gap: 0.5rem;
-  word-break: break-word;
-  overflow-wrap: anywhere;
-}
 .boton-guardar {
   background: linear-gradient(135deg, #a855f7, #6366f1);
 }
+.campo-edicion {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
 
-/* ========== DESKTOP ========== */
+.boton-cancelar-edicion {
+  background: none;
+  border: none;
+  color: #f87171;
+  font-size: 20px;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.boton-cancelar-edicion:hover {
+  transform: scale(1.2);
+}
+
+/* ========================
+   DESKTOP VIEW
+======================== */
 @media (min-width: 769px) {
   .ballpit-background {
     position: absolute;
@@ -167,7 +173,7 @@
   }
 
   .perfil-container {
-    height: 85vh;
+    min-height: 100vh;
     width: 77vw;
     display: flex;
     align-items: center;
@@ -179,9 +185,16 @@
     overflow: hidden;
     border-radius: 20px;
   }
-  .perfil-email-container{
-    text-align: right;
-  }
+
+  .modal-avatar {
+  background: rgb(0, 0, 0);
+  padding: 2rem;
+  border-radius: 1rem;
+  max-width: 40%;
+  max-height: 60vh;
+  overflow-y: auto;
+  text-align: center;
+}
 
   @keyframes fondoAnimado {
     0% { background-position: 0% 50%; }
@@ -204,13 +217,19 @@
     gap: 20px;
     position: relative;
     z-index: 1;
-    transition: all 0.3s ease;
   }
 
   .perfil-contenido {
     display: flex;
-    gap: 20px;
+    gap: 32px;
     align-items: flex-start;
+  }
+
+  .perfil-avatar {
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
 
   .perfil-avatar img {
@@ -221,10 +240,7 @@
     box-shadow: 0 0 20px #3b82f6;
     transition: transform 0.3s ease;
   }
-
-  .perfil-avatar img:hover {
-    transform: scale(1.05);
-  }
+  .perfil-avatar img:hover { transform: scale(1.05); }
 
   .perfil-info {
     flex: 1;
@@ -261,8 +277,10 @@
 
   .perfil-botones {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    flex-wrap: wrap;
     gap: 12px;
+    margin-top: 8px;
   }
 
   .boton-pixel {
@@ -286,7 +304,9 @@
   }
 }
 
-/* ========== MÓVIL ========== */
+/* =========================
+   MOBILE VIEW
+========================= */
 @media (max-width: 768px) {
   .perfil-container {
     width: 100vw;
@@ -300,16 +320,6 @@
     overflow: hidden;
     border-radius: 20px;
   }
-
-  .perfil-campo-editable {
-    justify-content: flex-start;
-    text-align: left;
-    width: 100%;
-    flex-direction: row-reverse;
-    gap: 0.5rem;
-  }
-  
-  
 
   .ballpit-background {
     position: absolute;
@@ -367,7 +377,8 @@
     margin-bottom: 10px;
     text-shadow: 0 0 6px rgba(147, 51, 234, 0.4);
   }
-  .perfil-email-container{
+
+  .perfil-email-container {
     margin-top: 20px;
   }
 

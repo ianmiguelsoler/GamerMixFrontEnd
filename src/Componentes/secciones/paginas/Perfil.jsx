@@ -1,5 +1,4 @@
 import React, { useContext, useMemo, useState, useEffect } from "react";
-import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import StarBorder from "../../../bibliotecas/StarBorder.jsx";
@@ -10,26 +9,19 @@ import Ballpit from "../../../bibliotecas/Ballpit.jsx";
 import EditIcon from "@mui/icons-material/Edit";
 import { contextoSesion } from "../../../contextos/ProveedorSesion.jsx";
 import imagenPorDefecto from "../../../assets/imagenPorDefecto.png";
+import { mostrarNotificacion } from "../../../bibliotecas/notificacionesUsuario/notificacionesUsuario.js";
 
 const Perfil = () => {
   const navegar = useNavigate();
   const { t } = useTranslation("perfil");
-  const { usuario, imagenesDisponibles, guardarPerfilUsuario } =
-    useContext(contextoSesion);
+  const { usuario, imagenesDisponibles, guardarPerfilUsuario } = useContext(contextoSesion);
 
   const [modalAbierto, setModalAbierto] = useState(false);
   const [avatarSeleccionado, setAvatarSeleccionado] = useState(null);
   const [imagenCambiada, setImagenCambiada] = useState(false);
 
-  const [modoEdicion, setModoEdicion] = useState({
-    nombre_usuario: false,
-    email: false,
-  });
-
-  const [valoresEditables, setValoresEditables] = useState({
-    nombre_usuario: "",
-    email: "",
-  });
+  const [modoEdicion, setModoEdicion] = useState({ nombre_usuario: false, email: false });
+  const [valoresEditables, setValoresEditables] = useState({ nombre_usuario: "", email: "" });
 
   const imagenAleatoria = useMemo(() => {
     if (!imagenesDisponibles || imagenesDisponibles.length === 0) return null;
@@ -39,24 +31,19 @@ const Perfil = () => {
 
   useEffect(() => {
     if (usuario) {
-      setValoresEditables({
-        nombre_usuario: usuario.nombre_usuario,
-        email: usuario.email,
-      });
-
+      setValoresEditables({ nombre_usuario: usuario.nombre_usuario, email: usuario.email });
       if (!usuario.imagen) {
         const aleatoria = imagenAleatoria;
         setAvatarSeleccionado(aleatoria);
-        Swal.fire({
+        mostrarNotificacion({
           title: t("chooseAvatarTitle") || "¡Elige tu Avatar!",
           text:
             t("chooseAvatarMessage") ||
             "Aún no has elegido una imagen de perfil. Se te asignará una aleatoriamente hasta que escojas una tú.",
           icon: "info",
           confirmButtonText: "OK",
-          timer: 4000,
+          timer: 4000
         });
-        
       } else {
         setAvatarSeleccionado(usuario.imagen);
       }
@@ -73,18 +60,37 @@ const Perfil = () => {
   }, [imagenesDisponibles]);
 
   const manejarCambio = (e) => {
-    setValoresEditables({
-      ...valoresEditables,
-      [e.target.name]: e.target.value,
-    });
+    setValoresEditables({ ...valoresEditables, [e.target.name]: e.target.value });
   };
 
   const activarEdicion = (campo) => {
-    setModoEdicion({ ...modoEdicion, [campo]: true });
+    setModoEdicion((prev) => ({ ...prev, [campo]: true }));
   };
 
-  const desactivarEdicion = (campo) => {
-    setModoEdicion({ ...modoEdicion, [campo]: false });
+  const cancelarEdicion = (campo) => {
+    if (usuario[campo] !== valoresEditables[campo]) {
+      confirmarCancelacion(campo);
+    } else {
+      setModoEdicion((prev) => ({ ...prev, [campo]: false }));
+    }
+  };
+
+  const confirmarCancelacion = (campo) => {
+    mostrarNotificacion({
+      title: t("unsavedChangesTitle") || "¿Salir sin guardar?",
+      text: t("unsavedChangesText") || "Has realizado cambios. ¿Qué deseas hacer?",
+      icon: "warning",
+      showDenyButton: true,
+      showCancelButton: true,
+      confirmButtonText: t("save") || "Guardar cambios",
+      denyButtonText: t("discard") || "Salir sin guardar",
+      cancelButtonText: t("cancel") || "Cancelar",
+      onConfirm: () => guardarCambios(),
+      onDeny: () => {
+        setValoresEditables((prev) => ({ ...prev, [campo]: usuario[campo] }));
+        setModoEdicion((prev) => ({ ...prev, [campo]: false }));
+      },
+    });
   };
 
   const guardarCambios = async () => {
@@ -104,24 +110,21 @@ const Perfil = () => {
 
     if (Object.keys(camposActualizados).length === 0) return;
 
-    const resultado = await guardarPerfilUsuario(
-      usuario.id,
-      camposActualizados
-    );
+    const resultado = await guardarPerfilUsuario(usuario.id, camposActualizados);
 
     if (resultado?.error) {
-      Swal.fire({
+      mostrarNotificacion({
         title: "Error",
         text: "No se pudieron guardar los cambios.",
-        icon: "error",
+        icon: "error"
       });
       return;
     }
 
-    Swal.fire({
+    mostrarNotificacion({
       title: t("successTitle") || "¡Listo!",
       text: t("savedMessage") || "Tus cambios han sido guardados.",
-      icon: "success",
+      icon: "success"
     });
 
     setModoEdicion({ nombre_usuario: false, email: false });
@@ -130,16 +133,14 @@ const Perfil = () => {
 
   const hayCambios = Object.values(modoEdicion).some(Boolean) || imagenCambiada;
 
-  const mostrarNotificacion = () => {
-    Swal.fire({
+  const mostrarNotificacionInformativa = () => {
+    mostrarNotificacion({
       title: t("toastTitle"),
       text: t("toastMessage"),
       icon: "info",
-      confirmButtonText: "OK",
-      showConfirmButton: false,
-      timer: 2500,
-      position: "top-end",
       toast: true,
+      timer: 2500,
+      position: "top-end"
     });
   };
 
@@ -195,23 +196,34 @@ const Perfil = () => {
                     onClick={() => activarEdicion("nombre_usuario")}
                   />
                   <p className="perfil-titulo pixelated">
-                  {valoresEditables.nombre_usuario}
+                    {valoresEditables.nombre_usuario}
                   </p>
                 </>
               ) : (
-                <input
-                  name="nombre_usuario"
-                  value={valoresEditables.nombre_usuario}
-                  onChange={manejarCambio}
-                  onKeyDown={(e) =>
-                    e.key === "Enter" && desactivarEdicion("nombre_usuario")
-                  }
-                  autoFocus
-                  className="input-editar"
-                />
+                <div className="campo-edicion">
+                  <input
+                    name="nombre_usuario"
+                    value={valoresEditables.nombre_usuario}
+                    onChange={manejarCambio}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter")
+                        desactivarEdicion("nombre_usuario");
+                      if (e.key === "Escape") cancelarEdicion("nombre_usuario");
+                    }}
+                    autoFocus
+                    className="input-editar"
+                  />
+                  <button
+                    className="boton-cancelar-edicion"
+                    onClick={() => cancelarEdicion("nombre_usuario")}
+                  >
+                    ✖️
+                  </button>
+                </div>
               )}
             </div>
 
+            {/* Email */}
             <div className="perfil-editable perfil-campo-editable">
               {!modoEdicion.email ? (
                 <>
@@ -234,16 +246,25 @@ const Perfil = () => {
                   </span>
                 </>
               ) : (
-                <input
-                  name="email"
-                  value={valoresEditables.email}
-                  onChange={manejarCambio}
-                  onKeyDown={(e) =>
-                    e.key === "Enter" && desactivarEdicion("email")
-                  }
-                  autoFocus
-                  className="input-editar"
-                />
+                <div className="campo-edicion">
+                  <input
+                    name="email"
+                    value={valoresEditables.email}
+                    onChange={manejarCambio}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter") desactivarEdicion("email");
+                      if (e.key === "Escape") cancelarEdicion("email");
+                    }}
+                    autoFocus
+                    className="input-editar"
+                  />
+                  <button
+                    className="boton-cancelar-edicion"
+                    onClick={() => cancelarEdicion("email")}
+                  >
+                    ✖️
+                  </button>
+                </div>
               )}
             </div>
 
@@ -294,16 +315,6 @@ const Perfil = () => {
                 💾 {t("saveChanges") || "Guardar Cambios"}
               </StarBorder>
             )}
-
-            <StarBorder
-              as="button"
-              className="boton-pixel boton-editar"
-              color="cyan"
-              speed="2s"
-              onClick={mostrarNotificacion}
-            >
-              {t("editButton")}
-            </StarBorder>
 
             <StarBorder
               as="button"

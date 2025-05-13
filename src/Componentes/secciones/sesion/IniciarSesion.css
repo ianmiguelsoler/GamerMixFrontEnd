@@ -271,24 +271,85 @@
    RESPONSIVE: MÓVIL
 ===================== */
 @media (max-width: 767px) {
-  
+  .gamboy-div-principal-contenido {
+    padding: 4vh 5vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    box-sizing: border-box;
+  }
+
   .gameboy-body {
-    background-color: #121212;
+    width: 90vw;
+    height: auto;
+    padding: 5vw;
+    border-radius: 14px;
+    margin-top: 0;
+    background-color: #111827;
+  }
+
+  .gameboy-screen {
+    height: auto;
+    padding: 6vw 4vw;
   }
 
   .screen-title {
-    font-size: 24px;
+    font-size: 5vw;
+    margin-bottom: 4vw;
+  }
+
+  .gameboy-input {
+    width: 100%;
+    padding: 3.5vw;
+    font-size: 4vw;
+    margin-bottom: 5vw;
+  }
+
+  .toggle-icon {
+    right: 5vw;
+    font-size: 5vw;
+  }
+
+  .gameboy-buttons {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-top: 6vh;
+    gap: 8vw;
+  }
+
+  .dpad {
+    width: 20vw;
+    height: 20vw;
+    padding-right: 0;
+    margin-left: 4vw;
+  }
+
+  .dpad div,
+  .dpad .center {
+    width: 6vw;
+    height: 6vw;
+  }
+
+  .btn-group {
+    gap: 1vw;
   }
 
   .btn-a {
-    width: 120px;
-    height: 120px;
-    font-size: 18px;
+    width: 18vw;
+    height: 18vw;
+    font-size: 6vw;
   }
 
   .btn-b {
-    width: 80px;
-    height: 80px;
-    font-size: 24px;
+    width: 12vw;
+    height: 12vw;
+    font-size: 4vw;
+  }
+
+  .form-label,
+  .custom-label {
+    font-size: 3vw;
   }
 }

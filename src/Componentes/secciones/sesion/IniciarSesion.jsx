@@ -1,7 +1,6 @@
 import React, { useState, useContext } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
-import Swal from "sweetalert2";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import "./IniciarSesion.css";
 
@@ -9,6 +8,7 @@ import Ballpit from "../../../bibliotecas/Ballpit.jsx";
 import ShinyText from "../../../bibliotecas/ShinyText.jsx";
 import RandomSkinBackground from "../../../bibliotecas/RandomSkinBackground.jsx";
 import { contextoSesion } from "../../../contextos/ProveedorSesion.jsx";
+import { mostrarNotificacion } from "../../../bibliotecas/notificacionesUsuario/notificacionesUsuario.js"; // ✅ Nuevo
 
 const IniciarSesion = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -19,18 +19,18 @@ const IniciarSesion = () => {
     const resultado = await iniciarSesion();
 
     if (resultado.success) {
-      Swal.fire({
+      // ✅ Alerta: Inicio de sesión exitoso
+      mostrarNotificacion({
         title: t("connected"),
         text: t("successMessage"),
         icon: "success",
-        position: "top-end",
-        showConfirmButton: false,
-        timer: 4000,
         toast: true,
+        position: "top-end",
+        timer: 4000,
       });
-
     } else {
-      Swal.fire({
+      // ❌ Alerta: Error al iniciar sesión
+      mostrarNotificacion({
         title: t("errorTitle"),
         text: resultado.message || t("errorMessage"),
         icon: "error",

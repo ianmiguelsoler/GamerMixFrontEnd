@@ -11,44 +11,76 @@ import { contextoSesion } from "../../../contextos/ProveedorSesion.jsx";
 
 const CrearCuenta = () => {
   const { t } = useTranslation("registro");
-  const { actualizarDato, errorUsuario, crearCuenta } = useContext(contextoSesion);
+  const { actualizarDato, errorUsuario, crearCuenta, datosSesion } =
+    useContext(contextoSesion);
+
   const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const togglePasswordVisibility = () => {
     setShowPassword((prev) => !prev);
   };
 
-  const handleRegister = async () => {
-    await crearCuenta();
+ const handleRegister = async () => {
+  const { email, password, nombre_usuario } = datosSesion;
 
-    // const recursionError =
-    //   errorUsuario &&
-    //   errorUsuario.includes("infinite recursion detected in policy")
-    //   || errorUsuario.includes("JSON");
+  if (!email || !password || !nombre_usuario) {
+    return Swal.fire({
+      title: t("errorTitle"),
+      text: t("missingFields"),
+      icon: "warning",
+      confirmButtonText: "Aceptar",
+    });
+  }
 
-    if (!errorUsuario) {
-      Swal.fire({
-        title: t("registrationSuccessTitle"),
-        text: t("registrationSuccessMessage"),
-        icon: "info",
-        position: "top",
-        showConfirmButton: false,
-        timer: 4000,
-        toast: true,
-      });
-    } else {
-      Swal.fire({
-        title: t("errorTitle"),
-        text: t("errorMessage"),
-        footer: `<small style="color: red;">${errorUsuario}</small>`,
-        icon: "error",
-        confirmButtonText: "Aceptar",
-        customClass: {
-          popup: "z-top-alert",
-        },
-      });
-    }
-  };
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailRegex.test(email)) {
+    return Swal.fire({
+      title: t("errorTitle"),
+      text: t("invalidEmail"),
+      icon: "error",
+      confirmButtonText: "Aceptar",
+    });
+  }
+
+  if (password.length < 6) {
+    return Swal.fire({
+      title: t("errorTitle"),
+      text: t("weakPassword"),
+      icon: "error",
+      confirmButtonText: "Aceptar",
+    });
+  }
+
+  setLoading(true);
+
+  const resultado = await crearCuenta();
+
+  setLoading(false);
+
+  if (resultado.success) {
+    Swal.fire({
+      title: t("registrationSuccessTitle"),
+      text: t("registrationSuccessMessage"),
+      icon: "info",
+      position: "top",
+      showConfirmButton: false,
+      timer: 4000,
+      toast: true,
+    });
+  } else {
+    Swal.fire({
+      title: t("errorTitle"),
+      text: t(resultado.error) || t("errorMessage"),
+      icon: "error",
+      confirmButtonText: "Aceptar",
+      customClass: {
+        popup: "z-top-alert",
+      },
+    });
+  }
+};
+
 
   const handleKeyDown = (e) => {
     if (e.key === "Enter") {
@@ -86,7 +118,12 @@ const CrearCuenta = () => {
           {/* Usuario */}
           <div className="form-row">
             <label className="form-label">
-              <ShinyText text={t("username")} disabled={false} speed={3} className="custom-class" />
+              <ShinyText
+                text={t("username")}
+                disabled={false}
+                speed={3}
+                className="custom-class"
+              />
             </label>
             <div className="form-input-icon">
               <input
@@ -103,7 +140,12 @@ const CrearCuenta = () => {
           {/* Email */}
           <div className="form-row">
             <label className="form-label">
-              <ShinyText text={t("email")} disabled={false} speed={3} className="custom-class" />
+              <ShinyText
+                text={t("email")}
+                disabled={false}
+                speed={3}
+                className="custom-class"
+              />
             </label>
             <div className="form-input-icon">
               <input
@@ -120,7 +162,12 @@ const CrearCuenta = () => {
           {/* Contraseña */}
           <div className="form-row">
             <label className="form-label">
-              <ShinyText text={t("password")} disabled={false} speed={3} className="custom-class" />
+              <ShinyText
+                text={t("password")}
+                disabled={false}
+                speed={3}
+                className="custom-class"
+              />
             </label>
             <div className="form-input-icon">
               <input
@@ -131,9 +178,15 @@ const CrearCuenta = () => {
                 onChange={actualizarDato}
               />
               {showPassword ? (
-                <VisibilityOff onClick={togglePasswordVisibility} className="form-icon clickable" />
+                <VisibilityOff
+                  onClick={togglePasswordVisibility}
+                  className="form-icon clickable"
+                />
               ) : (
-                <Visibility onClick={togglePasswordVisibility} className="form-icon clickable" />
+                <Visibility
+                  onClick={togglePasswordVisibility}
+                  className="form-icon clickable"
+                />
               )}
             </div>
           </div>
@@ -144,8 +197,9 @@ const CrearCuenta = () => {
           whileTap={{ scale: 0.95 }}
           onClick={handleRegister}
           className="form-button"
+          disabled={loading}
         >
-          {t("registerButton")}
+          {loading ? t("registering") || "Registrando..." : t("registerButton")}
         </motion.button>
       </motion.div>
     </div>

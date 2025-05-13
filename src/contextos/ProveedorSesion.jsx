@@ -3,7 +3,6 @@ import { supabaseConexion } from "../config/supabase.js";
 import { useNavigate } from "react-router-dom";
 import imagenesPredefinidas from "../assets/imagenesPerfilUrls.js";
 
-
 const contextoSesion = createContext();
 
 const ProveedorSesion = ({ children }) => {
@@ -22,7 +21,7 @@ const ProveedorSesion = ({ children }) => {
   const [usuario, setUsuario] = useState(usuarioInicial);
   const [errorUsuario, setErrorUsuario] = useState(errorUsuarioInicial);
   const [sesionIniciada, setSesionIniciada] = useState(sesionIniciadaInicial);
-  const [imagenesDisponibles] = useState(imagenesPredefinidas); 
+  const [imagenesDisponibles] = useState(imagenesPredefinidas);
 
   // Actualiza los datos de inicio de sesión conforme se escribe en los campos del formulario.
   const actualizarDato = (evento) => {
@@ -30,29 +29,52 @@ const ProveedorSesion = ({ children }) => {
     setDatosSesion({ ...datosSesion, [name]: value });
   };
 
-  const crearCuenta = async () => {
-    try {
-      const { email, password, nombre_usuario } = datosSesion;
-      const { data, error } = await supabaseConexion.auth.signUp({
-        email,
-        password,
-      });
+const crearCuenta = async () => {
+  try {
+    const { email, password, nombre_usuario } = datosSesion;
 
-      if (error) throw error;
-
-      const userId = data.user.id;
-
-      const { error: insertError } = await supabaseConexion
-        .from("users")
-        .insert([{ id: userId, nombre_usuario, email }]);
-
-      if (insertError) throw insertError;
-
-      setErrorUsuario(errorUsuarioInicial);
-    } catch (error) {
-      setErrorUsuario(error.message); // ❗️ Guarda el error para mostrarlo si hace falta
+    if (!email || !password || !nombre_usuario) {
+      return { success: false, error: "missingFields" };
     }
-  };
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      return { success: false, error: "invalidEmail" };
+    }
+
+    if (password.length < 6) {
+      return { success: false, error: "weakPassword" };
+    }
+
+    const { data, error } = await supabaseConexion.auth.signUp({ email, password });
+
+    if (error) {
+      if (error.message.includes("already registered") || error.message.includes("already exists")) {
+        return { success: false, error: "emailAlreadyRegistered" };
+      }
+      return { success: false, error: error.message };
+    }
+
+    const userId = data.user.id;
+
+    const { error: insertError } = await supabaseConexion
+      .from("users")
+      .insert([{ id: userId, nombre_usuario, email }]);
+
+    if (insertError) {
+      if (insertError.code === "23505" || insertError.message.includes("duplicate key")) {
+        return { success: false, error: "emailAlreadyRegistered" };
+      }
+      return { success: false, error: insertError.message };
+    }
+
+    return { success: true };
+  } catch (error) {
+    return { success: false, error: error.message };
+  }
+};
+
+
 
   const iniciarSesion = async () => {
     try {
@@ -131,7 +153,6 @@ const ProveedorSesion = ({ children }) => {
       return { data: null, error };
     }
   };
-
 
   // Cierra la sesión del usuario.
   const cerrarSesion = async () => {

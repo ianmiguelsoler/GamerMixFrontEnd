@@ -5,7 +5,7 @@ const esPerfil = {
   email: "Correo electrónico",
   role: "Rol:",
   creation: "Cuenta creada:",
-
+  chooseAvatar: "Eligir un Avatar",
   // ✨ Botones de acción
   editButton: "✨ Editar Perfil",
   changeLanguageButton: "🌐 Cambiar Idioma",

@@ -5,7 +5,7 @@ const enProfile = {
   email: "Email",
   role: "Role:",
   creation: "Account Created:",
-
+  chooseAvatar: "Choose an Avatar",
   // ✨ Botones de acción
   editButton: "✨ Edit Profile",
   changeLanguageButton: "🌐 Change Language",

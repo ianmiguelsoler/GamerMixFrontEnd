@@ -88,7 +88,7 @@ const CambiarPassword = () => {
       });
 
       setTimeout(() => {
-        navigate("/iniciarsesion");
+        navigate("/perfil");
       }, 1000);
     } else {
       mostrarNotificacion({

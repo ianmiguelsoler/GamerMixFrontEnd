@@ -6,10 +6,12 @@ const esPerfil = {
   role: "Rol:",
   creation: "Cuenta creada:",
   chooseAvatar: "Eligir un Avatar",
+
   // ✨ Botones de acción
   editButton: "✨ Editar Perfil",
   changeLanguageButton: "🌐 Cambiar Idioma",
   recoverPassword: "🔑 Recuperar Contraseña",
+  changePasswordButton: " Cambiar Contraseña", 
 
   // 🚫 Acceso restringido
   noAccess: "No tienes acceso a esta página. Por favor, inicia sesión.",

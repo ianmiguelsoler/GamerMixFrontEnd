@@ -20,26 +20,24 @@ const Perfil = () => {
   const [avatarSeleccionado, setAvatarSeleccionado] = useState(null);
   const [imagenCambiada, setImagenCambiada] = useState(false);
 
-  const [modoEdicion, setModoEdicion] = useState({ nombre_usuario: false, email: false });
-  const [valoresEditables, setValoresEditables] = useState({ nombre_usuario: "", email: "" });
+  const [modoEdicion, setModoEdicion] = useState({ nombre_usuario: false });
+  const [valoresEditables, setValoresEditables] = useState({ nombre_usuario: "" });
 
   const imagenAleatoria = useMemo(() => {
-    if (!imagenesDisponibles || imagenesDisponibles.length === 0) return null;
+    if (!imagenesDisponibles?.length) return null;
     const indice = Math.floor(Math.random() * imagenesDisponibles.length);
     return imagenesDisponibles[indice];
   }, [imagenesDisponibles]);
 
   useEffect(() => {
     if (usuario) {
-      setValoresEditables({ nombre_usuario: usuario.nombre_usuario, email: usuario.email });
+      setValoresEditables({ nombre_usuario: usuario.nombre_usuario });
       if (!usuario.imagen) {
         const aleatoria = imagenAleatoria;
         setAvatarSeleccionado(aleatoria);
         mostrarNotificacion({
           title: t("chooseAvatarTitle") || "¡Elige tu Avatar!",
-          text:
-            t("chooseAvatarMessage") ||
-            "Aún no has elegido una imagen de perfil. Se te asignará una aleatoriamente hasta que escojas una tú.",
+          text: t("chooseAvatarMessage") || "Aún no has elegido una imagen de perfil. Se te asignará una aleatoriamente.",
           icon: "info",
           confirmButtonText: "OK",
           timer: 4000
@@ -51,12 +49,10 @@ const Perfil = () => {
   }, [usuario, imagenAleatoria, t]);
 
   useEffect(() => {
-    if (imagenesDisponibles?.length > 0) {
-      imagenesDisponibles.forEach((url) => {
-        const img = new Image();
-        img.src = url;
-      });
-    }
+    imagenesDisponibles?.forEach((url) => {
+      const img = new Image();
+      img.src = url;
+    });
   }, [imagenesDisponibles]);
 
   const manejarCambio = (e) => {
@@ -69,41 +65,31 @@ const Perfil = () => {
 
   const cancelarEdicion = (campo) => {
     if (usuario[campo] !== valoresEditables[campo]) {
-      confirmarCancelacion(campo);
+      mostrarNotificacion({
+        title: t("unsavedChangesTitle") || "¿Salir sin guardar?",
+        text: t("unsavedChangesText") || "Has realizado cambios. ¿Qué deseas hacer?",
+        icon: "warning",
+        showDenyButton: true,
+        showCancelButton: true,
+        confirmButtonText: t("save") || "Guardar cambios",
+        denyButtonText: t("discard") || "Salir sin guardar",
+        cancelButtonText: t("cancel") || "Cancelar",
+        onConfirm: guardarCambios,
+        onDeny: () => {
+          setValoresEditables((prev) => ({ ...prev, [campo]: usuario[campo] }));
+          setModoEdicion((prev) => ({ ...prev, [campo]: false }));
+        },
+      });
     } else {
       setModoEdicion((prev) => ({ ...prev, [campo]: false }));
     }
   };
 
-  const confirmarCancelacion = (campo) => {
-    mostrarNotificacion({
-      title: t("unsavedChangesTitle") || "¿Salir sin guardar?",
-      text: t("unsavedChangesText") || "Has realizado cambios. ¿Qué deseas hacer?",
-      icon: "warning",
-      showDenyButton: true,
-      showCancelButton: true,
-      confirmButtonText: t("save") || "Guardar cambios",
-      denyButtonText: t("discard") || "Salir sin guardar",
-      cancelButtonText: t("cancel") || "Cancelar",
-      onConfirm: () => guardarCambios(),
-      onDeny: () => {
-        setValoresEditables((prev) => ({ ...prev, [campo]: usuario[campo] }));
-        setModoEdicion((prev) => ({ ...prev, [campo]: false }));
-      },
-    });
-  };
-
   const guardarCambios = async () => {
     const camposActualizados = {};
-
     if (usuario.nombre_usuario !== valoresEditables.nombre_usuario) {
       camposActualizados.nombre_usuario = valoresEditables.nombre_usuario;
     }
-
-    if (usuario.email !== valoresEditables.email) {
-      camposActualizados.email = valoresEditables.email;
-    }
-
     if (imagenCambiada && avatarSeleccionado !== usuario.imagen) {
       camposActualizados.imagen = avatarSeleccionado;
     }
@@ -127,22 +113,11 @@ const Perfil = () => {
       icon: "success"
     });
 
-    setModoEdicion({ nombre_usuario: false, email: false });
+    setModoEdicion({ nombre_usuario: false });
     setImagenCambiada(false);
   };
 
   const hayCambios = Object.values(modoEdicion).some(Boolean) || imagenCambiada;
-
-  const mostrarNotificacionInformativa = () => {
-    mostrarNotificacion({
-      title: t("toastTitle"),
-      text: t("toastMessage"),
-      icon: "info",
-      toast: true,
-      timer: 2500,
-      position: "top-end"
-    });
-  };
 
   if (!usuario) {
     return (
@@ -155,34 +130,14 @@ const Perfil = () => {
   return (
     <div className="perfil-container">
       <div className="ballpit-background">
-        <Ballpit
-          count={200}
-          gravity={1.5}
-          friction={0.9}
-          wallBounce={0.95}
-          followCursor={false}
-          colors={["#6fa8dc", "#a64dff", "#ff6666", "#f0f0f0", "#0f380f"]}
-          ambientColor={0xffffff}
-          ambientIntensity={0.8}
-          lightIntensity={100}
-          minSize={0.3}
-          maxSize={0.8}
-        />
+        <Ballpit count={200} gravity={1.5} colors={["#6fa8dc", "#a64dff", "#ff6666", "#f0f0f0", "#0f380f"]} />
       </div>
 
       <div className="perfil-card">
         <div className="perfil-contenido">
           <div className="perfil-avatar">
-            <img
-              src={avatarSeleccionado || imagenPorDefecto}
-              alt={t("title")}
-              className="perfil-avatar-img"
-            />
-
-            <button
-              className="boton-pixel boton-avatar"
-              onClick={() => setModalAbierto(true)}
-            >
+            <img src={avatarSeleccionado || imagenPorDefecto} alt={t("title")} className="perfil-avatar-img" />
+            <button className="boton-pixel boton-avatar" onClick={() => setModalAbierto(true)}>
               ✨ {t("chooseAvatar")}
             </button>
           </div>
@@ -191,13 +146,8 @@ const Perfil = () => {
             <div className="perfil-editable perfil-campo-editable">
               {!modoEdicion.nombre_usuario ? (
                 <>
-                  <EditIcon
-                    className="icono-editar"
-                    onClick={() => activarEdicion("nombre_usuario")}
-                  />
-                  <p className="perfil-titulo pixelated">
-                    {valoresEditables.nombre_usuario}
-                  </p>
+                  <EditIcon className="icono-editar" onClick={() => activarEdicion("nombre_usuario")} />
+                  <p className="perfil-titulo pixelated">{valoresEditables.nombre_usuario}</p>
                 </>
               ) : (
                 <div className="campo-edicion">
@@ -206,62 +156,13 @@ const Perfil = () => {
                     value={valoresEditables.nombre_usuario}
                     onChange={manejarCambio}
                     onKeyDown={(e) => {
-                      if (e.key === "Enter")
-                        desactivarEdicion("nombre_usuario");
+                      if (e.key === "Enter") guardarCambios();
                       if (e.key === "Escape") cancelarEdicion("nombre_usuario");
                     }}
                     autoFocus
                     className="input-editar"
                   />
-                  <button
-                    className="boton-cancelar-edicion"
-                    onClick={() => cancelarEdicion("nombre_usuario")}
-                  >
-                    ✖️
-                  </button>
-                </div>
-              )}
-            </div>
-
-            {/* Email */}
-            <div className="perfil-editable perfil-campo-editable">
-              {!modoEdicion.email ? (
-                <>
-                  <EditIcon
-                    className="icono-editar"
-                    onClick={() => activarEdicion("email")}
-                  />
-                  <span className="perfil-email-container">
-                    <span className="perfil-label">{t("email")}: </span>
-                    <DecryptedText
-                      text={valoresEditables.email}
-                      speed={60}
-                      maxIterations={10}
-                      sequential={true}
-                      revealDirection="start"
-                      className="perfil-texto"
-                      parentClassName="perfil-decrypt-container"
-                      encryptedClassName="perfil-encrypted"
-                    />
-                  </span>
-                </>
-              ) : (
-                <div className="campo-edicion">
-                  <input
-                    name="email"
-                    value={valoresEditables.email}
-                    onChange={manejarCambio}
-                    onKeyDown={(e) => {
-                      if (e.key === "Enter") desactivarEdicion("email");
-                      if (e.key === "Escape") cancelarEdicion("email");
-                    }}
-                    autoFocus
-                    className="input-editar"
-                  />
-                  <button
-                    className="boton-cancelar-edicion"
-                    onClick={() => cancelarEdicion("email")}
-                  >
+                  <button className="boton-cancelar-edicion" onClick={() => cancelarEdicion("nombre_usuario")}>
                     ✖️
                   </button>
                 </div>
@@ -269,13 +170,25 @@ const Perfil = () => {
             </div>
 
             <p>
+              <span className="perfil-label">{t("email")}</span>{" "}
+              <DecryptedText
+                text={usuario.email}
+                speed={60}
+                maxIterations={10}
+                sequential
+                className="perfil-texto"
+                parentClassName="perfil-decrypt-container"
+                encryptedClassName="perfil-encrypted"
+              />
+            </p>
+
+            <p>
               <span className="perfil-label">{t("role")}</span>{" "}
               <DecryptedText
                 text={usuario.rol || "Usuario"}
                 speed={60}
                 maxIterations={10}
-                sequential={true}
-                revealDirection="start"
+                sequential
                 className="perfil-texto"
                 parentClassName="perfil-decrypt-container"
                 encryptedClassName="perfil-encrypted"
@@ -291,8 +204,7 @@ const Perfil = () => {
               text={new Date(usuario.fecha_registro).toLocaleDateString()}
               speed={50}
               maxIterations={8}
-              sequential={true}
-              revealDirection="end"
+              sequential
               className="perfil-texto"
               parentClassName="perfil-decrypt-container"
               encryptedClassName="perfil-encrypted"
@@ -305,13 +217,7 @@ const Perfil = () => {
 
           <div className="perfil-botones">
             {hayCambios && (
-              <StarBorder
-                as="button"
-                className="boton-pixel boton-guardar"
-                color="purple"
-                speed="2s"
-                onClick={guardarCambios}
-              >
+              <StarBorder as="button" className="boton-pixel boton-guardar" color="purple" speed="2s" onClick={guardarCambios}>
                 💾 {t("saveChanges") || "Guardar Cambios"}
               </StarBorder>
             )}
@@ -325,15 +231,22 @@ const Perfil = () => {
             >
               {t("changeLanguageButton")}
             </StarBorder>
+
+            <StarBorder
+              as="button"
+              className="boton-pixel boton-password"
+              color="red"
+              speed="2s"
+              onClick={() => navegar("/cambiar-password")}
+            >
+              🔒 {t("changePasswordButton") || "Cambiar Contraseña"}
+            </StarBorder>
           </div>
         </div>
       </div>
 
       {/* 🌟 Modal de selección de avatar */}
-      <div
-        className={`modal-overlay ${modalAbierto ? "visible" : "hidden"}`}
-        onClick={() => setModalAbierto(false)}
-      >
+      <div className={`modal-overlay ${modalAbierto ? "visible" : "hidden"}`} onClick={() => setModalAbierto(false)}>
         <div className="modal-avatar" onClick={(e) => e.stopPropagation()}>
           <h2>{t("chooseAvatar")}</h2>
           <div className="galeria-avatars">
@@ -342,9 +255,7 @@ const Perfil = () => {
                 key={index}
                 src={url}
                 loading="eager"
-                className={`avatar-opcion ${
-                  avatarSeleccionado === url ? "seleccionado" : ""
-                }`}
+                className={`avatar-opcion ${avatarSeleccionado === url ? "seleccionado" : ""}`}
                 onClick={() => {
                   setAvatarSeleccionado(url);
                   setImagenCambiada(true);

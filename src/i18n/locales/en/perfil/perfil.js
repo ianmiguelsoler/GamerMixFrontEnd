@@ -6,10 +6,12 @@ const enProfile = {
   role: "Role:",
   creation: "Account Created:",
   chooseAvatar: "Choose an Avatar",
+
   // ✨ Botones de acción
   editButton: "✨ Edit Profile",
   changeLanguageButton: "🌐 Change Language",
   recoverPassword: "🔑 Recover Password",
+  changePasswordButton: "Change Password",
 
   // 🚫 Acceso restringido
   noAccess: "You do not have access to this page. Please log in.",

@@ -14,8 +14,15 @@ const CambiarPassword = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [repeatPassword, setRepeatPassword] = useState("");
   const { t } = useTranslation("cambiarPassword");
-  const { actualizarDato, cambiarPassword, errorUsuario, limpiarError, datosSesion } =
-    useContext(contextoSesion);
+  const {
+    actualizarDato,
+    cambiarPassword,
+    errorUsuario,
+    limpiarError,
+    datosSesion,
+    usuario,
+  } = useContext(contextoSesion);
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -39,7 +46,6 @@ const CambiarPassword = () => {
 
   const handleSubmit = async () => {
     const newPassword = datosSesion.password;
-
 
     if (!newPassword || newPassword.length < 6) {
       mostrarNotificacion({
@@ -106,6 +112,14 @@ const CambiarPassword = () => {
       handleSubmit();
     }
   };
+
+  if (!usuario) {
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <p className="text-gray-700 text-lg">{t("noAccess")}</p>
+      </div>
+    );
+  }
 
   return (
     <div className="gamboy-div-principal-contenido">

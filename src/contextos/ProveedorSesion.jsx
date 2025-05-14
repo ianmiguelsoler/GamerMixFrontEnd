@@ -145,31 +145,37 @@ const ProveedorSesion = ({ children }) => {
   };
 
  const restablecerPassword = async () => {
-  try {
-    const { email } = datosSesion;
-    if (!email) {
-      setErrorUsuario("Debes escribir tu correo para recuperar la contraseña.");
-      return { success: false };
-    }
+  // try {
+  //   const { email } = datosSesion;
+  //   if (!email) {
+  //     setErrorUsuario("Debes escribir tu correo para recuperar la contraseña.");
+  //     return { success: false };
+  //   }
 
-    const { error } = await supabaseConexion.auth.resetPasswordForEmail(email, {
-      redirectTo: "https://ianmiguelsoler.github.io/GamerMixFrontEnd/#/cambiar-password",
-    });
+  //   const { error } = await supabaseConexion.auth.resetPasswordForEmail(email, {
+  //     redirectTo: "https://ianmiguelsoler.github.io/GamerMixFrontEnd/#/cambiar-password",
+  //   });
 
-    if (error) throw error;
+  //   if (error) throw error;
 
-    setErrorUsuario("");
-    return { success: true };
-  } catch (error) {
-    setErrorUsuario(error.message);
-    return { success: false, error: error.message };
-  }
+  //   setErrorUsuario("");
+  //   return { success: true };
+  // } catch (error) {
+  //   setErrorUsuario(error.message);
+  //   return { success: false, error: error.message };
+  // }
 };
 
 
-  const cambiarPassword = async () => {
+const cambiarPassword = async () => {
   try {
     const { password } = datosSesion;
+
+    // Validación personalizada
+    if (password.length < 6) {
+      return { success: false, error: "weakPassword" };
+    }
+
     const { error } = await supabaseConexion.auth.updateUser({ password });
 
     if (error) throw error;
@@ -180,6 +186,7 @@ const ProveedorSesion = ({ children }) => {
     return { success: false };
   }
 };
+
 
 
   const limpiarError = () => {

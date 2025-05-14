@@ -13,7 +13,8 @@ const cambiarPassword = {
   errorPasswordLength: "Password must be at least 6 characters long.",
   sessionMissing: "No active session found. Please reopen the link from your email.",
   magicWelcomeTitle: "Magical Welcome!",
-  magicWelcomeText: "You can now safely change your password ✨🔐"
+  magicWelcomeText: "You can now safely change your password ✨🔐",
+  noAccess: "You do not have access to this page. Please log in.",
 };
 
 export default cambiarPassword;

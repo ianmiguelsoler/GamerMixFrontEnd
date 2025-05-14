@@ -8,6 +8,8 @@ import CrearCuenta from "../sesion/CrearCuenta.jsx";
 import IniciarSesion from "../sesion/IniciarSesion.jsx";
 import Coleccion from "../Coleccion/Coleccion.jsx";
 import ZonaDeMezcla from "../ZonaDeMezcla/ZonaDeMezcla.jsx";
+import CambiarPassword from "../sesion/recuperacionYEdicion/CambiarPassword.jsx";
+
 const RutasGamerMix = () => {
   return (
     <>
@@ -19,6 +21,7 @@ const RutasGamerMix = () => {
         <Route path="/iniciarsesion" element={<IniciarSesion />} />
         <Route path="/coleccion" element={<Coleccion />} />
         <Route path="/jugar" element={<ZonaDeMezcla />} />
+        <Route path="/cambiar-password" element={<CambiarPassword />} /> 
         <Route path="*" element={<Error />} />
       </Routes>
     </>

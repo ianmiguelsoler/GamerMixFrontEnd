@@ -108,6 +108,32 @@
   cursor: pointer;
   transition: all 0.2s ease;
 }
+.forgot-password-text {
+  display: block;
+  margin-top: 12px;
+  text-align: center;
+  font-family: "Press Start 2P", monospace;
+  font-size: 13px;
+  color: #7f5af0;
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-decoration: underline;
+  transition: color 0.3s ease, transform 0.2s ease;
+  padding: 6px 12px;
+  width: 100%;
+}
+
+.forgot-password-text:hover {
+  color: #c77dff;
+  transform: scale(1.03);
+}
+
+.forgot-password-text:focus {
+  outline: none;
+  color: #e0aaff;
+  text-shadow: 0 0 4px #c77dff;
+}
 
 .btn-a {
   background: linear-gradient(135deg, #f43f5e, #f87171);
@@ -305,6 +331,42 @@
     font-size: 4vw;
     margin-bottom: 5vw;
   }
+
+.forgot-password-text {
+  display: block;
+  margin: 20px auto 0;
+  padding: 12px 16px;
+  width: 90%;
+  max-width: 280px;
+  background-color: rgba(17, 24, 39, 0.9); 
+  border: 2px dashed #c084fc;             
+  border-radius: 14px;
+  text-align: center;
+  font-family: "Press Start 2P", monospace;
+  font-size: 10px;
+  color: #f9f9ff;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  box-shadow: 0 0 8px rgba(199, 125, 255, 0.4);
+  backdrop-filter: blur(2px);
+  z-index: 2;
+  position: relative;
+}
+
+.forgot-password-text:hover {
+  background-color: rgba(39, 39, 60, 0.95);
+  color: #e9d5ff;
+  transform: scale(1.02);
+  box-shadow: 0 0 10px rgba(199, 125, 255, 0.6);
+}
+
+.forgot-password-text:focus {
+  outline: none;
+  box-shadow: 0 0 10px #c084fc;
+  text-shadow: 0 0 2px #c084fc;
+}
+
+
 
   .toggle-icon {
     right: 5vw;

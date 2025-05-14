@@ -8,18 +8,23 @@ import Ballpit from "../../../bibliotecas/Ballpit.jsx";
 import ShinyText from "../../../bibliotecas/ShinyText.jsx";
 import RandomSkinBackground from "../../../bibliotecas/RandomSkinBackground.jsx";
 import { contextoSesion } from "../../../contextos/ProveedorSesion.jsx";
-import { mostrarNotificacion } from "../../../bibliotecas/notificacionesUsuario/notificacionesUsuario.js"; // ✅ Nuevo
+import { mostrarNotificacion } from "../../../bibliotecas/notificacionesUsuario/notificacionesUsuario.js";
 
 const IniciarSesion = () => {
   const [showPassword, setShowPassword] = useState(false);
   const { t } = useTranslation("login");
-  const { actualizarDato, iniciarSesion } = useContext(contextoSesion);
+  const {
+    actualizarDato,
+    iniciarSesion,
+    restablecerPassword,
+    datosSesion,
+    errorUsuario,
+  } = useContext(contextoSesion);
 
   const handleLogin = async () => {
     const resultado = await iniciarSesion();
 
     if (resultado.success) {
-      // ✅ Alerta: Inicio de sesión exitoso
       mostrarNotificacion({
         title: t("connected"),
         text: t("successMessage"),
@@ -29,7 +34,6 @@ const IniciarSesion = () => {
         timer: 4000,
       });
     } else {
-      // ❌ Alerta: Error al iniciar sesión
       mostrarNotificacion({
         title: t("errorTitle"),
         text: resultado.message || t("errorMessage"),
@@ -43,6 +47,38 @@ const IniciarSesion = () => {
     if (e.key === "Enter") {
       e.preventDefault();
       handleLogin();
+    }
+  };
+
+  const handleForgotPassword = async () => {
+    if (!datosSesion.email) {
+      mostrarNotificacion({
+        title: t("forgotPasswordEmptyTitle"),
+        text: t("forgotPasswordEmptyText"),
+        icon: "warning",
+        confirmButtonText: "OK",
+      });
+      return;
+    }
+
+    const resultado = await restablecerPassword();
+
+    if (!resultado.success) {
+      mostrarNotificacion({
+        title: t("forgotPasswordErrorTitle"),
+        text: resultado.error || t("forgotPasswordErrorText"),
+        icon: "error",
+        confirmButtonText: "OK",
+      });
+    } else {
+      mostrarNotificacion({
+        title: t("forgotPasswordSuccessTitle"),
+        text: t("forgotPasswordSuccessText"),
+        icon: "info",
+        toast: true,
+        position: "top",
+        timer: 5000,
+      });
     }
   };
 
@@ -94,6 +130,14 @@ const IniciarSesion = () => {
                     )}
                   </div>
                 </div>
+
+                <button
+                  type="button"
+                  className="forgot-password-text"
+                  onClick={handleForgotPassword}
+                >
+                  {t("forgotPassword")}
+                </button>
               </form>
             </div>
           </div>

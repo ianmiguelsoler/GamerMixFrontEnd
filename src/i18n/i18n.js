@@ -38,6 +38,10 @@ import enZonaDeMezcla from "./locales/en/zonaDeMezcla/zonaDeMezcla.js";
 import esGestionUsuarios from "./locales/es/gestionUsuarios/gestionUsuarios.js";
 import enGestionUsuarios from "./locales/en/gestionUsuarios/gestionUsuarios.js";
 
+// Cambiar Contraseña
+import esCambiarPassword from "./locales/es/cambiarPassword/cambiarPassword.js";
+import enCambiarPassword from "./locales/en/cambiarPassword/cambiarPassword.js";
+
 const resources = {
   es: {
     navegacion: esNavegacion,
@@ -49,6 +53,7 @@ const resources = {
     perfil: esPerfil,
     zonaDeMezcla: esZonaDeMezcla,
     gestionUsuarios: esGestionUsuarios,
+    cambiarPassword: esCambiarPassword,
   },
   en: {
     navegacion: enNavegacion,
@@ -60,6 +65,7 @@ const resources = {
     perfil: enPerfil,
     zonaDeMezcla: enZonaDeMezcla,
     gestionUsuarios: enGestionUsuarios,
+    cambiarPassword: enCambiarPassword,
   },
 };
 
@@ -79,6 +85,7 @@ i18n
       "perfil",
       "zonaDeMezcla",
       "gestionUsuarios",
+      "cambiarPassword",
     ],
     defaultNS: "navegacion",
     interpolation: {

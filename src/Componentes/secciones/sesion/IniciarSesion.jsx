@@ -25,6 +25,7 @@ const IniciarSesion = () => {
     const resultado = await iniciarSesion();
 
     if (resultado.success) {
+      // ✅ Alerta: Inicio de sesión exitoso
       mostrarNotificacion({
         title: t("connected"),
         text: t("successMessage"),
@@ -34,6 +35,7 @@ const IniciarSesion = () => {
         timer: 4000,
       });
     } else {
+      // ❌ Alerta: Error al iniciar sesión
       mostrarNotificacion({
         title: t("errorTitle"),
         text: resultado.message || t("errorMessage"),

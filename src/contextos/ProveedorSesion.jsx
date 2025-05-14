@@ -14,13 +14,19 @@ const ProveedorSesion = ({ children }) => {
     email: "",
     password: "",
   };
+  
+  const usuarioInicial = null;
+  const errorUsuarioInicial = "";
+  const sesionIniciadaInicial = false;
+
 
   const [datosSesion, setDatosSesion] = useState(datosSesionInicial);
-  const [usuario, setUsuario] = useState(null);
-  const [errorUsuario, setErrorUsuario] = useState("");
-  const [sesionIniciada, setSesionIniciada] = useState(false);
+  const [usuario, setUsuario] = useState(usuarioInicial);
+  const [errorUsuario, setErrorUsuario] = useState(errorUsuarioInicial);
+  const [sesionIniciada, setSesionIniciada] = useState(sesionIniciadaInicial);
   const [imagenesDisponibles] = useState(imagenesPredefinidas);
 
+  // Actualiza los datos de inicio de sesión conforme se escribe en los campos del formulario.
   const actualizarDato = (evento) => {
     const { name, value } = evento.target;
     setDatosSesion({ ...datosSesion, [name]: value });
@@ -52,8 +58,12 @@ const ProveedorSesion = ({ children }) => {
         .from("users")
         .insert([{ id: userId, nombre_usuario, email }]);
 
-      if (insertError) return { success: false, error: insertError.message };
-
+    if (insertError) {
+      if (insertError.code === "23505" || insertError.message.includes("duplicate key")) {
+        return { success: false, error: "emailAlreadyRegistered" };
+      }
+      return { success: false, error: insertError.message };
+    }
       return { success: true };
     } catch (error) {
       return { success: false, error: error.message };
@@ -97,7 +107,7 @@ const ProveedorSesion = ({ children }) => {
             .single();
 
         if (profileError) throw profileError;
-
+            
         setUsuario({
           id: userId,
           nombre_usuario: profileData.nombre_usuario,
@@ -177,66 +187,67 @@ const ProveedorSesion = ({ children }) => {
   };
 
   const cerrarSesion = async () => {
-    try {
+      try {
+      // Llama a la función de Supabase para cerrar sesión.
       await supabaseConexion.auth.signOut();
-      setUsuario(null);
-      setSesionIniciada(false);
-      setErrorUsuario("");
-      navegar("/iniciarsesion");
+      setUsuario(usuarioInicial); // Resetea el usuario.
+      setSesionIniciada(false); // Marca la sesión como cerrada.
+      setErrorUsuario(errorUsuarioInicial); // Limpia los errores.
+      navegar("/iniciarsesion"); // Redirige a la página de login.
     } catch (error) {
-      setErrorUsuario(error.message);
+      setErrorUsuario(error.message); // Guarda el mensaje de error.
     }
   };
 
   useEffect(() => {
   limpiarError();
   
-  const suscripcion = supabaseConexion.auth.onAuthStateChange((evento, session) => {
-    if (session) {
-      if (location.pathname !== "/cambiar-password") {
-        navegar("/"); // O la ruta que tú quieras como inicio
-      }
-      setSesionIniciada(true);
-      obtenerUsuario();
-    } else {
-      setSesionIniciada(false);
-      setUsuario(null);
-    }
-  });
+  // const suscripcion = supabaseConexion.auth.onAuthStateChange((evento, session) => {
+  //   if (session) {
+  //     if (location.pathname !== "/cambiar-password") {
+  //       navegar("/"); // O la ruta que tú quieras como inicio
+  //     }
+  //     setSesionIniciada(true);
+  //     obtenerUsuario();
+  //   } else {
+  //     setSesionIniciada(false);
+  //     setUsuario(null);
+  //   }
+  // });
 
   // Ejecutar también al montar el componente
   obtenerUsuario();
 
   // Limpieza al desmontar
-  return () => {
-    if (typeof suscripcion?.data?.subscription?.unsubscribe === "function") {
-      suscripcion.data.subscription.unsubscribe();
-    }
-  };
-}, []);
+  // return () => {
+  //   if (typeof suscripcion?.data?.subscription?.unsubscribe === "function") {
+  //     suscripcion.data.subscription.unsubscribe();
+  //   }
+  // };
+}, [sesionIniciada]);
 
+  const datosAExportar = {
+    datosSesion,
+    errorUsuario,
+    usuario,
+    sesionIniciada,
+    imagenesDisponibles,
+    guardarPerfilUsuario,
+    cerrarSesion,
+    actualizarDato,
+    crearCuenta,
+    iniciarSesion,
+    restablecerPassword,
+    cambiarPassword,
+    limpiarError,
+  };
 
   return (
-    <contextoSesion.Provider
-      value={{
-        datosSesion,
-        errorUsuario,
-        usuario,
-        sesionIniciada,
-        imagenesDisponibles,
-        guardarPerfilUsuario,
-        cerrarSesion,
-        actualizarDato,
-        crearCuenta,
-        iniciarSesion,
-        restablecerPassword,
-        cambiarPassword,
-        limpiarError,
-      }}
-    >
-      {children}
-    </contextoSesion.Provider>
-  );
+  // Proveedor del contexto que envuelve a los componentes hijos.
+  <contextoSesion.Provider value={datosAExportar}>
+    {children}
+  </contextoSesion.Provider>
+);
 };
 
 export default ProveedorSesion;

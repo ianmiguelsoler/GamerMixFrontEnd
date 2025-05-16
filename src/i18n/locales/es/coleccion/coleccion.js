@@ -5,10 +5,10 @@ const coleccion = {
   namePlaceholder: "Ej. Ahri",
   collectionLabel: "Colección:",
   collectionPlaceholder: "Ej. Guardiana de las estrellas",
-  mixIdLabel: "Mix ID:",
-  mixIdPlaceholder: "Ej. #4571",
   descriptionLabel: "Descripción:",
   descriptionPlaceholder: "Ej. Skin mágica con brillos",
+  onlyUnlocked: "Mostrar solo desbloqueadas",
+  clearFilters: "Limpiar filtros",
   noAccess: "No tienes acceso a esta página. Por favor, inicia sesión."
 };
 

@@ -5,7 +5,31 @@
   width: 100%;
   overflow: hidden;
 }
+.coleccion__placeholder {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 16px;
+  background: linear-gradient(135deg, #1e293b, #334155, #1e293b);
+  background-size: 400% 400%;
+  animation: fondo-movil 8s ease infinite;
+  box-shadow: 0 0 12px rgba(0, 255, 255, 0.2);
+  transition: transform 0.3s ease, box-shadow 0.4s ease, border 0.3s;
+  border: 2px solid transparent;
+  overflow: hidden;
+  z-index: 1;
+}
 
+.tilted-card-demo-text.subtitulo {
+  font-size: 0.8rem;         
+  font-weight: normal;
+  color: #93c5fd;
+  text-shadow: 0 0 4px #000;
+  margin-top: 15%;
+}
 /* Cuadro base con efecto moderno */
 .coleccion__cuadro {
   position: relative;
@@ -75,11 +99,12 @@
    MEDIA QUERY: MÓVIL
 ===================== */
 @media (max-width: 768px) {
-  .coleccion__grid {
-    grid-template-columns: repeat(1, 1fr);
-    gap: 16px;
+  .coleccion__cuadro {
+    height: 200px; /* Aumenta altura para móvil */
+    width: 200px;
   }
 }
+
 
 /* =====================
    MEDIA QUERY: DESKTOP

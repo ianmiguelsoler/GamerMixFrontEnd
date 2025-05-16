@@ -4,28 +4,13 @@ import "./Coleccion.css";
 import ColeccionImagenes from "./ColeccionImagenes.jsx";
 import ColeccionFiltros from "./ColeccionFiltros.jsx";
 import { contextoSesion } from "../../../contextos/ProveedorSesion.jsx";
-
-const TOTAL_SKINS = 12;
-const skinsDesbloqueadas = [1, 2, 4, 7, 10];
-
-const todasLasSkins = Array.from({ length: TOTAL_SKINS }, (_, i) => {
-  const id = i + 1;
-  return {
-    id,
-    nombre: `Skin ${id}`,
-    imagen: `https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Ahri_${i}.jpg`,
-    alt: `Splash art de la Skin ${id}`,
-    caption: `Ahri Skin #${id}`,
-    overlay: `Ahri edición ${id}`,
-    desbloqueada: skinsDesbloqueadas.includes(id),
-  };
-});
+import { contextoJugar } from "../../../contextos/ProveedorJugar.jsx";
 
 const Coleccion = () => {
   const { t } = useTranslation("coleccion");
   const { usuario } = useContext(contextoSesion);
+  const { galeriaFiltrada, cargando, error } = useContext(contextoJugar);
 
-   // Bloquear acceso si no hay usuario
   if (!usuario) {
     return (
       <div className="flex items-center justify-center h-screen">
@@ -34,13 +19,31 @@ const Coleccion = () => {
     );
   }
 
+  if (cargando) {
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <p className="text-gray-500">{t("loading")}</p>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <p className="text-red-500">{error}</p>
+      </div>
+    );
+  }
+
   return (
     <section className="coleccion">
-      <h1 className="coleccion__titulo">{t("title")}</h1>
+      <h1 className="coleccion__titulo">
+        Colección de {usuario.nombre_usuario || "usuario"}
+      </h1>
       <ColeccionFiltros />
       <div className="coleccion__separador"></div>
       <div className="coleccion__scrollable">
-        <ColeccionImagenes skins={todasLasSkins} />
+        <ColeccionImagenes skins={galeriaFiltrada} />
       </div>
     </section>
   );

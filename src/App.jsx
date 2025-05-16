@@ -6,6 +6,7 @@ import Pie from "./Componentes/estructura/Pie.jsx";
 import RutasGamerMix from "./Componentes/secciones/rutas/RutasGamerMix.jsx";
 import ProveedorSesion from "./contextos/ProveedorSesion.jsx";
 import AdministradorDeSonidoProvider from "./contextos/AdministradorDeSonido.jsx";
+import ProveedorJugar from "./contextos/ProveedorJugar.jsx"; 
 
 import "./App.css";
 import "primereact/resources/themes/saga-blue/theme.css";
@@ -17,6 +18,7 @@ function App() {
   return (
     <ProveedorSesion> 
     <AdministradorDeSonidoProvider>
+      <ProveedorJugar>
       <div className="app flex">
           <Navegacion />
           <div className="ml-[80px] p-6 flex-1">
@@ -27,6 +29,7 @@ function App() {
             <Pie />
           </div>
       </div>
+      </ProveedorJugar>
     </AdministradorDeSonidoProvider>
     </ProveedorSesion>
   );

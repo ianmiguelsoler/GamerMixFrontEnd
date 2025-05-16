@@ -5,13 +5,13 @@ import "./ColeccionImagenes.css";
 const ColeccionImagenes = ({ skins }) => {
   return (
     <div className="coleccion__grid">
-      {skins.map((skin) =>
-        skin.desbloqueada ? (
-          <div key={skin.id} className="coleccion__cuadro">
+      {skins.map((skin) => (
+        <div key={skin.id} className="coleccion__cuadro">
+          {skin.desbloqueada ? (
             <TiltedCard
-              imageSrc={skin.imagen}
-              altText={`Skin ${skin.id}`}
-              captionText={`Skin ${skin.id}`}
+              imageSrc={skin.image_url}
+              altText={skin.nombre_combinacion}
+              captionText={skin.nombre_combinacion}
               containerHeight="300px"
               containerWidth="200px"
               imageHeight="300px"
@@ -22,18 +22,18 @@ const ColeccionImagenes = ({ skins }) => {
               showTooltip={true}
               displayOverlayContent={true}
               overlayContent={
-                <p className="tilted-card-demo-text">Skin {skin.id}</p>
+                <>
+                  <p className="tilted-card-demo-text subtitulo">{skin.skin?.nombre_skin}</p>
+                </>
               }
             />
-          </div>
-        ) : (
-          <div key={skin.id} className="coleccion__cuadro">
-            <div className="coleccion__locked">
+          ) : (
+            <div className="coleccion__placeholder">
               <span className="candado">🔒</span>
             </div>
-          </div>
-        )
-      )}
+          )}
+        </div>
+      ))}
     </div>
   );
 };

@@ -4,24 +4,24 @@ import ShinyText from "../../../../bibliotecas/ShinyText.jsx";
 import "./ModalDetalleCombinacion.css";
 
 const ModalDetalleCombinacion = ({ combinacion, onClose }) => {
-  const [descripcionHover, setDescripcionHover] = useState("");
-  const [descripcionFijada, setDescripcionFijada] = useState("");
+  const [descripcionHover, setDescripcionHover] = useState(null);
+  const [descripcionFijada, setDescripcionFijada] = useState(null);
 
   if (!combinacion) return null;
 
   const { nombre_combinacion, descripcion, image_url, skin, elemento } = combinacion;
 
-  const mostrarDescripcion = (texto) => {
-    if (!descripcionFijada) setDescripcionHover(texto);
+  const mostrarDescripcion = (nombre, texto) => {
+    if (!descripcionFijada) setDescripcionHover({ nombre, texto });
   };
 
-  const fijarDescripcion = (texto) => {
-    setDescripcionFijada(texto);
-    setDescripcionHover(texto);
+  const fijarDescripcion = (nombre, texto) => {
+    setDescripcionFijada({ nombre, texto });
+    setDescripcionHover({ nombre, texto });
   };
 
   const limpiarHover = () => {
-    if (!descripcionFijada) setDescripcionHover("");
+    if (!descripcionFijada) setDescripcionHover(null);
   };
 
   return (
@@ -42,15 +42,19 @@ const ModalDetalleCombinacion = ({ combinacion, onClose }) => {
 
         <div className="modal-combinacion-abajo">
           <div
-            onMouseEnter={() => mostrarDescripcion(elemento?.descripcion)}
+            onMouseEnter={() =>
+              mostrarDescripcion(elemento?.nombre_elemento, elemento?.descripcion)
+            }
             onMouseLeave={limpiarHover}
-            onClick={() => fijarDescripcion(elemento?.descripcion)}
+            onClick={() =>
+              fijarDescripcion(elemento?.nombre_elemento, elemento?.descripcion)
+            }
           >
             <TiltedCard
               imageSrc={elemento?.image_url}
               altText={elemento?.nombre_elemento}
               containerHeight="160px"
-              containerWidth="120px"
+              containerWidth="200px"
               imageHeight="160px"
               imageWidth="120px"
               showTooltip={false}
@@ -61,17 +65,21 @@ const ModalDetalleCombinacion = ({ combinacion, onClose }) => {
           <span className="modal-simbolo-mas">+</span>
 
           <div
-            onMouseEnter={() => mostrarDescripcion(skin?.descripcion)}
+            onMouseEnter={() =>
+              mostrarDescripcion(skin?.nombre_skin, skin?.descripcion)
+            }
             onMouseLeave={limpiarHover}
-            onClick={() => fijarDescripcion(skin?.descripcion)}
+            onClick={() =>
+              fijarDescripcion(skin?.nombre_skin, skin?.descripcion)
+            }
           >
             <TiltedCard
               imageSrc={skin?.image_url}
               altText={skin?.nombre_skin}
               containerHeight="160px"
-              containerWidth="120px"
+              containerWidth="200px"
               imageHeight="160px"
-              imageWidth="120px"
+              imageWidth="100%"
               showTooltip={false}
               showMobileWarning={false}
             />
@@ -80,12 +88,15 @@ const ModalDetalleCombinacion = ({ combinacion, onClose }) => {
 
         <div className="descripcion-hover">
           {descripcionHover && (
-            <ShinyText
-              text={descripcionHover}
-              disabled={false}
-              speed={3}
-              className="descripcion-hover-shiny"
-            />
+            <>
+              <ShinyText
+                text={descripcionHover.nombre}
+                disabled={false}
+                speed={2}
+                className="descripcion-hover-nombre"
+              />
+              <p className="descripcion-hover-texto">{descripcionHover.texto}</p>
+            </>
           )}
         </div>
       </div>

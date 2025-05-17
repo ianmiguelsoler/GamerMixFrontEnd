@@ -34,7 +34,7 @@
 }
 
 .modal-contenido .shiny-text {
-  color: #ec0909a4; 
+  color: #a78bfa;
   background: linear-gradient(
     120deg,
     rgba(255, 255, 255, 0) 40%,
@@ -46,7 +46,7 @@
   background-clip: text;
   display: inline-block;
   animation: shine 5s linear infinite;
-  font-family: 'Press Start 2P';
+  font-family: "Press Start 2P";
 }
 
 .modal-contenido-principal {
@@ -86,6 +86,9 @@
   align-items: center;
   gap: 24px;
 }
+.descripcion-hover-nombre{
+    font-size: 1.5em;
+}
 
 .modal-simbolo-mas {
   font-size: 3rem;
@@ -93,6 +96,10 @@
   text-shadow: 0 0 6px #0ff;
 }
 
+.descripcion-hover-texto{
+    color: #e2e8f0;
+    font-size: 0.9em;
+}
 .modal-contenido-principal {
   display: block;
   position: relative;
@@ -104,7 +111,6 @@
 
 .modal-imagen-grande {
   float: left;
-  width: 300px;
   max-width: 50%;
   margin-right: 20px;
   margin-bottom: 10px;
@@ -117,12 +123,11 @@
   overflow: hidden; /* para asegurar que el texto no colapse con el float */
 }
 
-
 @media (max-width: 768px) {
   .modal-contenido {
     max-width: 95%;
-    max-height: 85vh;
-    padding: 16px;
+    max-height: 80%;
+    padding: 36px;
   }
 
   .modal-contenido-principal {
@@ -134,9 +139,10 @@
 
   .modal-descripcion {
     margin-top: 10px;
+    text-align: justify;
   }
 
-    .modal-imagen-grande {
+  .modal-imagen-grande {
     float: none;
     width: 100%;
     max-width: 100%;
@@ -148,7 +154,16 @@
     gap: 12px;
   }
 
+  .descripcion-hover{
+    text-align: justify;
+  }
   .modal-simbolo-mas {
     font-size: 2rem;
   }
+  .descripcion-hover-nombre{
+    font-size: 1em;
+}
+.descripcion-hover-texto{
+    font-size: 13px;
+}
 }

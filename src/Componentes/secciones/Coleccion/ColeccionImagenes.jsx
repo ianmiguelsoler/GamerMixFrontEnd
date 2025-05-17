@@ -2,11 +2,16 @@ import React from "react";
 import TiltedCard from "../../../bibliotecas/TiltedCard";
 import "./ColeccionImagenes.css";
 
-const ColeccionImagenes = ({ skins }) => {
+const ColeccionImagenes = ({ skins, onClickSkin }) => {
   return (
     <div className="coleccion__grid">
       {skins.map((skin) => (
-        <div key={skin.id} className="coleccion__cuadro">
+        <div
+          key={skin.id}
+          className="coleccion__cuadro"
+          onClick={() => skin.desbloqueada && onClickSkin(skin)}
+          style={{ cursor: skin.desbloqueada ? "pointer" : "default" }}
+        >
           {skin.desbloqueada ? (
             <TiltedCard
               imageSrc={skin.image_url}

@@ -14,11 +14,10 @@ const ProveedorSesion = ({ children }) => {
     email: "",
     password: "",
   };
-  
+
   const usuarioInicial = null;
   const errorUsuarioInicial = "";
   const sesionIniciadaInicial = false;
-
 
   const [datosSesion, setDatosSesion] = useState(datosSesionInicial);
   const [usuario, setUsuario] = useState(usuarioInicial);
@@ -26,7 +25,11 @@ const ProveedorSesion = ({ children }) => {
   const [sesionIniciada, setSesionIniciada] = useState(sesionIniciadaInicial);
   const [imagenesDisponibles] = useState(imagenesPredefinidas);
 
-  // Actualiza los datos de inicio de sesión conforme se escribe en los campos del formulario.
+  // 🔹 Añadidos para gestión de usuarios (solo admin)
+  const [todosLosUsuarios, setTodosLosUsuarios] = useState([]);
+  const [cargandoUsuarios, setCargandoUsuarios] = useState(false);
+  const [errorUsuarios, setErrorUsuarios] = useState(null);
+
   const actualizarDato = (evento) => {
     const { name, value } = evento.target;
     setDatosSesion({ ...datosSesion, [name]: value });
@@ -43,10 +46,7 @@ const ProveedorSesion = ({ children }) => {
         return { success: false, error: "invalidEmail" };
       if (password.length < 6) return { success: false, error: "weakPassword" };
 
-      const { data, error } = await supabaseConexion.auth.signUp({
-        email,
-        password,
-      });
+      const { data, error } = await supabaseConexion.auth.signUp({ email, password });
       if (error) {
         if (error.message.includes("already"))
           return { success: false, error: "emailAlreadyRegistered" };
@@ -58,12 +58,12 @@ const ProveedorSesion = ({ children }) => {
         .from("users")
         .insert([{ id: userId, nombre_usuario, email }]);
 
-    if (insertError) {
-      if (insertError.code === "23505" || insertError.message.includes("duplicate key")) {
-        return { success: false, error: "emailAlreadyRegistered" };
+      if (insertError) {
+        if (insertError.code === "23505" || insertError.message.includes("duplicate key")) {
+          return { success: false, error: "emailAlreadyRegistered" };
+        }
+        return { success: false, error: insertError.message };
       }
-      return { success: false, error: insertError.message };
-    }
       return { success: true };
     } catch (error) {
       return { success: false, error: error.message };
@@ -73,10 +73,7 @@ const ProveedorSesion = ({ children }) => {
   const iniciarSesion = async () => {
     try {
       const { email, password } = datosSesion;
-      const { data, error } = await supabaseConexion.auth.signInWithPassword({
-        email,
-        password,
-      });
+      const { data, error } = await supabaseConexion.auth.signInWithPassword({ email, password });
       if (error) throw error;
 
       await obtenerUsuario();
@@ -91,39 +88,87 @@ const ProveedorSesion = ({ children }) => {
 
   const obtenerUsuario = async () => {
     try {
-      const { data: sessionData, error: sessionError } =
-        await supabaseConexion.auth.getSession();
+      const { data: sessionData, error: sessionError } = await supabaseConexion.auth.getSession();
       if (sessionError) throw sessionError;
 
       if (sessionData?.session) {
         const userId = sessionData.session.user.id;
-        const { data: profileData, error: profileError } =
-          await supabaseConexion
-            .from("users")
-            .select(
-              "nombre_usuario, email, fecha_registro, nivel, rol, inhabilitado, imagen"
-            )
-            .eq("id", userId)
-            .single();
+        const { data: profileData, error: profileError } = await supabaseConexion
+          .from("users")
+          .select(
+            "nombre_usuario, email, fecha_registro, nivel, rol, inhabilitado, imagen"
+          )
+          .eq("id", userId)
+          .single();
 
         if (profileError) throw profileError;
-            
-        setUsuario({
+
+        const user = {
           id: userId,
           nombre_usuario: profileData.nombre_usuario,
           email: profileData.email,
           fecha_registro: profileData.fecha_registro,
           nivel: profileData.nivel,
-          experiencia: profileData.experiencia,
           rol: profileData.rol,
           inhabilitado: profileData.inhabilitado,
           imagen: profileData.imagen,
-        });
+        };
 
+        setUsuario(user);
         setSesionIniciada(true);
+
+        // 🔸 Si el usuario es admin, obtener la lista de usuarios
+        if (user.rol === "admin") {
+          await obtenerTodosLosUsuarios();
+        }
       }
     } catch (error) {
       setErrorUsuario(error.message);
+    }
+  };
+
+  // 🔹 Función añadida: obtener todos los usuarios (solo admin)
+  const obtenerTodosLosUsuarios = async () => {
+    try {
+      setCargandoUsuarios(true);
+      const { data, error } = await supabaseConexion
+        .from("users")
+        .select("id, nombre_usuario, email, fecha_registro, nivel, rol, inhabilitado, imagen");
+
+      if (error) throw error;
+      setTodosLosUsuarios(data);
+    } catch (error) {
+      setErrorUsuarios(error.message);
+    } finally {
+      setCargandoUsuarios(false);
+    }
+  };
+
+  const inhabilitarUsuario = async (id) => {
+    try {
+      const { error } = await supabaseConexion
+        .from("users")
+        .update({ inhabilitado: true })
+        .eq("id", id);
+
+      if (error) throw error;
+      await obtenerTodosLosUsuarios();
+    } catch (error) {
+      console.error("Error al inhabilitar usuario:", error.message);
+    }
+  };
+
+  const habilitarUsuario = async (id) => {
+    try {
+      const { error } = await supabaseConexion
+        .from("users")
+        .update({ inhabilitado: false })
+        .eq("id", id);
+
+      if (error) throw error;
+      await obtenerTodosLosUsuarios();
+    } catch (error) {
+      console.error("Error al habilitar usuario:", error.message);
     }
   };
 
@@ -144,94 +189,39 @@ const ProveedorSesion = ({ children }) => {
     }
   };
 
- const restablecerPassword = async () => {
-  // try {
-  //   const { email } = datosSesion;
-  //   if (!email) {
-  //     setErrorUsuario("Debes escribir tu correo para recuperar la contraseña.");
-  //     return { success: false };
-  //   }
-
-  //   const { error } = await supabaseConexion.auth.resetPasswordForEmail(email, {
-  //     redirectTo: "https://ianmiguelsoler.github.io/GamerMixFrontEnd/#/cambiar-password",
-  //   });
-
-  //   if (error) throw error;
-
-  //   setErrorUsuario("");
-  //   return { success: true };
-  // } catch (error) {
-  //   setErrorUsuario(error.message);
-  //   return { success: false, error: error.message };
-  // }
-};
-
-
-const cambiarPassword = async () => {
-  try {
-    const { password } = datosSesion;
-
-    // Validación personalizada
-    if (password.length < 6) {
-      return { success: false, error: "weakPassword" };
+  const cambiarPassword = async () => {
+    try {
+      const { password } = datosSesion;
+      if (password.length < 6) return { success: false, error: "weakPassword" };
+      const { error } = await supabaseConexion.auth.updateUser({ password });
+      if (error) throw error;
+      return { success: true };
+    } catch (error) {
+      setErrorUsuario(error.message);
+      return { success: false };
     }
-
-    const { error } = await supabaseConexion.auth.updateUser({ password });
-
-    if (error) throw error;
-
-    return { success: true };
-  } catch (error) {
-    setErrorUsuario(error.message);
-    return { success: false };
-  }
-};
-
-
+  };
 
   const limpiarError = () => {
-      setErrorUsuario("");
+    setErrorUsuario("");
   };
 
   const cerrarSesion = async () => {
-      try {
-      // Llama a la función de Supabase para cerrar sesión.
+    try {
       await supabaseConexion.auth.signOut();
-      setUsuario(usuarioInicial); // Resetea el usuario.
-      setSesionIniciada(false); // Marca la sesión como cerrada.
-      setErrorUsuario(errorUsuarioInicial); // Limpia los errores.
-      navegar("/iniciarsesion"); // Redirige a la página de login.
+      setUsuario(usuarioInicial);
+      setSesionIniciada(false);
+      setErrorUsuario(errorUsuarioInicial);
+      navegar("/iniciarsesion");
     } catch (error) {
-      setErrorUsuario(error.message); // Guarda el mensaje de error.
+      setErrorUsuario(error.message);
     }
   };
 
   useEffect(() => {
-  limpiarError();
-  
-  // const suscripcion = supabaseConexion.auth.onAuthStateChange((evento, session) => {
-  //   if (session) {
-  //     if (location.pathname !== "/cambiar-password") {
-  //       navegar("/"); // O la ruta que tú quieras como inicio
-  //     }
-  //     setSesionIniciada(true);
-  //     obtenerUsuario();
-  //   } else {
-  //     setSesionIniciada(false);
-  //     setUsuario(null);
-  //   }
-  // });
-
-  // Ejecutar también al montar el componente
-  obtenerUsuario();
-
-  // Limpieza al desmontar
-  // return () => {
-  //   if (typeof suscripcion?.data?.subscription?.unsubscribe === "function") {
-  //     suscripcion.data.subscription.unsubscribe();
-  //   }
-  // };
-}, [sesionIniciada]);
+    limpiarError();
+    obtenerUsuario();
+  }, [sesionIniciada]);
 
   const datosAExportar = {
     datosSesion,
@@ -244,17 +234,20 @@ const cambiarPassword = async () => {
     actualizarDato,
     crearCuenta,
     iniciarSesion,
-    restablecerPassword,
     cambiarPassword,
     limpiarError,
+    todosLosUsuarios,
+    cargandoUsuarios,
+    errorUsuarios,
+    inhabilitarUsuario,
+    habilitarUsuario,
   };
 
   return (
-  // Proveedor del contexto que envuelve a los componentes hijos.
-  <contextoSesion.Provider value={datosAExportar}>
-    {children}
-  </contextoSesion.Provider>
-);
+    <contextoSesion.Provider value={datosAExportar}>
+      {children}
+    </contextoSesion.Provider>
+  );
 };
 
 export default ProveedorSesion;

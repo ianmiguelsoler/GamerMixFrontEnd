@@ -24,7 +24,7 @@
 }
 
 .tilted-card-demo-text.subtitulo {
-  font-size: 0.8rem;         
+  font-size: 0.8rem;
   font-weight: normal;
   color: #93c5fd;
   text-shadow: 0 0 4px #000;
@@ -39,10 +39,19 @@
   align-items: center;
   justify-content: center;
   border-radius: 16px;
-  background: linear-gradient(135deg, #1e293b, #334155, #1e293b);
-  background-size: 400% 400%;
-  animation: fondo-movil 8s ease infinite;
-  box-shadow: 0 0 12px rgba(0, 255, 255, 0.2);
+  background: linear-gradient(
+    135deg,
+    #1e293b,
+    #334155,
+    #0f172a,
+    #334155,
+    #1e293b
+  );
+  background-size: 500% 500%;
+  animation: fondo-movil 10s ease-in-out infinite;
+
+  box-shadow: 0 0 16px rgba(0, 255, 255, 0.3), 0 0 8px rgba(147, 51, 234, 0.2);
+
   transition: transform 0.3s ease, box-shadow 0.4s ease, border 0.3s;
   border: 2px solid transparent;
   overflow: hidden;
@@ -60,8 +69,14 @@
   0% {
     background-position: 0% 50%;
   }
+  25% {
+    background-position: 50% 0%;
+  }
   50% {
     background-position: 100% 50%;
+  }
+  75% {
+    background-position: 50% 100%;
   }
   100% {
     background-position: 0% 50%;
@@ -104,7 +119,6 @@
     width: 200px;
   }
 }
-
 
 /* =====================
    MEDIA QUERY: DESKTOP

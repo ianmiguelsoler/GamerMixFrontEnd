@@ -126,8 +126,8 @@
 @media (max-width: 768px) {
   .modal-contenido {
     max-width: 95%;
-    max-height: 80%;
-    padding: 36px;
+    max-height: 63%;
+    padding: 19px;
   }
 
   .modal-contenido-principal {

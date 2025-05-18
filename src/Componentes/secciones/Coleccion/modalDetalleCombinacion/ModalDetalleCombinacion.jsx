@@ -27,6 +27,7 @@ const ModalDetalleCombinacion = ({ combinacion, onClose }) => {
   return (
     <div className="modal-overlay" onClick={onClose}>
       <div className="modal-contenido" onClick={(e) => e.stopPropagation()}>
+        <button className="modal-cerrar-boton" onClick={onClose}>×</button>
         <div className="modal-cabecera">{nombre_combinacion}</div>
 
         <div className="modal-contenido-principal">

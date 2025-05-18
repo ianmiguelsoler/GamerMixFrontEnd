@@ -3,12 +3,14 @@ import { supabaseConexion } from "../config/supabase.js";
 import { useNavigate } from "react-router-dom";
 import imagenesPredefinidas from "../assets/imagenesPerfilUrls.js";
 import { useLocation } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 const contextoSesion = createContext();
 
 const ProveedorSesion = ({ children }) => {
   const navegar = useNavigate();
   const location = useLocation();
+  const { t, i18n } = useTranslation("login");
 
   const datosSesionInicial = {
     email: "",
@@ -46,7 +48,10 @@ const ProveedorSesion = ({ children }) => {
         return { success: false, error: "invalidEmail" };
       if (password.length < 6) return { success: false, error: "weakPassword" };
 
-      const { data, error } = await supabaseConexion.auth.signUp({ email, password });
+      const { data, error } = await supabaseConexion.auth.signUp({
+        email,
+        password,
+      });
       if (error) {
         if (error.message.includes("already"))
           return { success: false, error: "emailAlreadyRegistered" };
@@ -59,7 +64,10 @@ const ProveedorSesion = ({ children }) => {
         .insert([{ id: userId, nombre_usuario, email }]);
 
       if (insertError) {
-        if (insertError.code === "23505" || insertError.message.includes("duplicate key")) {
+        if (
+          insertError.code === "23505" ||
+          insertError.message.includes("duplicate key")
+        ) {
           return { success: false, error: "emailAlreadyRegistered" };
         }
         return { success: false, error: insertError.message };
@@ -73,9 +81,28 @@ const ProveedorSesion = ({ children }) => {
   const iniciarSesion = async () => {
     try {
       const { email, password } = datosSesion;
-      const { data, error } = await supabaseConexion.auth.signInWithPassword({ email, password });
+      const { data, error } = await supabaseConexion.auth.signInWithPassword({
+        email,
+        password,
+      });
       if (error) throw error;
 
+      const { data: sessionData } = await supabaseConexion.auth.getSession();
+      const userId = sessionData.session.user.id;
+      const { data: profileData, error: profileError } = await supabaseConexion
+        .from("users")
+        .select("inhabilitado")
+        .eq("id", userId)
+        .single();
+
+      if (profileError) throw profileError;
+      if (profileData.inhabilitado) {
+        await supabaseConexion.auth.signOut();
+        return {
+          success: false,
+          message: t("accountSuspendedMessage"),
+        };
+      }
       await obtenerUsuario();
       setSesionIniciada(true);
       navegar("/perfil");
@@ -88,18 +115,20 @@ const ProveedorSesion = ({ children }) => {
 
   const obtenerUsuario = async () => {
     try {
-      const { data: sessionData, error: sessionError } = await supabaseConexion.auth.getSession();
+      const { data: sessionData, error: sessionError } =
+        await supabaseConexion.auth.getSession();
       if (sessionError) throw sessionError;
 
       if (sessionData?.session) {
         const userId = sessionData.session.user.id;
-        const { data: profileData, error: profileError } = await supabaseConexion
-          .from("users")
-          .select(
-            "nombre_usuario, email, fecha_registro, nivel, rol, inhabilitado, imagen"
-          )
-          .eq("id", userId)
-          .single();
+        const { data: profileData, error: profileError } =
+          await supabaseConexion
+            .from("users")
+            .select(
+              "nombre_usuario, email, fecha_registro, nivel, rol, inhabilitado, imagen"
+            )
+            .eq("id", userId)
+            .single();
 
         if (profileError) throw profileError;
 
@@ -117,7 +146,6 @@ const ProveedorSesion = ({ children }) => {
         setUsuario(user);
         setSesionIniciada(true);
 
-        // 🔸 Si el usuario es admin, obtener la lista de usuarios
         if (user.rol === "admin") {
           await obtenerTodosLosUsuarios();
         }
@@ -127,13 +155,14 @@ const ProveedorSesion = ({ children }) => {
     }
   };
 
-  // 🔹 Función añadida: obtener todos los usuarios (solo admin)
   const obtenerTodosLosUsuarios = async () => {
     try {
       setCargandoUsuarios(true);
       const { data, error } = await supabaseConexion
         .from("users")
-        .select("id, nombre_usuario, email, fecha_registro, nivel, rol, inhabilitado, imagen");
+        .select(
+          "id, nombre_usuario, email, fecha_registro, nivel, rol, inhabilitado, imagen"
+        );
 
       if (error) throw error;
       setTodosLosUsuarios(data);

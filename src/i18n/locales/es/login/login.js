@@ -16,7 +16,9 @@ const login = {
   forgotPasswordErrorTitle: "Error", 
   forgotPasswordErrorText: "Ha ocurrido un error al enviar el correo.",
   forgotPasswordSuccessTitle: "Revisa tu correo", 
-  forgotPasswordSuccessText: "Te hemos enviado un enlace para cambiar tu contraseña 🔒" 
+  forgotPasswordSuccessText: "Te hemos enviado un enlace para cambiar tu contraseña 🔒",
+  accountSuspendedMessage: "Tu cuenta ha sido suspendida. Contacta con soporte en gamermix@gmail.com",
+
 };
 
 export default login;

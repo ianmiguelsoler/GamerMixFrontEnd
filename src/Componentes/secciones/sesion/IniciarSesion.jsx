@@ -1,6 +1,5 @@
 import React, { useState, useContext } from "react";
 import { useTranslation } from "react-i18next";
-import { useNavigate } from "react-router-dom";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import "./IniciarSesion.css";
 
@@ -18,14 +17,13 @@ const IniciarSesion = () => {
     iniciarSesion,
     restablecerPassword,
     datosSesion,
-    errorUsuario,
   } = useContext(contextoSesion);
 
   const handleLogin = async () => {
     const resultado = await iniciarSesion();
 
     if (resultado.success) {
-      // ✅ Alerta: Inicio de sesión exitoso
+      // ✅ Inicio exitoso
       mostrarNotificacion({
         title: t("connected"),
         text: t("successMessage"),
@@ -35,13 +33,27 @@ const IniciarSesion = () => {
         timer: 4000,
       });
     } else {
-      // ❌ Alerta: Error al iniciar sesión
-      mostrarNotificacion({
-        title: t("errorTitle"),
-        text: resultado.message || t("errorMessage"),
-        icon: "error",
-        confirmButtonText: "OK",
-      });
+      // ❌ Si la cuenta está suspendida
+      if (
+        resultado.message &&
+        resultado.message.toLowerCase().includes("suspendida")
+      ) {
+        mostrarNotificacion({
+          title: "Cuenta suspendida",
+          text:
+            "Tu cuenta ha sido suspendida. Contacta con soporte en gamermix@gmail.com",
+          icon: "error",
+          confirmButtonText: "OK",
+        });
+      } else {
+        // ❌ Error general de login
+        mostrarNotificacion({
+          title: t("errorTitle"),
+          text: resultado.message || t("errorMessage"),
+          icon: "error",
+          confirmButtonText: "OK",
+        });
+      }
     }
   };
 

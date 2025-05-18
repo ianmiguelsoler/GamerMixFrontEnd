@@ -6,6 +6,7 @@
   box-shadow: 0 4px 6px rgba(255, 255, 255, 0.05);
   color: white;
   overflow-x: auto;
+  min-height: 52vh;
 }
 
 /* Título */
@@ -126,7 +127,6 @@
 .usuarios-table td {
   padding: 12px 8px;
   text-align: center;
-  border-bottom: 1px solid #333;
   color: #eaeaea;
   white-space: nowrap;
 }

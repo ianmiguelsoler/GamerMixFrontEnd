@@ -71,6 +71,24 @@
   border-color: #f87171;
   box-shadow: 3px 3px 0 #f87171;
 }
+.navegacion__icono.logout {
+  background: linear-gradient(135deg, #3b0764, #7c3aed);
+  border: 2px solid #8b5cf6;
+  color: #ffffff;
+  box-shadow: 0 0 6px #a78bfa, 0 0 2px #c4b5fd;
+  font-weight: bold;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.navegacion__icono.logout:hover {
+  background: linear-gradient(135deg, #5b21b6, #6d28d9);
+  box-shadow: 0 0 12px #a78bfa;
+  transform: scale(1.05);
+}
+
+.navegacion__icono.logout .navegacion__texto {
+  color: #fff;
+}
 
 
 .navegacion__boton-idioma {
@@ -105,7 +123,7 @@
     justify-content: center;
     align-items: center;
     position: fixed;
-    top: 63px;
+    top: 3%;
     left: 40px;
     width: 48px;
     height: 48px;

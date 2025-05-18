@@ -378,21 +378,61 @@
     justify-content: space-between;
     align-items: flex-end;
     margin-top: 6vh;
-    gap: 8vw;
+    gap: 4vw;
   }
 
   .dpad {
-    width: 20vw;
-    height: 20vw;
-    padding-right: 0;
-    margin-left: 4vw;
-  }
+  position: relative;
+  width: 18vw;
+  height: 18vw;
+  margin-left: 0;
+  display: grid;
+  place-items: center;
+}
 
-  .dpad div,
-  .dpad .center {
-    width: 6vw;
-    height: 6vw;
-  }
+.dpad .up,
+.dpad .down,
+.dpad .left,
+.dpad .right,
+.dpad .center {
+  width: 6vw;
+  height: 6vw;
+  background: #1e293b;
+  border-radius: 4px;
+  box-shadow: 0 0 6px rgba(0, 255, 255, 0.4);
+  position: absolute;
+}
+
+.dpad .up {
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.dpad .down {
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.dpad .left {
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.dpad .right {
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.dpad .center {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
 
   .btn-group {
     gap: 1vw;

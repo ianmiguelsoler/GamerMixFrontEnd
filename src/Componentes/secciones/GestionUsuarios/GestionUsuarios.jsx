@@ -1,4 +1,5 @@
 import React, { useContext, useState } from "react";
+import Select from "react-select";
 import { useTranslation } from "react-i18next";
 import { motion } from "framer-motion";
 import { contextoSesion } from "../../../contextos/ProveedorSesion.jsx";
@@ -20,6 +21,7 @@ const GestionUsuarios = () => {
   const [filtroNombre, setFiltroNombre] = useState("");
   const [filtroRol, setFiltroRol] = useState("");
   const [filtroEstado, setFiltroEstado] = useState("");
+  const [filtroAvatar, setFiltroAvatar] = useState("");
   const [actualizando, setActualizando] = useState(false);
 
   if (!usuario || usuario.rol !== "admin") {
@@ -46,19 +48,52 @@ const GestionUsuarios = () => {
     setFiltroNombre("");
     setFiltroRol("");
     setFiltroEstado("");
+    setFiltroAvatar("");
   };
 
   const usuariosFiltrados = todosLosUsuarios
     .filter((user) => {
-      const nombreOk = user.nombre_usuario.toLowerCase().includes(filtroNombre.toLowerCase());
+      const nombreOk = user.nombre_usuario
+        .toLowerCase()
+        .includes(filtroNombre.toLowerCase());
       const rolOk = filtroRol === "" || user.rol === filtroRol;
       const estadoOk =
         filtroEstado === "" ||
         (filtroEstado === "habilitado" && !user.inhabilitado) ||
         (filtroEstado === "inhabilitado" && user.inhabilitado);
-      return nombreOk && rolOk && estadoOk;
+      const avatarOk = filtroAvatar === "" || user.imagen === filtroAvatar;
+      return nombreOk && rolOk && estadoOk && avatarOk;
     })
     .sort((a, b) => a.inhabilitado - b.inhabilitado);
+
+  const avataresUnicos = [...new Set(todosLosUsuarios.map((u) => u.imagen))];
+
+  const avatarOptions = [
+    { value: "", label: t("filters.all") },
+    ...avataresUnicos.map((img) => ({
+      value: img,
+      label: img,
+    })),
+  ];
+
+const formatAvatarOption = ({ value }) => {
+  if (!value) {
+    return (
+      <span style={{ fontSize: "10px", color: "#fff", textAlign: "center", width: "100%" }}>
+        {t("filters.all")}
+      </span>
+    );
+  }
+
+  return (
+    <img
+      src={value}
+      alt="avatar"
+      style={{ width: "24px", height: "24px", borderRadius: "50%" }}
+    />
+  );
+};
+
 
   return (
     <div className="gestion-usuarios-container">
@@ -102,6 +137,20 @@ const GestionUsuarios = () => {
           </select>
         </label>
 
+        <label className="filtro-label" >
+          Avatar
+          <Select
+            classNamePrefix="react-select"
+            className="react-select-container"
+            options={avatarOptions}
+            value={avatarOptions.find((opt) => opt.value === filtroAvatar)}
+            onChange={(opt) => setFiltroAvatar(opt.value)}
+            formatOptionLabel={formatAvatarOption}
+            styles={{ menuPortal: (base) => ({ ...base, zIndex: 9999 }) }}
+            isSearchable={false}
+          />
+        </label>
+
         <button className="btn-limpiar-filtros" onClick={limpiarFiltros}>
           ✨ {t("clearFilters") || "Clear filters"}
         </button>
@@ -143,10 +192,16 @@ const GestionUsuarios = () => {
               <td>{user.rol}</td>
               <td>{user.inhabilitado ? t("yes") : t("no")}</td>
               <td>
-                <img src={user.imagen} alt="avatar" className="avatar-preview" />
+                <img
+                  src={user.imagen}
+                  alt="avatar"
+                  className="avatar-preview"
+                />
               </td>
               <td className="acciones">
-                <button className="icon-button editar" title={t("edit")}><Edit /></button>
+                <button className="icon-button editar" title={t("edit")}>
+                  <Edit />
+                </button>
                 {user.inhabilitado ? (
                   <button
                     className="icon-button restaurar"

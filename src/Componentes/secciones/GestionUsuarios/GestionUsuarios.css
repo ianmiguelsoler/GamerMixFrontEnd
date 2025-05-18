@@ -105,12 +105,12 @@
   background-color: #9e79ff;
   color: white;
   border: none;
-  padding: 8px 12px;
+  padding: 20px 18px;
   border-radius: 6px;
   cursor: pointer;
   transition: background-color 0.2s ease, transform 0.2s ease;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-  margin-top: 16px;
+  margin-top: 7px;
 }
 
 .btn-limpiar-filtros:hover {
@@ -255,6 +255,59 @@
   object-fit: cover;
   border: 1px solid #ccc;
 }
+
+/* Estilo específico para el react-select de avatar */
+.react-select-container {
+  width: 180px;
+  font-size: 10px;
+  font-family: "Press Start 2P", monospace;
+}
+
+.react-select__control {
+  background-color: #1e1e1e !important;
+  border: 1px solid #ccc !important;
+  border-radius: 6px !important;
+  min-height: 38px !important;
+  box-shadow: none !important;
+  cursor: pointer;
+}
+
+.react-select__value-container {
+  padding: 4px 8px !important;
+}
+
+.react-select__single-value {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.react-select__menu {
+  background-color: #1e1e1e !important;
+  border-radius: 6px !important;
+  z-index: 10;
+}
+
+.react-select__option {
+  background-color: #1e1e1e !important;
+  color: white;
+  display: flex;
+  justify-content: center;
+  padding: 6px 0 !important;
+}
+
+.react-select__option--is-focused {
+  background-color: #9e79ff !important;
+}
+
+.react-select__indicator-separator {
+  display: none;
+}
+
+.react-select__dropdown-indicator {
+  color: #9e9e9e !important;
+}
+
 
 /* ---- MÓVILES ---- */
 @media (max-width: 767px) {

@@ -12,7 +12,7 @@ const ProveedorJugar = ({ children }) => {
   const [cargando, setCargando] = useState(true);
   const [error, setError] = useState(null);
 
-  // 📌 Función para filtrar
+// 📌 Función para filtrar
 const filtrarGaleria = (filtros) => {
   const resultadosFiltrados = galeriaCompleta.filter((item) => {
     const nombreCoincide = item.nombre_combinacion
@@ -32,17 +32,22 @@ const filtrarGaleria = (filtros) => {
       ? item.desbloqueada === true
       : true;
 
+    const avatarCoincide =
+      !filtros.avatar || filtros.avatar === item.image_url;
+
     return (
       nombreCoincide &&
       skinCoincide &&
       idCoincide &&
       descripcionCoincide &&
-      desbloqueadaCoincide
+      desbloqueadaCoincide &&
+      avatarCoincide
     );
   });
 
   setGaleriaFiltrada(resultadosFiltrados);
 };
+
 
 useEffect(() => {
   const obtenerGaleriaConDetalles = async () => {

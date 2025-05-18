@@ -10,7 +10,8 @@ const gestionUsuarios = {
     name: "Filtrar por nombre:",
     role: "Filtrar por rol:",
     status: "Filtrar por estado:",
-    all: "Todos los estados"
+    avatar: "Filtrar por avatar:",
+    all: "Todos"
   },
   clearFilters: "Eliminar filtros",
 

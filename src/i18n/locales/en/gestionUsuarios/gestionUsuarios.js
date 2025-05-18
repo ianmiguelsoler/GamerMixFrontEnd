@@ -10,7 +10,8 @@ const gestionUsuarios = {
     name: "Filter by name:",
     role: "Filter by role:",
     status: "Filter by status:",
-    all: "All statuses"
+    avatar: "Filter by avatar:",
+    all: "All avatars"
   },
   clearFilters: "Clear filters",
 

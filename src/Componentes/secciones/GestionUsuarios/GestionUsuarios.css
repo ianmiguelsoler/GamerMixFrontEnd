@@ -310,6 +310,7 @@
 
 
 /* ---- MÓVILES ---- */
+/* ---- MÓVILES ---- */
 @media (max-width: 767px) {
   .gestion-usuarios-container {
     padding: 14px;
@@ -322,6 +323,38 @@
     margin-bottom: 14px;
     text-align: center;
     line-height: 1.4;
+  }
+
+  .filtros-contenedor {
+    flex-direction: column;
+    gap: 14px;
+    align-items: stretch;
+  }
+
+  .filtro-label {
+    width: 100%;
+    font-size: 10px;
+    padding: 10px 14px;
+  }
+
+  .filtro-usuarios,
+  .filtro-select,
+  .react-select-container {
+    width: 100% !important;
+    font-size: 10px;
+    padding: 10px !important;
+    min-height: 40px;
+  }
+
+  .btn-limpiar-filtros {
+    width: 100%;
+    font-size: 10px;
+    padding: 14px;
+    margin-top: 8px;
+  }
+
+  .react-select__control {
+    min-height: 40px !important;
   }
 
   .usuarios-table {

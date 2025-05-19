@@ -103,7 +103,7 @@ const handleRegister = async () => {
         className="crear-cuenta-container"
         style={{ position: "relative", zIndex: 1, height: "140vh" }}
       >
-        <div style={{ position: "relative", height: "200px" }}>
+        <div className="div-estilos-movil" style={{ position: "relative" }}>
           <TextPressure
             text={t("title")}
             flex={true}

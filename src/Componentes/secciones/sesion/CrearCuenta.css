@@ -108,9 +108,12 @@
       height: 125vh !important;
       overflow: hidden;
     }
+     .div-estilos-movil{
+        height: 80px !important;
+    } 
     .crear-cuenta-container {
-        width: 80vw;
-        margin: 40px 10px;
+        width: 91vw;
+        margin: 40px 0px;
         padding: 2rem;
         background-color: #121212;
         border: 1px solid #2c2c2c;
@@ -143,6 +146,9 @@
 
   /* --- Versión de ESCRITORIO (Desktop) --- */
 @media (min-width: 768px) {
+    .div-estilos-movil{
+        height: 200px;
+    } 
     .crear-cuenta-container {
         max-width: 800px; /* Aumenta el ancho máximo para pantallas grandes */
         padding: 3rem; /* Aumenta el padding para pantallas grandes */

@@ -1,0 +1,57 @@
+.error-container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 70vh;
+  overflow: hidden;
+}
+
+.error-card {
+  position: relative;
+  z-index: 10;
+  width: 100%;
+  max-width: 48rem; /* equivalente a max-w-xl */
+  padding: 2rem;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 1.5rem;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  backdrop-filter: blur(8px);
+  text-align: center;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.error-description {
+  font-size: 1.125rem; /* text-lg */
+  color: rgba(255, 255, 255, 0.9);
+  margin-top: 1rem;
+  font-weight: 300;
+}
+
+.error-button {
+  margin-top: 1.5rem;
+  background-color: #6366f1; /* indigo-500 */
+  border: none;
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.75rem;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.error-button:hover {
+  background-color: #4f46e5; /* indigo-600 */
+  transform: scale(1.05);
+}
+
+/*
+* Mobile view
+*/
+@media (max-width: 768px) {
+.error-container {
+  min-height: 100vh;
+}
+
+}

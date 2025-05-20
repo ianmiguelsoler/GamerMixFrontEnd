@@ -2,10 +2,16 @@ import React, { useEffect, useRef } from "react";
 import { Button } from "primereact/button";
 import { motion } from "framer-motion";
 import { createSwapy } from "swapy";
+import { useTranslation } from "react-i18next";
+
+import FuzzyText from "../../../bibliotecas/FuzzyText.jsx";
+import RandomSkinBackground from "../../../bibliotecas/RandomSkinBackground.jsx";
+import "./Error.css";
 
 const Error = () => {
   const swapyInstance = useRef(null);
   const containerRef = useRef(null);
+  const { t } = useTranslation("error");
 
   useEffect(() => {
     if (containerRef.current) {
@@ -18,19 +24,33 @@ const Error = () => {
   }, []);
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100" ref={containerRef}>
+    <div ref={containerRef} className="error-container">
+      <RandomSkinBackground />
+      <div className="error-overlay" />
       <motion.div
-        initial={{ opacity: 0, y: -50 }}
+        initial={{ opacity: 0, y: -40 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-        className="p-10 bg-white rounded-2xl shadow-lg text-center"
+        transition={{ duration: 0.6 }}
+        className="error-card"
       >
-        <h2 className="text-3xl font-bold text-red-500">Error 404</h2>
-        <p className="text-gray-600 mt-2">La página que buscas no existe o ha sido movida.</p>
+        <FuzzyText
+          fontSize="clamp(3rem, 9vw, 6rem)"
+          fontWeight={900}
+          color="#ffffff"
+          enableHover={true}
+          baseIntensity={0.2}
+          hoverIntensity={0.5}
+        >
+          {t("title")}
+        </FuzzyText>
+
+        <p className="error-description">{t("description")}</p>
+
         <Button
-          label="Volver al inicio"
-          className="mt-4 bg-blue-500 text-white px-4 py-2 rounded-lg shadow-md hover:bg-blue-600"
-          onClick={() => window.location.href = "/"}
+          icon="pi pi-home"
+          label={t("backToHome")}
+          className="error-button"
+          onClick={() => (window.location.href = "/")}
         />
       </motion.div>
     </div>

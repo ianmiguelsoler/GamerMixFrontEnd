@@ -42,6 +42,14 @@ import enGestionUsuarios from "./locales/en/gestionUsuarios/gestionUsuarios.js";
 import esCambiarPassword from "./locales/es/cambiarPassword/cambiarPassword.js";
 import enCambiarPassword from "./locales/en/cambiarPassword/cambiarPassword.js";
 
+// Logros
+import esLogros from "./locales/es/logros/logros.js";
+import enLogros from "./locales/en/logros/logros.js";
+
+// Error
+import esError from "./locales/es/error/error.js";
+import enError from "./locales/en/error/error.js";
+
 const resources = {
   es: {
     navegacion: esNavegacion,
@@ -54,6 +62,8 @@ const resources = {
     zonaDeMezcla: esZonaDeMezcla,
     gestionUsuarios: esGestionUsuarios,
     cambiarPassword: esCambiarPassword,
+    logros: esLogros, 
+    error: esError,
   },
   en: {
     navegacion: enNavegacion,
@@ -66,6 +76,8 @@ const resources = {
     zonaDeMezcla: enZonaDeMezcla,
     gestionUsuarios: enGestionUsuarios,
     cambiarPassword: enCambiarPassword,
+    logros: enLogros, 
+    error: enError,
   },
 };
 
@@ -86,6 +98,8 @@ i18n
       "zonaDeMezcla",
       "gestionUsuarios",
       "cambiarPassword",
+      "logros",
+      "error" 
     ],
     defaultNS: "navegacion",
     interpolation: {

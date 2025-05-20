@@ -10,7 +10,8 @@ const navegacion = {
   language: "Idioma",
   soundOn: "🔊 Sonido",
   soundOff: "🔇 muteado",
-  play: "Jugar"
+  play: "Jugar",
+  achievements: "Logros"
 };
 
 export default navegacion;

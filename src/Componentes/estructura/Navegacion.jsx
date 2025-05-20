@@ -10,6 +10,7 @@ import {
   Backpack,
   SportsEsports,
   Login,
+  EmojiEvents,
 } from "@mui/icons-material";
 import logoGamerMix from "../../assets/logoGamerMix.png";
 import "./Navegacion.css";
@@ -119,6 +120,17 @@ const Navegacion = () => {
               >
                 <Person fontSize="large" />
                 <span className="navegacion__texto">{t("profile")}</span>
+              </Link>
+              <Link
+                className="navegacion__icono"
+                to="/logros"
+                title={t("achievements") || "Logros"}
+                onClick={() => cerrarMenu()}
+              >
+                <EmojiEvents fontSize="large" />
+                <span className="navegacion__texto">
+                  {t("achievements") || "Logros"}
+                </span>
               </Link>
 
               <Link

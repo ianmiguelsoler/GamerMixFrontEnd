@@ -134,6 +134,7 @@
 @media (min-width: 769px) {
   .coleccion {
     height: 119vh;
+    width: 68vw;
   }
   .coleccion__titulo {
     font-size: 2rem;

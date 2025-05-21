@@ -1,6 +1,7 @@
 /* Fuente y contenedor general */
 .gestion-usuarios-container {
   padding: 20px;
+  width: 68vw;
   background-color: #dfe5ff;
   border-radius: 10px;
   box-shadow: 0 4px 6px rgba(255, 255, 255, 0.05);
@@ -315,6 +316,7 @@
     padding: 14px;
     height: auto;
     overflow-x: auto;
+    width: 82vw;
   }
 
   .title {

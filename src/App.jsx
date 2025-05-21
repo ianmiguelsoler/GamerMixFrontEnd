@@ -7,7 +7,7 @@ import RutasGamerMix from "./Componentes/secciones/rutas/RutasGamerMix.jsx";
 import ProveedorSesion from "./contextos/ProveedorSesion.jsx";
 import AdministradorDeSonidoProvider from "./contextos/AdministradorDeSonido.jsx";
 import ProveedorJugar from "./contextos/ProveedorJugar.jsx";
-import ProveedorMezclasLogros from "./contextos/ProveedorMezclasLogros.jsx"; // 👈 Importación del nuevo proveedor
+import ProveedorMezclasLogros from "./contextos/ProveedorMezclasLogros.jsx"; 
 
 import "./App.css";
 import "primereact/resources/themes/saga-blue/theme.css";

@@ -1,5 +1,5 @@
 const logros = {
-  yourAchievements: "Tus Logros",
+  yourAchievements: "Tus logros",
   achievementsOf: "Logros de",
   noAchievements: "Aún no has conseguido ningún logro.",
   loading: "Cargando logros...",

@@ -1,5 +1,5 @@
 const coleccion = {
-  title: "Colección de Seraphine",
+  title: "Colección de seraphine",
   filtersTitle: "Filtros de búsqueda",
   nameLabel: "Nombre:",
   namePlaceholder: "Ej. Ahri",

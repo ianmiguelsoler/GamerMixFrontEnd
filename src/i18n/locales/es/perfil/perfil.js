@@ -1,17 +1,17 @@
 const esPerfil = {
   // 🧑‍💼 Información del perfil
-  title: "Perfil del Usuario",
+  title: "Perfil del usuario",
   username: "Usuario:",
   email: "Correo electrónico",
   role: "Rol:",
   creation: "Cuenta creada:",
-  chooseAvatar: "Eligir un Avatar",
+  chooseAvatar: "Elegir un avatar",
 
   // ✨ Botones de acción
-  editButton: "✨ Editar Perfil",
-  changeLanguageButton: "🌐 Cambiar Idioma",
-  recoverPassword: "🔑 Recuperar Contraseña",
-  changePasswordButton: " Cambiar Contraseña", 
+  editButton: "✨ Editar perfil",
+  changeLanguageButton: "🌐 Cambiar idioma",
+  recoverPassword: "🔑 Recuperar contraseña",
+  changePasswordButton: " Cambiar contraseña", 
 
   // 🚫 Acceso restringido
   noAccess: "No tienes acceso a esta página. Por favor, inicia sesión.",
@@ -23,10 +23,10 @@ const esPerfil = {
   // ✅ Notificación al guardar cambios
   successTitle: "¡Listo!",
   savedMessage: "Tus cambios han sido guardados.",
-  saveChanges: "Guardar Cambios",
+  saveChanges: "Guardar cambios",
 
   // 🖼️ Notificación de avatar asignado aleatoriamente
-  chooseAvatarTitle: "¡Elige tu Avatar!",
+  chooseAvatarTitle: "¡Elige tu avatar!",
   chooseAvatarMessage: "Aún no has elegido una imagen de perfil. Se te asignará una aleatoriamente hasta que escojas una tú.",
 
   // ⚠️ Notificación al cancelar con cambios sin guardar

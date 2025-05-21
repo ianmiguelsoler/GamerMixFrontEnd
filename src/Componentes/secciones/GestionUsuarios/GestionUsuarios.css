@@ -25,8 +25,8 @@
   border-radius: 8px;
   overflow: hidden;
   background-color: #1a1a1a;
-  font-family: "Press Start 2P", monospace;
-  font-size: 10px;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 20px;
   min-width: 700px; /* Para que funcione scroll en móvil */
 }
 
@@ -309,7 +309,6 @@
 }
 
 
-/* ---- MÓVILES ---- */
 /* ---- MÓVILES ---- */
 @media (max-width: 767px) {
   .gestion-usuarios-container {

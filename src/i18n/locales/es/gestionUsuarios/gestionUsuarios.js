@@ -1,11 +1,11 @@
 const gestionUsuarios = {
-  title: "Gestión de Usuarios",
+  title: "Gestión de usuarios",
   loading: "Cargando usuarios...",
   noAccess: "No tienes permisos para ver esta sección.",
   yes: "Sí",
   no: "No",
   filterPlaceholder: "Buscar por nombre de usuario...",
-  allRoles: "Todos los Roles",
+  allRoles: "Todos los roles",
   filters: {
     name: "Filtrar por nombre:",
     role: "Filtrar por rol:",
@@ -17,9 +17,9 @@ const gestionUsuarios = {
 
   table: {
     id: "ID",
-    username: "Nombre de Usuario",
+    username: "Nombre de usuario",
     email: "Correo",
-    registrationDate: "Fecha de Registro",
+    registrationDate: "Fecha de registro",
     level: "Nivel",
     experience: "Experiencia",
     role: "Rol",

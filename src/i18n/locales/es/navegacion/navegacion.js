@@ -9,7 +9,7 @@ const navegacion = {
   logout: "Cerrar sesión",
   language: "Idioma",
   soundOn: "🔊 Sonido",
-  soundOff: "🔇 muteado",
+  soundOff: "🔇 Sin Sonido",
   play: "Jugar",
   achievements: "Logros"
 };

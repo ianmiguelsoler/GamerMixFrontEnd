@@ -386,6 +386,7 @@
   width: 18vw;
   height: 18vw;
   margin-left: 0;
+  margin-bottom: 70px;
   display: grid;
   place-items: center;
 }

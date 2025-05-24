@@ -30,36 +30,29 @@ const ProveedorMezclasLogros = ({ children }) => {
   const [skins, setSkins] = useState([]);
   const [items, setItems] = useState([]);
 
-  // Cargar logros del usuario
+  // Cargar logros
   useEffect(() => {
     const obtenerLogros = async () => {
       try {
         setCargandoLogros(true);
-        let logrosConDetalle = [];
+        if (!usuario?.id) return;
 
-        if (usuario?.id) {
-          const { data: dataUsuario, error: errorUsuario } = await supabaseConexion
-            .from("logros_usuarios")
-            .select(`
-              fecha_obtenido,
-              logros (
-                id,
-                nombre_logro,
-                descripcion,
-                puntos,
-                image_url,
-                created_at
-              )
-            `)
-            .eq("id_usuario", usuario.id);
+        const { data, error } = await supabaseConexion
+          .from("logros_usuarios")
+          .select(`
+            fecha_obtenido,
+            logros (
+              id, nombre_logro, descripcion, puntos, image_url, created_at
+            )
+          `)
+          .eq("id_usuario", usuario.id);
 
-          if (errorUsuario) throw errorUsuario;
+        if (error) throw error;
 
-          logrosConDetalle = dataUsuario.map((registro) => ({
-            ...registro.logros,
-            fecha_obtenido: registro.fecha_obtenido,
-          }));
-        }
+        const logrosConDetalle = data.map((registro) => ({
+          ...registro.logros,
+          fecha_obtenido: registro.fecha_obtenido,
+        }));
 
         const { count, error: errorTotal } = await supabaseConexion
           .from("logros")
@@ -113,7 +106,7 @@ const ProveedorMezclasLogros = ({ children }) => {
         setGaleriaUsuario(ids);
         setMezclasHechas(ids.length);
       } catch (err) {
-        console.error("Error al cargar galería del usuario:", err.message);
+        console.error("Error al cargar galería:", err.message);
       }
     };
 
@@ -122,36 +115,36 @@ const ProveedorMezclasLogros = ({ children }) => {
 
   // Marcar combinaciones obtenidas
   useEffect(() => {
-    const combinacionesMarcadas = combinacionesDisponibles.map((combo) => ({
+    const marcadas = combinacionesDisponibles.map((combo) => ({
       ...combo,
       obtenida: galeriaUsuario.includes(combo.id),
     }));
-    setCombinacionesConEstado(combinacionesMarcadas);
+    setCombinacionesConEstado(marcadas);
   }, [combinacionesDisponibles, galeriaUsuario]);
 
   // Cargar elementos y skins
   useEffect(() => {
-    const cargarElementosYSkins = async () => {
+    const cargarDatos = async () => {
       try {
-        const [{ data: dataItems, error: errorItems }, { data: dataSkins, error: errorSkins }] = await Promise.all([
+        const [{ data: items, error: e1 }, { data: skins, error: e2 }] = await Promise.all([
           supabaseConexion.from("elementos").select("id, nombre_elemento, image_url"),
           supabaseConexion.from("skins").select("id, nombre_skin, image_url"),
         ]);
 
-        if (errorItems) throw errorItems;
-        if (errorSkins) throw errorSkins;
+        if (e1) throw e1;
+        if (e2) throw e2;
 
-        setItems(dataItems);
-        setSkins(dataSkins);
+        setItems(items);
+        setSkins(skins);
       } catch (err) {
-        console.error("Error al cargar elementos y skins:", err.message);
+        console.error("Error al cargar datos:", err.message);
       }
     };
 
-    cargarElementosYSkins();
+    cargarDatos();
   }, []);
 
-  // Lógica principal: verificar y guardar combinación
+  // Verificar y guardar una combinación
   const verificarYGuardarCombinacion = async (idElemento, idSkin) => {
     setGuardandoCombinacion(true);
     setErrorCombinacion(null);
@@ -162,24 +155,25 @@ const ProveedorMezclasLogros = ({ children }) => {
       if (!usuario?.id) throw new Error("Usuario no autenticado");
 
       const combinacion = combinacionesDisponibles.find(
-        (combo) =>
-          combo.id_elemento === idElemento && combo.id_skin === idSkin
+        (c) => c.id_elemento === idElemento && c.id_skin === idSkin
       );
 
       if (!combinacion) {
         Swal.fire({
           icon: "error",
           title: "¡Combinación inválida!",
-          text: "Esa combinación no se puede conseguir porque no existe. Prueba con otra.",
+          text: "Esa combinación no se puede conseguir porque no existe.",
         });
 
-        await comprobarLogros({
-          usuarioId: usuario.id,
-          mezclasTotales,
-          fallo: true,
-          combinacionId: null,
-          combinacionesDisponibles,
-        });
+        setTimeout(() => {
+          comprobarLogros({
+            usuarioId: usuario.id,
+            mezclasTotales,
+            fallo: true,
+            combinacionId: null,
+            combinacionesDisponibles,
+          });
+        }, 2100);
 
         return false;
       }
@@ -188,38 +182,31 @@ const ProveedorMezclasLogros = ({ children }) => {
         Swal.fire({
           icon: "info",
           title: "¡Ya la tienes!",
-          text: "Ya has hecho esta combinación, cabeza pixel.",
+          text: "Ya has hecho esta combinación.",
         });
         return false;
       }
 
-      const { error: errorInsertar } = await supabaseConexion
+      const { error: errorInsert } = await supabaseConexion
         .from("galeria")
-        .insert([
-          {
-            id_usuario: usuario.id,
-            id_combinacion: combinacion.id,
-          },
-        ]);
+        .insert([{ id_usuario: usuario.id, id_combinacion: combinacion.id }]);
 
-      if (errorInsertar && errorInsertar.code !== "23505") {
-        throw errorInsertar;
-      }
+      if (errorInsert && errorInsert.code !== "23505") throw errorInsert;
 
       setCombinacionExitosa(combinacion.id);
       const nuevaGaleria = [...galeriaUsuario, combinacion.id];
       setGaleriaUsuario(nuevaGaleria);
       setMezclasHechas(nuevaGaleria.length);
 
-      const datosCombinacion = {
+      const datos = {
         nombre: combinacion.nombre_combinacion,
         descripcion: combinacion.descripcion,
         image_url: combinacion.image_url,
       };
 
-      setDatosCombinacionExitosa(datosCombinacion);
+      setDatosCombinacionExitosa(datos);
 
-      Swal.fire({
+      await Swal.fire({
         icon: "success",
         title: "¡Combinación guardada!",
         text: "La combinación se ha añadido a tu colección.",
@@ -227,15 +214,17 @@ const ProveedorMezclasLogros = ({ children }) => {
         showConfirmButton: false,
       });
 
-      await comprobarLogros({
-        usuarioId: usuario.id,
-        mezclasTotales: nuevaGaleria.length,
-        fallo: false,
-        combinacionId: combinacion.id,
-        combinacionesDisponibles,
-      });
+      setTimeout(() => {
+        comprobarLogros({
+          usuarioId: usuario.id,
+          mezclasTotales: nuevaGaleria.length,
+          fallo: false,
+          combinacionId: combinacion.id,
+          combinacionesDisponibles,
+        });
+      }, 500); // esperamos 0.5s tras Swal para evitar pisarlo
 
-      return datosCombinacion;
+      return datos;
     } catch (err) {
       setErrorCombinacion(err.message);
       return false;
@@ -244,26 +233,26 @@ const ProveedorMezclasLogros = ({ children }) => {
     }
   };
 
-  const datosAExportar = {
-    logrosUsuario,
-    totalLogros,
-    cargandoLogros,
-    errorLogros,
-    combinacionesDisponibles,
-    combinacionesConEstado,
-    verificarYGuardarCombinacion,
-    guardandoCombinacion,
-    errorCombinacion,
-    combinacionExitosa,
-    datosCombinacionExitosa,
-    items,
-    skins,
-    mezclasHechas,
-    mezclasTotales,
-  };
-
   return (
-    <contextoLogros.Provider value={datosAExportar}>
+    <contextoLogros.Provider
+      value={{
+        logrosUsuario,
+        totalLogros,
+        cargandoLogros,
+        errorLogros,
+        combinacionesDisponibles,
+        combinacionesConEstado,
+        verificarYGuardarCombinacion,
+        guardandoCombinacion,
+        errorCombinacion,
+        combinacionExitosa,
+        datosCombinacionExitosa,
+        items,
+        skins,
+        mezclasHechas,
+        mezclasTotales,
+      }}
+    >
       {children}
     </contextoLogros.Provider>
   );

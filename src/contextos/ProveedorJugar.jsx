@@ -12,50 +12,49 @@ const ProveedorJugar = ({ children }) => {
   const [cargando, setCargando] = useState(true);
   const [error, setError] = useState(null);
 
-// 📌 Función para filtrar
-const filtrarGaleria = (filtros) => {
-  const resultadosFiltrados = galeriaCompleta.filter((item) => {
-    const nombreCoincide = item.nombre_combinacion
-      .toLowerCase()
-      .includes(filtros.nombre?.toLowerCase() || "");
-    const skinCoincide = item.skin?.nombre_skin
-      .toLowerCase()
-      .includes(filtros.skin?.toLowerCase() || "");
-    const idCoincide = item.id
-      .toLowerCase()
-      .includes(filtros.id?.toLowerCase() || "");
-    const descripcionCoincide = item.descripcion
-      .toLowerCase()
-      .includes(filtros.descripcion?.toLowerCase() || "");
+  // 📌 Función para filtrar
+  const filtrarGaleria = (filtros) => {
+    const resultadosFiltrados = galeriaCompleta.filter((item) => {
+      const nombreCoincide = item.nombre_combinacion
+        .toLowerCase()
+        .includes(filtros.nombre?.toLowerCase() || "");
+      const skinCoincide = item.skin?.nombre_skin
+        .toLowerCase()
+        .includes(filtros.skin?.toLowerCase() || "");
+      const idCoincide = item.id
+        .toLowerCase()
+        .includes(filtros.id?.toLowerCase() || "");
+      const descripcionCoincide = item.descripcion
+        .toLowerCase()
+        .includes(filtros.descripcion?.toLowerCase() || "");
 
-    const desbloqueadaCoincide = filtros.soloDesbloqueadas
-      ? item.desbloqueada === true
-      : true;
+      const desbloqueadaCoincide = filtros.soloDesbloqueadas
+        ? item.desbloqueada === true
+        : true;
 
-    const avatarCoincide =
-      !filtros.avatar || filtros.avatar === item.image_url;
+      const avatarCoincide =
+        !filtros.avatar || filtros.avatar === item.image_url;
 
-    return (
-      nombreCoincide &&
-      skinCoincide &&
-      idCoincide &&
-      descripcionCoincide &&
-      desbloqueadaCoincide &&
-      avatarCoincide
-    );
-  });
+      return (
+        nombreCoincide &&
+        skinCoincide &&
+        idCoincide &&
+        descripcionCoincide &&
+        desbloqueadaCoincide &&
+        avatarCoincide
+      );
+    });
 
-  setGaleriaFiltrada(resultadosFiltrados);
-};
+    setGaleriaFiltrada(resultadosFiltrados);
+  };
 
-
-useEffect(() => {
-  const obtenerGaleriaConDetalles = async () => {
+  // 📦 Cargar galería desde Supabase
+  const obtenerGaleria = async () => {
     try {
       setCargando(true);
       if (!usuario?.id) return;
 
-      // 1. Obtener todas las combinaciones posibles
+      // Obtener todas las combinaciones posibles
       const { data: todasCombinaciones, error: errorCombinaciones } = await supabaseConexion
         .from("combinaciones")
         .select(`
@@ -69,7 +68,7 @@ useEffect(() => {
 
       if (errorCombinaciones) throw errorCombinaciones;
 
-      // 2. Obtener combinaciones que tiene el usuario
+      // Obtener combinaciones desbloqueadas por el usuario
       const { data: desbloqueadas, error: errorGaleria } = await supabaseConexion
         .from("galeria")
         .select("id_combinacion")
@@ -79,7 +78,7 @@ useEffect(() => {
 
       const idsDesbloqueadas = desbloqueadas.map((item) => item.id_combinacion);
 
-      // 3. Marcar si están desbloqueadas
+      // Marcar desbloqueadas
       const galeriaConMarcado = todasCombinaciones.map((item) => ({
         ...item,
         skin: item.skins,
@@ -96,11 +95,6 @@ useEffect(() => {
     }
   };
 
-  if (usuario?.id) {
-    obtenerGaleriaConDetalles();
-  }
-}, [usuario]);
-
 
   const datosAExportar = {
     galeriaCompleta,
@@ -108,6 +102,7 @@ useEffect(() => {
     cargando,
     error,
     filtrarGaleria,
+    obtenerGaleria, 
   };
 
   return (

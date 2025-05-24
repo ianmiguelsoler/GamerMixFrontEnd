@@ -1,16 +1,18 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import "./Coleccion.css";
 import ColeccionImagenes from "./ColeccionImagenes.jsx";
 import ColeccionFiltros from "./ColeccionFiltros.jsx";
-import ModalDetalleCombinacion from "./modalDetalleCombinacion/ModalDetalleCombinacion.jsx"; 
+import ModalDetalleCombinacion from "./modalDetalleCombinacion/ModalDetalleCombinacion.jsx";
 import { contextoSesion } from "../../../contextos/ProveedorSesion.jsx";
 import { contextoJugar } from "../../../contextos/ProveedorJugar.jsx";
 
 const Coleccion = () => {
   const { t } = useTranslation("coleccion");
   const { usuario } = useContext(contextoSesion);
-  const { galeriaFiltrada, cargando, error } = useContext(contextoJugar);
+  const { galeriaFiltrada, cargando, error, obtenerGaleria } = useContext(contextoJugar);
+
+  const yaCargado = useRef(false); // <-- NUEVO: evitar múltiples cargas
 
   const [modalAbierta, setModalAbierta] = useState(false);
   const [skinSeleccionada, setSkinSeleccionada] = useState(null);
@@ -24,6 +26,13 @@ const Coleccion = () => {
     setModalAbierta(false);
     setSkinSeleccionada(null);
   };
+
+  useEffect(() => {
+    if (usuario?.id && !yaCargado.current) {
+      obtenerGaleria();
+      yaCargado.current = true;
+    }
+  }, [usuario, obtenerGaleria]);
 
   if (!usuario) {
     return (
@@ -64,8 +73,10 @@ const Coleccion = () => {
       </div>
 
       {modalAbierta && skinSeleccionada && (
-        <ModalDetalleCombinacion combinacion={skinSeleccionada} onClose={cerrarModal} />
-
+        <ModalDetalleCombinacion
+          combinacion={skinSeleccionada}
+          onClose={cerrarModal}
+        />
       )}
     </section>
   );

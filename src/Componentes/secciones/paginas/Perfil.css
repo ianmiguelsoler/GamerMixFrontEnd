@@ -163,10 +163,10 @@
 ======================== */
 @media (min-width: 769px) {
   .ballpit-background {
-    position: absolute;
-    bottom: 0;
+    position: fixed;     /* Se mantiene fija al viewport */
+    top: 0;
     left: 0;
-    width: 100%;
+    width: 100vw;
     height: 100vh;
     z-index: 0;
     pointer-events: none;

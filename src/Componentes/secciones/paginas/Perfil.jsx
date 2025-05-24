@@ -130,7 +130,7 @@ const Perfil = () => {
   return (
     <div className="perfil-container">
       <div className="ballpit-background">
-        <Ballpit count={200} gravity={1.5} colors={["#6fa8dc", "#a64dff", "#ff6666", "#f0f0f0", "#0f380f"]} />
+        <Ballpit count={100} gravity={1.5} colors={["#6fa8dc", "#a64dff", "#ff6666", "#f0f0f0", "#0f380f"]} />
       </div>
 
       <div className="perfil-card">

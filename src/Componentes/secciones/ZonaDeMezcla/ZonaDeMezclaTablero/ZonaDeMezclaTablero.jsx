@@ -1,61 +1,104 @@
-import React, { useRef } from "react";
-import "./ZonaDeMezclaTablero.css"; 
+import React, { useEffect, useContext, useState } from "react";
+import "./ZonaDeMezclaTablero.css";
 import ShinyText from "../../../../bibliotecas/ShinyText.jsx";
 import InfoIcon from "@mui/icons-material/Info";
+import CleaningServicesIcon from "@mui/icons-material/CleaningServices";
+import { useDroppable, useDraggable } from "@dnd-kit/core";
+import { contextoLogros } from "../../../../contextos/ProveedorMezclasLogros.jsx";
+
+const DraggableMezcla = ({ mezcla, activeDragId, animacion }) => {
+  const { attributes, listeners, setNodeRef } = useDraggable({
+    id: mezcla.reactId,
+    data: { ...mezcla, source: "tablero" },
+  });
+
+  const isDragging = mezcla.reactId === activeDragId;
+
+  return (
+    <img
+      ref={setNodeRef}
+      {...attributes}
+      {...listeners}
+      src={mezcla.url}
+      alt={`mezcla-${mezcla.reactId}`}
+      className={`mezcla-preview ${animacion}`}
+      style={{
+        left: mezcla.x,
+        top: mezcla.y,
+        position: "absolute",
+        opacity: isDragging ? 0 : 1,
+        touchAction: "none",
+      }}
+      data-name={mezcla.reactId}
+    />
+  );
+};
 
 const ZonaDeMezclaTablero = ({
   mezclasActivas,
   setMezclasActivas,
   zonaRef,
   mostrarInfo,
-  mezclasHechas,
-  mezclasTotales,
   markerText,
+  activeDragId,
+  activeDragItem,
 }) => {
-  const arrastrandoIndex = useRef(null);
+  const { setNodeRef } = useDroppable({ id: "zona-soltar" });
 
-  const handleDrop = (e) => {
-    e.preventDefault();
-    const url = e.dataTransfer.getData("skinURL");
+  const {
+    combinacionesConEstado,
+    verificarYGuardarCombinacion,
+    datosCombinacionExitosa,
+    mezclasHechas,
+    mezclasTotales
+  } = useContext(contextoLogros);
 
-    const rect = zonaRef.current.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
+  const [animaciones, setAnimaciones] = useState({});
+  const [mostrarCombinacion, setMostrarCombinacion] = useState(null);
 
-    if (url) {
-      setMezclasActivas((prev) => [...prev, { url, x, y }]);
-    }
-  };
+  const limpiarTablero = () => setMezclasActivas([]);
 
-  const handleDragOver = (e) => e.preventDefault();
+  useEffect(() => {
+    if (!activeDragItem || !mezclasActivas.length) return;
 
-  const handleMouseDown = (index, e) => {
-    arrastrandoIndex.current = index;
-    const zona = zonaRef.current;
+    const dragged = activeDragItem;
+    const overlapped = mezclasActivas.find(
+      (m) =>
+        m.reactId !== dragged.reactId &&
+        Math.abs(m.x - dragged.x) < 40 &&
+        Math.abs(m.y - dragged.y) < 40
+    );
 
-    const moveHandler = (eMove) => {
-      if (arrastrandoIndex.current === null) return;
+    if (!overlapped) return;
 
-      const rect = zona.getBoundingClientRect();
-      const x = eMove.clientX - rect.left;
-      const y = eMove.clientY - rect.top;
+    const skin = [dragged, overlapped].find((m) => m.tipo === "skin");
+    const item = [dragged, overlapped].find((m) => m.tipo === "item");
 
-      setMezclasActivas((prev) => {
-        const updated = [...prev];
-        updated[index] = { ...updated[index], x, y };
-        return updated;
-      });
+    if (!skin || !item) return;
+
+    const ejecutarComprobacion = async () => {
+      const exito = await verificarYGuardarCombinacion(item.id, skin.id);
+      const newAnimations = {};
+
+      if (!exito) {
+        newAnimations[skin.reactId] = "mezcla-error";
+        newAnimations[item.reactId] = "mezcla-error";
+        setAnimaciones(newAnimations);
+        setTimeout(() => setAnimaciones({}), 3000);
+      } else {
+        newAnimations[skin.reactId] = "mezcla-exito";
+        newAnimations[item.reactId] = "mezcla-exito";
+        setAnimaciones(newAnimations);
+        setTimeout(() => setAnimaciones({}), 1500);
+        setTimeout(() => {
+          setMostrarCombinacion(datosCombinacionExitosa);
+          setTimeout(() => setMostrarCombinacion(null), 4000);
+        }, 1600);
+      }
     };
 
-    const upHandler = () => {
-      arrastrandoIndex.current = null;
-      document.removeEventListener("mousemove", moveHandler);
-      document.removeEventListener("mouseup", upHandler);
-    };
-
-    document.addEventListener("mousemove", moveHandler);
-    document.addEventListener("mouseup", upHandler);
-  };
+    ejecutarComprobacion();
+  }, [mezclasActivas, activeDragItem]);
 
   return (
     <div className="zona-central">
@@ -63,7 +106,11 @@ const ZonaDeMezclaTablero = ({
         <button className="info-boton" onClick={mostrarInfo} title="Información">
           <InfoIcon />
         </button>
-        <div className={`marcador-mezclas ${mezclasHechas >= mezclasTotales ? "completo" : "normal"}`}>
+        <div
+          className={`marcador-mezclas ${
+            mezclasHechas >= mezclasTotales ? "completo" : "normal"
+          }`}
+        >
           <ShinyText
             text={markerText}
             disabled={false}
@@ -73,22 +120,42 @@ const ZonaDeMezclaTablero = ({
         </div>
       </div>
 
-      <div className="zona-soltar" ref={zonaRef} onDrop={handleDrop} onDragOver={handleDragOver}>
+      <div
+        className="zona-soltar"
+        ref={(el) => {
+          zonaRef.current = el;
+          setNodeRef(el);
+        }}
+      >
+        <button
+          className="limpiar-boton"
+          onClick={limpiarTablero}
+          title="Limpiar tablero"
+        >
+          <CleaningServicesIcon />
+        </button>
+
         {mezclasActivas.length === 0 ? (
           <p className="zona-indicacion">Arrastra aquí tus skins...</p>
         ) : (
-          mezclasActivas.map((mezcla, index) => (
-            <img
-              key={index}
-              src={mezcla.url}
-              alt={`mezcla-${index}`}
-              className="mezcla-preview"
-              style={{ left: mezcla.x, top: mezcla.y }}
-              onMouseDown={(e) => handleMouseDown(index, e)}
+          mezclasActivas.map((mezcla) => (
+            <DraggableMezcla
+              key={mezcla.reactId}
+              mezcla={mezcla}
+              activeDragId={activeDragId}
+              animacion={animaciones[mezcla.reactId] || ""}
             />
           ))
         )}
       </div>
+
+      {mostrarCombinacion && (
+        <div className="popup-combinacion-exitosa">
+          <div className="rayo-luz" />
+          <img src={mostrarCombinacion.image_url} alt="combinacion" className="imagen-combinacion" />
+          <div className="nombre-combinacion">{mostrarCombinacion.nombre}</div>
+        </div>
+      )}
     </div>
   );
 };

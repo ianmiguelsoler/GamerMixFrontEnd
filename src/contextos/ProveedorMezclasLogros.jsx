@@ -8,16 +8,29 @@ const ProveedorMezclasLogros = ({ children }) => {
   const { usuario } = useContext(contextoSesion);
 
   const [logrosUsuario, setLogrosUsuario] = useState([]);
-  const [totalLogros, setTotalLogros] = useState(0); // <-- NUEVO
+  const [totalLogros, setTotalLogros] = useState(0);
   const [cargandoLogros, setCargandoLogros] = useState(true);
   const [errorLogros, setErrorLogros] = useState(null);
+
+  const [combinacionesDisponibles, setCombinacionesDisponibles] = useState([]);
+  const [combinacionesConEstado, setCombinacionesConEstado] = useState([]);
+
+  const [galeriaUsuario, setGaleriaUsuario] = useState([]);
+  const [mezclasHechas, setMezclasHechas] = useState(0);
+  const [mezclasTotales, setMezclasTotales] = useState(0);
+
+  const [guardandoCombinacion, setGuardandoCombinacion] = useState(false);
+  const [errorCombinacion, setErrorCombinacion] = useState(null);
+  const [combinacionExitosa, setCombinacionExitosa] = useState(null);
+  const [datosCombinacionExitosa, setDatosCombinacionExitosa] = useState(null);
+
+  const [skins, setSkins] = useState([]);
+  const [items, setItems] = useState([]);
 
   useEffect(() => {
     const obtenerLogros = async () => {
       try {
         setCargandoLogros(true);
-
-        // Obtener logros del usuario
         let logrosConDetalle = [];
         if (usuario?.id) {
           const { data: dataUsuario, error: errorUsuario } = await supabaseConexion
@@ -43,7 +56,6 @@ const ProveedorMezclasLogros = ({ children }) => {
           }));
         }
 
-        // Obtener total de logros disponibles
         const { count, error: errorTotal } = await supabaseConexion
           .from("logros")
           .select("*", { count: "exact", head: true });
@@ -62,11 +74,147 @@ const ProveedorMezclasLogros = ({ children }) => {
     obtenerLogros();
   }, [usuario]);
 
+  useEffect(() => {
+    const cargarCombinaciones = async () => {
+      try {
+        const { data, error } = await supabaseConexion
+          .from("combinaciones")
+          .select("id, id_elemento, id_skin, nombre_combinacion, descripcion, image_url");
+
+        if (error) throw error;
+        setCombinacionesDisponibles(data);
+        setMezclasTotales(data.length);
+      } catch (err) {
+        console.error("Error al cargar combinaciones:", err.message);
+      }
+    };
+
+    cargarCombinaciones();
+  }, []);
+
+  useEffect(() => {
+    const cargarGaleriaUsuario = async () => {
+      if (!usuario?.id) return;
+      try {
+        const { data, error } = await supabaseConexion
+          .from("galeria")
+          .select("id_combinacion")
+          .eq("id_usuario", usuario.id);
+
+        if (error) throw error;
+        const ids = data.map((g) => g.id_combinacion);
+        setGaleriaUsuario(ids);
+        setMezclasHechas(ids.length);
+      } catch (err) {
+        console.error("Error al cargar galería del usuario:", err.message);
+      }
+    };
+
+    cargarGaleriaUsuario();
+  }, [usuario]);
+
+  useEffect(() => {
+    const combinacionesMarcadas = combinacionesDisponibles.map((combo) => ({
+      ...combo,
+      obtenida: galeriaUsuario.includes(combo.id),
+    }));
+    setCombinacionesConEstado(combinacionesMarcadas);
+  }, [combinacionesDisponibles, galeriaUsuario]);
+
+  useEffect(() => {
+    const cargarElementosYSkins = async () => {
+      try {
+        const [{ data: dataItems, error: errorItems }, { data: dataSkins, error: errorSkins }] = await Promise.all([
+          supabaseConexion.from("elementos").select("id, nombre_elemento, image_url"),
+          supabaseConexion.from("skins").select("id, nombre_skin, image_url"),
+        ]);
+
+        if (errorItems) throw errorItems;
+        if (errorSkins) throw errorSkins;
+
+        setItems(dataItems);
+        setSkins(dataSkins);
+      } catch (err) {
+        console.error("Error al cargar elementos y skins:", err.message);
+      }
+    };
+
+    cargarElementosYSkins();
+  }, []);
+
+  const verificarLogrosAlObtenerCombinacion = async (id_combinacion) => {
+    console.log("Revisando logros con combinación:", id_combinacion);
+  };
+
+  const verificarYGuardarCombinacion = async (idElemento, idSkin) => {
+    setGuardandoCombinacion(true);
+    setErrorCombinacion(null);
+    setCombinacionExitosa(null);
+    setDatosCombinacionExitosa(null);
+
+    try {
+      if (!usuario?.id) throw new Error("Usuario no autenticado");
+
+      const combinacion = combinacionesDisponibles.find(
+        (combo) =>
+          combo.id_elemento === idElemento && combo.id_skin === idSkin
+      );
+
+      if (!combinacion || galeriaUsuario.includes(combinacion.id)) {
+        return false;
+      }
+
+      const { error: errorInsertar } = await supabaseConexion
+        .from("galeria")
+        .insert([
+          {
+            id_usuario: usuario.id,
+            id_combinacion: combinacion.id,
+          },
+        ]);
+
+      if (errorInsertar && errorInsertar.code !== "23505") {
+        throw errorInsertar;
+      }
+
+      await verificarLogrosAlObtenerCombinacion(combinacion.id);
+      setCombinacionExitosa(combinacion.id);
+      const nuevaGaleria = [...galeriaUsuario, combinacion.id];
+      setGaleriaUsuario(nuevaGaleria);
+      setMezclasHechas(nuevaGaleria.length);
+
+      setDatosCombinacionExitosa({
+        nombre: combinacion.nombre_combinacion,
+        descripcion: combinacion.descripcion,
+        image_url: combinacion.image_url,
+      });
+
+      return true;
+    } catch (err) {
+      setErrorCombinacion(err.message);
+      return false;
+    } finally {
+      setGuardandoCombinacion(false);
+    }
+  };
+
   const datosAExportar = {
     logrosUsuario,
     totalLogros,
     cargandoLogros,
     errorLogros,
+    combinacionesDisponibles,
+    combinacionesConEstado,
+    verificarYGuardarCombinacion,
+    verificarLogrosAlObtenerCombinacion,
+    guardandoCombinacion,
+    errorCombinacion,
+    combinacionExitosa,
+    datosCombinacionExitosa,
+    items,
+    skins,
+    mezclasHechas,
+    mezclasTotales,
   };
 
   return (

@@ -1,21 +1,39 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef, useContext } from "react";
 import Swal from "sweetalert2";
 import InfoIcon from "@mui/icons-material/Info";
 import "./ZonaDeMezcla.css";
 
 import { useTranslation } from "react-i18next";
+import { contextoLogros } from "../../../contextos/ProveedorMezclasLogros.jsx";
 import ZonaDeMezclaBarraLateral from "./ZonaDeMezclaBarraLateral/ZonaDeMezclaBarraLateral.jsx";
 import ZonaDeMezclaTablero from "./ZonaDeMezclaTablero/ZonaDeMezclaTablero.jsx";
+import { generarUuidAleatorio } from "../../../bibliotecas/funciones/funciones.js";
+
+import {
+  DndContext,
+  useSensors,
+  useSensor,
+  PointerSensor,
+  DragOverlay,
+} from "@dnd-kit/core";
 
 const ZonaDeMezcla = () => {
   const { t } = useTranslation("zonaDeMezcla");
+  const {
+    items,
+    skins,
+    combinacionesConEstado,
+  } = useContext(contextoLogros);
 
-  const [mezclasHechas, setMezclasHechas] = useState(0);
-  const [mezclasTotales, setMezclasTotales] = useState(10);
-  const [iconos, setIconos] = useState([]);
   const [mezclasActivas, setMezclasActivas] = useState([]);
+  const [activeDragItem, setActiveDragItem] = useState(null);
+  const [activeDragId, setActiveDragId] = useState(null);
 
   const zonaRef = useRef(null);
+  const sensors = useSensors(useSensor(PointerSensor));
+
+  const mezclasHechas = combinacionesConEstado.filter(c => c.obtenida).length;
+  const mezclasTotales = combinacionesConEstado.length;
 
   const mostrarInfo = () => {
     Swal.fire({
@@ -32,57 +50,108 @@ const ZonaDeMezcla = () => {
     });
   };
 
+  const handleDragStart = (event) => {
+    const icono = event.active.data.current?.icono;
+    const source = event.active.data.current?.source;
+
+    setActiveDragId(event.active.id);
+
+    if (source === "barra" && icono) {
+      setActiveDragItem(icono);
+    } else {
+      const mezcla = mezclasActivas.find((m) => m.reactId === event.active.id);
+      setActiveDragItem(mezcla || null);
+    }
+  };
+
+  const handleDragEnd = (event) => {
+    const { over, active } = event;
+    setActiveDragItem(null);
+    setActiveDragId(null);
+
+    if (!over || over.id !== "zona-soltar") return;
+
+    const zona = zonaRef.current.getBoundingClientRect();
+    const offsetX = active.rect.current.translated?.left ?? 0;
+    const offsetY = active.rect.current.translated?.top ?? 0;
+
+    const x = offsetX - zona.left;
+    const y = offsetY - zona.top;
+
+    const source = active.data.current?.source;
+    const icono = active.data.current?.icono;
+
+    if (source === "barra" && icono) {
+      setMezclasActivas((prev) => [
+        ...prev,
+        {
+          reactId: generarUuidAleatorio(),
+          tipo: icono.tipo,
+          id: icono.id, // nombre estándar
+          url: icono.url,
+          x,
+          y,
+        },
+      ]);
+    } else if (source === "tablero") {
+      setMezclasActivas((prev) =>
+        prev.map((m) =>
+          m.reactId === active.id ? { ...m, x, y } : m
+        )
+      );
+    }
+  };
+
   useEffect(() => {
     if (mezclasHechas === 0) {
       mostrarInfo();
     }
   }, [mezclasHechas]);
 
-  useEffect(() => {
-    const cargarIconos = async () => {
-      try {
-        const versionsRes = await fetch("https://ddragon.leagueoflegends.com/api/versions.json");
-        const versions = await versionsRes.json();
-        const latestVersion = versions[0];
-
-        const championsRes = await fetch(
-          `https://ddragon.leagueoflegends.com/cdn/${latestVersion}/data/en_US/champion.json`
-        );
-        const championsData = await championsRes.json();
-        const championKeys = Object.keys(championsData.data);
-
-        const seleccionados = championKeys.sort(() => 0.5 - Math.random()).slice(0, 20);
-
-        const urls = seleccionados.map(
-          (champ) =>
-            `https://ddragon.leagueoflegends.com/cdn/${latestVersion}/img/champion/${champ}.png`
-        );
-
-        setIconos(urls);
-      } catch (error) {
-        console.error("Error al cargar iconos:", error);
-      }
-    };
-
-    cargarIconos();
-  }, []);
+  const iconos = [
+    ...items.map((item) => ({ ...item, tipo: "item", url: item.image_url })),
+    ...skins.map((skin) => ({ ...skin, tipo: "skin", url: skin.image_url })),
+  ];
 
   return (
-    <div className="zona-de-mezcla">
-      <ZonaDeMezclaTablero
-        mezclasActivas={mezclasActivas}
-        setMezclasActivas={setMezclasActivas}
-        zonaRef={zonaRef}
-        mostrarInfo={mostrarInfo}
-        mezclasHechas={mezclasHechas}
-        mezclasTotales={mezclasTotales}
-        markerText={t("markerText", {
-          hechas: mezclasHechas,
-          totales: mezclasTotales,
-        })}
-      />
-      <ZonaDeMezclaBarraLateral iconos={iconos} />
-    </div>
+    <DndContext
+      sensors={sensors}
+      onDragStart={handleDragStart}
+      onDragEnd={handleDragEnd}
+    >
+      <div className="zona-de-mezcla">
+        <ZonaDeMezclaTablero
+          mezclasActivas={mezclasActivas}
+          setMezclasActivas={setMezclasActivas}
+          zonaRef={zonaRef}
+          mostrarInfo={mostrarInfo}
+          mezclasHechas={mezclasHechas}
+          mezclasTotales={mezclasTotales}
+          markerText={t("markerText", {
+            hechas: mezclasHechas,
+            totales: mezclasTotales,
+          })}
+          activeDragId={activeDragId}
+          activeDragItem={activeDragItem}
+        />
+        <ZonaDeMezclaBarraLateral iconos={iconos} />
+      </div>
+
+      <DragOverlay>
+        {activeDragItem && (
+          <img
+            src={activeDragItem.url}
+            alt="drag-preview"
+            className="mezcla-preview"
+            style={{
+              transform: "scale(1.1)",
+              zIndex: 9999,
+              pointerEvents: "none",
+            }}
+          />
+        )}
+      </DragOverlay>
+    </DndContext>
   );
 };
 

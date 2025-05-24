@@ -8,23 +8,51 @@
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  min-height: 0; 
+  min-height: 0;
 }
 
+/* 🧹 Botón escoba */
+.limpiar-boton {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  z-index: 10;
+  background-color: #ffffffdd;
+  border: none;
+  border-radius: 10px;
+  color: #9e79ff;
+  font-size: 2.4rem;
+  padding: 10px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3);
+  transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+.limpiar-boton:hover {
+  background-color: #f0f0f0;
+  transform: scale(1.15);
+}
+
+/* Cabecera con botón de info + marcador */
 .zona-cabecera {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 1rem;
+  gap: 1rem;
 }
 
 .info-boton {
   background: none;
   border: none;
   color: #9e79ff;
-  font-size: 1.5rem;
+  font-size: 1.8rem;
   cursor: pointer;
   transition: transform 0.2s ease;
+  margin-left: 0.2rem;
 }
 
 .info-boton:hover {
@@ -51,6 +79,7 @@
   font-weight: bold;
 }
 
+/* Zona de soltar */
 .zona-soltar {
   position: relative;
   flex: 1;
@@ -62,6 +91,14 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  transition: border-color 0.3s, background-color 0.3s;
+  touch-action: none; /* clave para móviles con dnd-kit */
+}
+
+/* Cuando está activa al arrastrar encima */
+.zona-soltar-activa {
+  border-color: #5ec4ff;
+  background-color: #eef7ff;
 }
 
 .zona-indicacion {
@@ -72,6 +109,7 @@
   text-align: center;
 }
 
+/* Elementos arrastrados al tablero */
 .mezcla-preview {
   width: 70px;
   height: 70px;
@@ -82,6 +120,8 @@
   animation: popIn 0.4s ease;
   box-shadow: 0 0 8px #9e79ff55;
   cursor: grab;
+  user-select: none;
+  pointer-events: auto;
 }
 
 .mezcla-preview:active {
@@ -106,6 +146,7 @@
   box-shadow: 0 0 6px #00000088;
 }
 
+/* Animación al soltar skin */
 @keyframes popIn {
   0% {
     transform: scale(0.4);
@@ -120,10 +161,110 @@
   }
 }
 
+.mezcla-error {
+  animation: shake 0.5s ease-in-out;
+  animation-iteration-count: 6;
+}
+
+@keyframes shake {
+  0% { transform: translateX(0); }
+  16% { transform: translateX(-6px); }
+  33% { transform: translateX(6px); }
+  50% { transform: translateX(-6px); }
+  66% { transform: translateX(6px); }
+  83% { transform: translateX(-6px); }
+  100% { transform: translateX(0); }
+}
+
+.popup-combinacion-exitosa {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(rgba(255, 255, 255, 0.85), rgba(0, 0, 0, 0.6));
+  backdrop-filter: blur(5px);
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  animation: fadeIn 0.4s ease forwards;
+}
+
+.rayo-luz {
+  width: 250px;
+  height: 250px;
+  border-radius: 50%;
+  background: radial-gradient(#fffbe0, #ffd700, transparent);
+  position: absolute;
+  animation: glowPulse 1.5s ease-in-out infinite;
+  z-index: 1;
+}
+
+.imagen-combinacion {
+  width: 220px;
+  height: 220px;
+  object-fit: contain;
+  border-radius: 12px;
+  box-shadow: 0 0 30px #fff6b5, 0 0 80px #ffd700aa;
+  z-index: 2;
+  animation: aparecerZoom 0.6s ease forwards;
+}
+
+.nombre-combinacion {
+  font-family: 'Press Start 2P', cursive;
+  font-size: 18px;
+  color: gold;
+  text-shadow: 0 0 8px #000, 0 0 12px #ffd700;
+  margin-top: 20px;
+  z-index: 2;
+  text-align: center;
+  animation: aparecerZoom 0.8s ease 0.2s forwards;
+}
+
+@keyframes glowPulse {
+  0% {
+    transform: scale(1);
+    opacity: 0.8;
+  }
+  50% {
+    transform: scale(1.15);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 0.8;
+  }
+}
+
+@keyframes aparecerZoom {
+  0% {
+    transform: scale(0.4);
+    opacity: 0;
+  }
+  80% {
+    transform: scale(1.2);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+/* Adaptaciones para móvil */
 @media (max-width: 768px) {
   .zona-central {
     margin: 0.5rem;
-    flex: 1;
   }
 
   .zona-cabecera {
@@ -134,13 +275,19 @@
     font-size: 2.2rem;
   }
 
+  .limpiar-boton {
+    font-size: 3rem;
+    padding: 12px;
+    top: 0.6rem;
+    left: 0.6rem;
+  }
+
   .marcador-mezclas {
     font-size: 14px;
     padding: 6px 10px;
   }
 
   .zona-soltar {
-    flex-grow: 1;
     min-height: 200px;
   }
 }

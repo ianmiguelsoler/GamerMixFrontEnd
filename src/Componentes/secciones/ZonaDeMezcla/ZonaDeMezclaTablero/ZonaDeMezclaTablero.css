@@ -260,6 +260,30 @@
     opacity: 1;
   }
 }
+.popup-combinacion-exitosa {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(rgba(255, 255, 255, 0.85), rgba(0, 0, 0, 0.6));
+  backdrop-filter: blur(5px);
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  animation: fadeIn 0.4s ease forwards;
+  pointer-events: auto;
+  cursor: pointer;
+  overflow: hidden;
+  user-select: none;
+  touch-action: none;
+}
+body.popup-activo {
+  overflow: hidden;
+  touch-action: none;
+}
 
 /* Adaptaciones para móvil */
 @media (max-width: 768px) {

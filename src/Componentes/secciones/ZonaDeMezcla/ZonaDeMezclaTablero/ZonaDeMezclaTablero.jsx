@@ -46,11 +46,9 @@ const ZonaDeMezclaTablero = ({
   const { setNodeRef } = useDroppable({ id: "zona-soltar" });
 
   const {
-    combinacionesConEstado,
     verificarYGuardarCombinacion,
-    datosCombinacionExitosa,
     mezclasHechas,
-    mezclasTotales
+    mezclasTotales,
   } = useContext(contextoLogros);
 
   const [animaciones, setAnimaciones] = useState({});
@@ -58,15 +56,30 @@ const ZonaDeMezclaTablero = ({
 
   const limpiarTablero = () => setMezclasActivas([]);
 
+  // Bloquear scroll cuando el popup está activo
+  useEffect(() => {
+    if (mostrarCombinacion) {
+      document.body.classList.add("popup-activo");
+    } else {
+      document.body.classList.remove("popup-activo");
+    }
+
+    return () => {
+      document.body.classList.remove("popup-activo");
+    };
+  }, [mostrarCombinacion]);
+
   useEffect(() => {
     if (!activeDragItem || !mezclasActivas.length) return;
+
+    const RANGO_COMBINACION = 80;
 
     const dragged = activeDragItem;
     const overlapped = mezclasActivas.find(
       (m) =>
         m.reactId !== dragged.reactId &&
-        Math.abs(m.x - dragged.x) < 40 &&
-        Math.abs(m.y - dragged.y) < 40
+        Math.abs(m.x - dragged.x) < RANGO_COMBINACION &&
+        Math.abs(m.y - dragged.y) < RANGO_COMBINACION
     );
 
     if (!overlapped) return;
@@ -77,10 +90,10 @@ const ZonaDeMezclaTablero = ({
     if (!skin || !item) return;
 
     const ejecutarComprobacion = async () => {
-      const exito = await verificarYGuardarCombinacion(item.id, skin.id);
+      const resultado = await verificarYGuardarCombinacion(item.id, skin.id);
       const newAnimations = {};
 
-      if (!exito) {
+      if (!resultado) {
         newAnimations[skin.reactId] = "mezcla-error";
         newAnimations[item.reactId] = "mezcla-error";
         setAnimaciones(newAnimations);
@@ -90,10 +103,7 @@ const ZonaDeMezclaTablero = ({
         newAnimations[item.reactId] = "mezcla-exito";
         setAnimaciones(newAnimations);
         setTimeout(() => setAnimaciones({}), 1500);
-        setTimeout(() => {
-          setMostrarCombinacion(datosCombinacionExitosa);
-          setTimeout(() => setMostrarCombinacion(null), 4000);
-        }, 1600);
+        setTimeout(() => setMostrarCombinacion(resultado), 1600);
       }
     };
 
@@ -150,9 +160,16 @@ const ZonaDeMezclaTablero = ({
       </div>
 
       {mostrarCombinacion && (
-        <div className="popup-combinacion-exitosa">
+        <div
+          className="popup-combinacion-exitosa"
+          onClick={() => setMostrarCombinacion(null)}
+        >
           <div className="rayo-luz" />
-          <img src={mostrarCombinacion.image_url} alt="combinacion" className="imagen-combinacion" />
+          <img
+            src={mostrarCombinacion.image_url}
+            alt="combinacion"
+            className="imagen-combinacion"
+          />
           <div className="nombre-combinacion">{mostrarCombinacion.nombre}</div>
         </div>
       )}

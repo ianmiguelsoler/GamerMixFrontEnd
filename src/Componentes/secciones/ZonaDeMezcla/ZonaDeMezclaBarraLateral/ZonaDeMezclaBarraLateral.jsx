@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import "./ZonaDeMezclaBarraLateral.css";
 import { useDraggable } from "@dnd-kit/core";
 
@@ -6,7 +6,7 @@ const IconoDraggable = ({ icono }) => {
   const draggableId = `barra-${icono.tipo}-${icono.id}`;
   const { attributes, listeners, setNodeRef } = useDraggable({
     id: draggableId,
-    data: { icono, source: "barra" }, // <- marcamos que viene de la barra
+    data: { icono, source: "barra" },
   });
 
   return (
@@ -26,11 +26,33 @@ const IconoDraggable = ({ icono }) => {
 };
 
 const ZonaDeMezclaBarraLateral = ({ iconos }) => {
+  const scrollRef = useRef(null);
+
+  const scrollIzquierda = () => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollLeft -= 100;
+    }
+  };
+
+  const scrollDerecha = () => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollLeft += 100;
+    }
+  };
+
   return (
-    <div className="barra-lateral">
-      {iconos.map((icono) => (
-        <IconoDraggable key={`barra-${icono.tipo}-${icono.id}`} icono={icono} />
-      ))}
+    <div className="zona-barra-con-flechas">
+      <button className="flecha-izquierda solo-movil" onClick={scrollIzquierda}>
+        ◀
+      </button>
+      <div className="barra-lateral" ref={scrollRef}>
+        {iconos.map((icono) => (
+          <IconoDraggable key={`barra-${icono.tipo}-${icono.id}`} icono={icono} />
+        ))}
+      </div>
+      <button className="flecha-derecha solo-movil" onClick={scrollDerecha}>
+        ▶
+      </button>
     </div>
   );
 };

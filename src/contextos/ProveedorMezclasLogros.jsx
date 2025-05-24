@@ -1,11 +1,14 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
+import Swal from "sweetalert2";
 import { supabaseConexion } from "../config/supabase";
 import { contextoSesion } from "./ProveedorSesion.jsx";
+import usaLogros from "../hooks/usaLogros.js";
 
 const contextoLogros = createContext();
 
 const ProveedorMezclasLogros = ({ children }) => {
   const { usuario } = useContext(contextoSesion);
+  const { comprobarLogros } = usaLogros();
 
   const [logrosUsuario, setLogrosUsuario] = useState([]);
   const [totalLogros, setTotalLogros] = useState(0);
@@ -27,11 +30,13 @@ const ProveedorMezclasLogros = ({ children }) => {
   const [skins, setSkins] = useState([]);
   const [items, setItems] = useState([]);
 
+  // Cargar logros del usuario
   useEffect(() => {
     const obtenerLogros = async () => {
       try {
         setCargandoLogros(true);
         let logrosConDetalle = [];
+
         if (usuario?.id) {
           const { data: dataUsuario, error: errorUsuario } = await supabaseConexion
             .from("logros_usuarios")
@@ -74,6 +79,7 @@ const ProveedorMezclasLogros = ({ children }) => {
     obtenerLogros();
   }, [usuario]);
 
+  // Cargar combinaciones disponibles
   useEffect(() => {
     const cargarCombinaciones = async () => {
       try {
@@ -92,6 +98,7 @@ const ProveedorMezclasLogros = ({ children }) => {
     cargarCombinaciones();
   }, []);
 
+  // Cargar galería del usuario
   useEffect(() => {
     const cargarGaleriaUsuario = async () => {
       if (!usuario?.id) return;
@@ -113,6 +120,7 @@ const ProveedorMezclasLogros = ({ children }) => {
     cargarGaleriaUsuario();
   }, [usuario]);
 
+  // Marcar combinaciones obtenidas
   useEffect(() => {
     const combinacionesMarcadas = combinacionesDisponibles.map((combo) => ({
       ...combo,
@@ -121,6 +129,7 @@ const ProveedorMezclasLogros = ({ children }) => {
     setCombinacionesConEstado(combinacionesMarcadas);
   }, [combinacionesDisponibles, galeriaUsuario]);
 
+  // Cargar elementos y skins
   useEffect(() => {
     const cargarElementosYSkins = async () => {
       try {
@@ -142,10 +151,7 @@ const ProveedorMezclasLogros = ({ children }) => {
     cargarElementosYSkins();
   }, []);
 
-  const verificarLogrosAlObtenerCombinacion = async (id_combinacion) => {
-    console.log("Revisando logros con combinación:", id_combinacion);
-  };
-
+  // Lógica principal: verificar y guardar combinación
   const verificarYGuardarCombinacion = async (idElemento, idSkin) => {
     setGuardandoCombinacion(true);
     setErrorCombinacion(null);
@@ -160,7 +166,30 @@ const ProveedorMezclasLogros = ({ children }) => {
           combo.id_elemento === idElemento && combo.id_skin === idSkin
       );
 
-      if (!combinacion || galeriaUsuario.includes(combinacion.id)) {
+      if (!combinacion) {
+        Swal.fire({
+          icon: "error",
+          title: "¡Combinación inválida!",
+          text: "Esa combinación no se puede conseguir porque no existe. Prueba con otra.",
+        });
+
+        await comprobarLogros({
+          usuarioId: usuario.id,
+          mezclasTotales,
+          fallo: true,
+          combinacionId: null,
+          combinacionesDisponibles,
+        });
+
+        return false;
+      }
+
+      if (galeriaUsuario.includes(combinacion.id)) {
+        Swal.fire({
+          icon: "info",
+          title: "¡Ya la tienes!",
+          text: "Ya has hecho esta combinación, cabeza pixel.",
+        });
         return false;
       }
 
@@ -177,19 +206,36 @@ const ProveedorMezclasLogros = ({ children }) => {
         throw errorInsertar;
       }
 
-      await verificarLogrosAlObtenerCombinacion(combinacion.id);
       setCombinacionExitosa(combinacion.id);
       const nuevaGaleria = [...galeriaUsuario, combinacion.id];
       setGaleriaUsuario(nuevaGaleria);
       setMezclasHechas(nuevaGaleria.length);
 
-      setDatosCombinacionExitosa({
+      const datosCombinacion = {
         nombre: combinacion.nombre_combinacion,
         descripcion: combinacion.descripcion,
         image_url: combinacion.image_url,
+      };
+
+      setDatosCombinacionExitosa(datosCombinacion);
+
+      Swal.fire({
+        icon: "success",
+        title: "¡Combinación guardada!",
+        text: "La combinación se ha añadido a tu colección.",
+        timer: 2000,
+        showConfirmButton: false,
       });
 
-      return true;
+      await comprobarLogros({
+        usuarioId: usuario.id,
+        mezclasTotales: nuevaGaleria.length,
+        fallo: false,
+        combinacionId: combinacion.id,
+        combinacionesDisponibles,
+      });
+
+      return datosCombinacion;
     } catch (err) {
       setErrorCombinacion(err.message);
       return false;
@@ -206,7 +252,6 @@ const ProveedorMezclasLogros = ({ children }) => {
     combinacionesDisponibles,
     combinacionesConEstado,
     verificarYGuardarCombinacion,
-    verificarLogrosAlObtenerCombinacion,
     guardandoCombinacion,
     errorCombinacion,
     combinacionExitosa,

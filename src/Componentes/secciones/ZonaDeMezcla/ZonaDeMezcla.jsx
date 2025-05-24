@@ -14,6 +14,7 @@ import {
   useSensors,
   useSensor,
   PointerSensor,
+  TouchSensor,
   DragOverlay,
 } from "@dnd-kit/core";
 
@@ -30,7 +31,21 @@ const ZonaDeMezcla = () => {
   const [activeDragId, setActiveDragId] = useState(null);
 
   const zonaRef = useRef(null);
-  const sensors = useSensors(useSensor(PointerSensor));
+
+  // 🔧 ACTIVAMOS Pointer + Touch para dispositivos móviles
+  const sensors = useSensors(
+    useSensor(PointerSensor, {
+      activationConstraint: {
+        distance: 5, // más cómodo en móvil
+      },
+    }),
+    useSensor(TouchSensor, {
+      activationConstraint: {
+        delay: 100,
+        tolerance: 5,
+      },
+    })
+  );
 
   const mezclasHechas = combinacionesConEstado.filter(c => c.obtenida).length;
   const mezclasTotales = combinacionesConEstado.length;
@@ -87,7 +102,7 @@ const ZonaDeMezcla = () => {
         {
           reactId: generarUuidAleatorio(),
           tipo: icono.tipo,
-          id: icono.id, // nombre estándar
+          id: icono.id,
           url: icono.url,
           x,
           y,

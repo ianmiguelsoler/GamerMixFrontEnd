@@ -107,7 +107,7 @@ useEffect(() => {
     galeriaFiltrada,
     cargando,
     error,
-    filtrarGaleria, // ← exportamos la función
+    filtrarGaleria,
   };
 
   return (

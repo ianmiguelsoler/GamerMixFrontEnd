@@ -103,7 +103,8 @@ const ZonaDeMezclaTablero = ({
         newAnimations[item.reactId] = "mezcla-exito";
         setAnimaciones(newAnimations);
         setTimeout(() => setAnimaciones({}), 1500);
-        setTimeout(() => setMostrarCombinacion(resultado), 1600);
+        setTimeout(() => {setMostrarCombinacion({ ...resultado });}, 1600);
+
       }
     };
 

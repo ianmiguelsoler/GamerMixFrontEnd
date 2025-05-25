@@ -117,19 +117,20 @@ const comprobarLogros = async ({
     if (todasObtenidas) promesas.push(intentarAgregarLogro(LOGROS_IDS.todas));
 
     const combo = combinacionesDisponibles.find((c) => c.id === combinacionId);
-    if (combo?.id_skin?.toString() === ID_SKIN_LEGENDARIA) {
+
+    if (combo?.id === ID_SKIN_LEGENDARIA) {
       promesas.push(intentarAgregarLogro(LOGROS_IDS.skinLegendaria));
     }
 
-    const idsUsuario = combinacionesDisponibles
-      .filter((c) => c.obtenida || c.id === combinacionId)
-      .map((c) => c.id);
+   // Usa galería actual más la nueva combinación
+    const idsUsuario = [...galeriaUsuario, combinacionId].filter(Boolean);
 
     const tieneTodosPoro = COMBINACIONES_MUNDO_PORO.every((id) =>
       idsUsuario.includes(id)
     );
-    if (tieneTodosPoro) promesas.push(intentarAgregarLogro(LOGROS_IDS.mundoPoro));
-
+    if (tieneTodosPoro) {
+      promesas.push(intentarAgregarLogro(LOGROS_IDS.mundoPoro));
+    }
     await Promise.all(promesas);
 
     if (logrosNuevos.length > 0) {
@@ -255,7 +256,7 @@ const comprobarLogros = async ({
           usuarioId: usuario.id,
           mezclasTotales,
           fallo: true,
-          combinacionId: null,
+          combinacionId: combinacion.id,
           combinacionesDisponibles,
         });
 

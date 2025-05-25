@@ -5,6 +5,7 @@ import InfoIcon from "@mui/icons-material/Info";
 import CleaningServicesIcon from "@mui/icons-material/CleaningServices";
 import { useDroppable, useDraggable } from "@dnd-kit/core";
 import { contextoLogros } from "../../../../contextos/ProveedorMezclasLogros.jsx";
+import { useTranslation } from "react-i18next";
 
 const DraggableMezcla = ({ mezcla, activeDragId, animacion }) => {
   const { attributes, listeners, setNodeRef } = useDraggable({
@@ -43,6 +44,7 @@ const ZonaDeMezclaTablero = ({
   activeDragId,
   activeDragItem,
 }) => {
+  const { t } = useTranslation("zonaDeMezcla");
   const { setNodeRef } = useDroppable({ id: "zona-soltar" });
 
   const {
@@ -56,7 +58,6 @@ const ZonaDeMezclaTablero = ({
 
   const limpiarTablero = () => setMezclasActivas([]);
 
-  // Bloquear scroll cuando el popup está activo
   useEffect(() => {
     if (mostrarCombinacion) {
       document.body.classList.add("popup-activo");
@@ -103,8 +104,13 @@ const ZonaDeMezclaTablero = ({
         newAnimations[item.reactId] = "mezcla-exito";
         setAnimaciones(newAnimations);
         setTimeout(() => setAnimaciones({}), 1500);
-        setTimeout(() => {setMostrarCombinacion({ ...resultado });}, 1600);
-
+        setTimeout(() => {
+          setMostrarCombinacion({
+            nombre: resultado.nombre_combinacion,
+            descripcion: resultado.descripcion,
+            image_url: resultado.image_url,
+          });
+        }, 1600);
       }
     };
 
@@ -114,7 +120,11 @@ const ZonaDeMezclaTablero = ({
   return (
     <div className="zona-central">
       <div className="zona-cabecera">
-        <button className="info-boton" onClick={mostrarInfo} title="Información">
+        <button
+          className="info-boton"
+          onClick={mostrarInfo}
+          title={t("tooltipInfo")}
+        >
           <InfoIcon />
         </button>
         <div
@@ -141,13 +151,13 @@ const ZonaDeMezclaTablero = ({
         <button
           className="limpiar-boton"
           onClick={limpiarTablero}
-          title="Limpiar tablero"
+          title={t("tooltipClear")}
         >
           <CleaningServicesIcon />
         </button>
 
         {mezclasActivas.length === 0 ? (
-          <p className="zona-indicacion">Arrastra aquí tus skins...</p>
+          <p className="zona-indicacion">{t("dropHint")}</p>
         ) : (
           mezclasActivas.map((mezcla) => (
             <DraggableMezcla
@@ -172,6 +182,12 @@ const ZonaDeMezclaTablero = ({
             className="imagen-combinacion"
           />
           <div className="nombre-combinacion">{mostrarCombinacion.nombre}</div>
+          <div className="descripcion-combinacion">
+            {mostrarCombinacion.descripcion}...{" "}
+            <span className="continua-historia">
+              {t("continueInCollection")}
+            </span>
+          </div>
         </div>
       )}
     </div>

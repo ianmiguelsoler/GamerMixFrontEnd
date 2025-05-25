@@ -3,7 +3,11 @@ const zonaDeMezcla = {
   popupText1: "Welcome! Here you can mix your skins and items to unlock <b>exclusive new skins</b>.",
   popupText2: "Each mix gives you points that you can use to redeem rewards.",
   understood: "Got it!",
-  markerText: "Mixes: {{hechas}} / {{totales}}"
+  markerText: "Mixes: {{hechas}} / {{totales}}",
+  tooltipInfo: "Information",
+  tooltipClear: "Clear board",
+  dropHint: "Drag your skins here...",
+  continueInCollection: "Continue the story in the collections section."
 };
 
 export default zonaDeMezcla;

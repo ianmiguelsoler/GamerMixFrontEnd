@@ -2,12 +2,14 @@ import React, { createContext, useContext, useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import { supabaseConexion } from "../config/supabase";
 import { contextoSesion } from "./ProveedorSesion.jsx";
+import { useTranslation } from "react-i18next";
 import usaLogros from "../hooks/usaLogros.js";
 
 const contextoLogros = createContext();
 
 const ProveedorMezclasLogros = ({ children }) => {
   const { usuario } = useContext(contextoSesion);
+  const { i18n } = useTranslation();
 
   const [logrosUsuario, setLogrosUsuario] = useState([]);
   const [totalLogros, setTotalLogros] = useState(0);
@@ -31,36 +33,55 @@ const ProveedorMezclasLogros = ({ children }) => {
   const { comprobarLogros } = usaLogros();
 
   const obtenerLogros = async () => {
-    try {
-      setCargandoLogros(true);
-      if (!usuario?.id) return;
+      try {
+        setCargandoLogros(true);
+        if (!usuario?.id) return;
 
-      const { data, error } = await supabaseConexion
-        .from("logros_usuarios")
-        .select(`fecha_obtenido, logros (id, nombre_logro, descripcion, puntos, image_url, created_at)`)
-        .eq("id_usuario", usuario.id);
+        const idioma = i18n.language;
+        const campoNombre = idioma === "en" ? "nombre_logro_en" : "nombre_logro";
+        const campoDescripcion = idioma === "en" ? "descripcion_en" : "descripcion";
 
-      if (error) throw error;
+        const { data, error } = await supabaseConexion
+          .from("logros_usuarios")
+          .select(`
+            fecha_obtenido,
+            logros (
+              id,
+              ${campoNombre},
+              ${campoDescripcion},
+              puntos,
+              image_url,
+              created_at
+            )
+          `)
+          .eq("id_usuario", usuario.id);
 
-      const logrosConDetalle = data.map((registro) => ({
-        ...registro.logros,
-        fecha_obtenido: registro.fecha_obtenido,
-      }));
+        if (error) throw error;
 
-      const { count } = await supabaseConexion
-        .from("logros")
-        .select("*", { count: "exact", head: true });
+        const logrosConDetalle = data.map((registro) => ({
+          id: registro.logros.id,
+          nombre_logro: registro.logros[campoNombre],
+          descripcion: registro.logros[campoDescripcion],
+          puntos: registro.logros.puntos,
+          image_url: registro.logros.image_url,
+          created_at: registro.logros.created_at,
+          fecha_obtenido: registro.fecha_obtenido,
+        }));
 
-      setLogrosUsuario(logrosConDetalle);
-      setTotalLogros(count);
-    } catch (err) {
-      setErrorLogros(err.message);
-    } finally {
-      setCargandoLogros(false);
-    }
-  };
+        const { count } = await supabaseConexion
+          .from("logros")
+          .select("*", { count: "exact", head: true });
 
-  useEffect(() => { obtenerLogros(); }, [usuario]);
+        setLogrosUsuario(logrosConDetalle);
+        setTotalLogros(count);
+      } catch (err) {
+        setErrorLogros(err.message);
+      } finally {
+        setCargandoLogros(false);
+      }
+    };
+
+  useEffect(() => { obtenerLogros(); }, [usuario, i18n.language]);
 
   useEffect(() => {
     const cargarCombinaciones = async () => {
@@ -173,6 +194,7 @@ const ProveedorMezclasLogros = ({ children }) => {
       setGaleriaUsuario(nuevaGaleria);
       setMezclasHechas(nuevaGaleria.length);
 
+      console.log("Combinación guardada:", combinacion);
       setDatosCombinacionExitosa({
         nombre: combinacion.nombre_combinacion,
         descripcion: combinacion.descripcion,

@@ -11,8 +11,24 @@
   border-left: 2px solid #9e79ff;
   user-select: none;
   -webkit-user-drag: none;
+  scrollbar-width: thin;
+  scrollbar-color: #9333ea #1f2937;
 }
 
+   .barra-lateral::-webkit-scrollbar {
+    width: 10px;
+  }
+
+  .barra-lateral::-webkit-scrollbar-track {
+    background: #1f2937;
+    border-radius: 8px;
+  }
+
+  .barra-lateral::-webkit-scrollbar-thumb {
+    background: linear-gradient(#9333ea, #3b82f6);
+    border-radius: 8px;
+    box-shadow: inset 0 0 4px rgba(255, 255, 255, 0.3);
+  }
 /* Contenedor de cada ícono (draggable) */
 .icono-contenedor {
   display: flex;

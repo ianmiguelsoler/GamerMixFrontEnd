@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import imagenesPredefinidas from "../assets/imagenesPerfilUrls.js";
 import { useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import usaLogros from "../hooks/usaLogros";
 
 const contextoSesion = createContext();
 
@@ -11,6 +12,7 @@ const ProveedorSesion = ({ children }) => {
   const navegar = useNavigate();
   const location = useLocation();
   const { t, i18n } = useTranslation("login");
+const { comprobarLogros } = usaLogros();
 
   const datosSesionInicial = {
     email: "",
@@ -105,7 +107,7 @@ const ProveedorSesion = ({ children }) => {
       }
       await obtenerUsuario();
       setSesionIniciada(true);
-      navegar("/perfil");
+      navegar("/jugar");
       return { success: true };
     } catch (error) {
       setErrorUsuario(error.message);
@@ -201,23 +203,31 @@ const ProveedorSesion = ({ children }) => {
     }
   };
 
-  const guardarPerfilUsuario = async (id, datosActualizados) => {
-    try {
-      const { data, error } = await supabaseConexion
-        .from("users")
-        .update(datosActualizados)
-        .eq("id", id)
-        .select()
-        .single();
+const guardarPerfilUsuario = async (id, datosActualizados) => {
+  console.log(datosActualizados);
+  try {
+    const { data, error } = await supabaseConexion
+      .from("users")
+      .update(datosActualizados)
+      .eq("id", id)
+      .select()
+      .single();
 
-      if (error) throw error;
-      await obtenerUsuario();
-      return { data, error: null };
-    } catch (error) {
-      return { data: null, error };
+    if (error) throw error;
+
+    if (datosActualizados.imagen) {
+      await comprobarLogros({
+        usuarioId: id,
+        cambioImagenPerfil: true,
+      });
     }
-  };
 
+    await obtenerUsuario();
+    return { data, error: null };
+  } catch (error) {
+    return { data: null, error };
+  }
+};
   const cambiarPassword = async () => {
     try {
       const { password } = datosSesion;

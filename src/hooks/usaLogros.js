@@ -1,3 +1,4 @@
+// src/hooks/usaLogros.js
 import { useRef } from "react";
 import Swal from "sweetalert2";
 import { supabaseConexion } from "../config/supabase";
@@ -9,6 +10,7 @@ const COMBINACIONES_MUNDO_PORO = [
   "b5b778a4-a1a9-4948-92e8-bb3c2db8ada6",
 ];
 const ID_SKIN_LEGENDARIA = "1c960cdd-1637-4d3f-9bc0-d967c5616332";
+const LOGRO_CAMBIO_IMAGEN = "dd63391e-1872-4dee-b25b-d7bdc39cc7ac";
 
 const LOGROS_IDS = {
   primera: "40816c06-42af-4210-9326-0da782bd78ba",
@@ -18,6 +20,7 @@ const LOGROS_IDS = {
   todas: "a837f0d5-b80b-4b52-adc5-f356828dfa5e",
   skinLegendaria: "b36b9ee5-bef8-4008-8179-270a26c692ef",
   mundoPoro: LOGRO_MUNDO_PORO,
+  cambioImagen: LOGRO_CAMBIO_IMAGEN,
 };
 
 const usaLogros = () => {
@@ -64,8 +67,9 @@ const usaLogros = () => {
     mezclasTotales,
     fallo = false,
     combinacionId = null,
-    combinacionesDisponibles,
+    combinacionesDisponibles = [],
     galeriaUsuario = [],
+    cambioImagenPerfil = false,
   }) => {
     try {
       const { data: yaTiene } = await supabaseConexion
@@ -124,6 +128,10 @@ const usaLogros = () => {
 
       if (tieneTodosPoro) {
         promesas.push(intentarAgregarLogro(LOGROS_IDS.mundoPoro));
+      }
+
+      if (cambioImagenPerfil) {
+        promesas.push(intentarAgregarLogro(LOGROS_IDS.cambioImagen));
       }
 
       await Promise.all(promesas);

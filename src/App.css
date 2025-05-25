@@ -3,6 +3,7 @@
 body {
   font-family: "Press Start 2P", cursive;
 }
+
 /* Clase especial para texto pixelado */
 .pixelated {
   font-family: "Press Start 2P", cursive;
@@ -54,7 +55,18 @@ body {
   color: #888;
 }
 
-/* 💫 Layout general del Swal con imagen y texto */
+/* 💫 SweetAlert personalizado con estilo perfil */
+.swal2-popup.swal2-toast {
+  border-radius: 12px !important;
+  background: linear-gradient(135deg, #9333ea, #3b82f6) !important;
+  box-shadow: 0 4px 16px rgba(147, 51, 234, 0.6) !important;
+  border: none !important;
+  font-family: "Press Start 2P", monospace !important;
+  padding: 1rem !important;
+  color: white !important;
+}
+
+/* Layout general del Swal con imagen y texto */
 .swal-logro-contenedor {
   display: flex;
   align-items: center;
@@ -66,30 +78,43 @@ body {
 .swal-logro-texto {
   flex: 1;
   text-align: left;
-  font-family: sans-serif;
+  font-family: "Press Start 2P", monospace;
+  font-size: 10px;
+  color: white;
+  text-shadow: 0 0 4px #000;
 }
 
 .swal-logro-texto h3 {
-  margin: 0 0 4px;
-  font-size: 1.1rem;
-  color: #333;
-  font-weight: bold;
+  margin: 0 0 6px;
+  font-size: 10px;
+  color: #fff;
 }
 
 .swal-logro-texto p {
   margin: 0;
-  font-size: 0.9rem;
-  color: #555;
+  font-size: 9px;
+  color: #cbd5e1;
 }
 
-/* Imagen con animación */
+/* Imagen del logro */
 .swal-logro-imagen {
   width: 60px;
   height: 60px;
   border-radius: 12px;
-  border: 3px solid gold;
+  border: 2px solid #a78bfa;
   animation: brilloDorado 1.5s infinite ease-in-out;
   object-fit: cover;
+  box-shadow: 0 0 6px #6366f1;
+}
+
+/* Animación brillante */
+@keyframes brilloDorado {
+  0%, 100% {
+    box-shadow: 0 0 4px #facc15, 0 0 8px #facc15;
+  }
+  50% {
+    box-shadow: 0 0 10px #facc15, 0 0 20px #facc15;
+  }
 }
 
 /* 🔄 Responsive: en móvil se apila verticalmente */

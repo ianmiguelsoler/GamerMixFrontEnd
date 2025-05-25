@@ -111,10 +111,16 @@ const comprobarLogros = async ({
     if (mezclasTotales >= 5) promesas.push(intentarAgregarLogro(LOGROS_IDS.cinco));
     if (mezclasTotales >= 10) promesas.push(intentarAgregarLogro(LOGROS_IDS.diez));
 
-    const todasObtenidas = combinacionesDisponibles.every(
-      (c) => c.obtenida || c.id === combinacionId
+    const idsUsuario = [...galeriaUsuario, combinacionId].filter(Boolean);
+    const idsTodas = combinacionesDisponibles.map((c) => c.id);
+
+    const tieneTodasLasCombinaciones = idsTodas.every((id) =>
+      idsUsuario.includes(id)
     );
-    if (todasObtenidas) promesas.push(intentarAgregarLogro(LOGROS_IDS.todas));
+
+    if (tieneTodasLasCombinaciones) {
+      promesas.push(intentarAgregarLogro(LOGROS_IDS.todas));
+    }
 
     const combo = combinacionesDisponibles.find((c) => c.id === combinacionId);
 
@@ -123,10 +129,10 @@ const comprobarLogros = async ({
     }
 
    // Usa galería actual más la nueva combinación
-    const idsUsuario = [...galeriaUsuario, combinacionId].filter(Boolean);
+    const idsUsuarioPoro = [...galeriaUsuario, combinacionId].filter(Boolean);
 
     const tieneTodosPoro = COMBINACIONES_MUNDO_PORO.every((id) =>
-      idsUsuario.includes(id)
+      idsUsuarioPoro.includes(id)
     );
     if (tieneTodosPoro) {
       promesas.push(intentarAgregarLogro(LOGROS_IDS.mundoPoro));
@@ -256,7 +262,7 @@ const comprobarLogros = async ({
           usuarioId: usuario.id,
           mezclasTotales,
           fallo: true,
-          combinacionId: combinacion.id,
+          combinacionId: null,
           combinacionesDisponibles,
         });
 

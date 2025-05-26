@@ -3,6 +3,9 @@ import { useRef } from "react";
 import Swal from "sweetalert2";
 import { supabaseConexion } from "../config/supabase";
 
+import audioLogro from "../assets/obtencionDeLogros.mp3";
+import audioUltimoLogro from "../assets/ultimoLogroObtenido.mp3";
+
 const LOGRO_MUNDO_PORO = "8d17e480-57d1-4cc7-bd7d-4ca47739cd9f";
 const COMBINACIONES_MUNDO_PORO = [
   "58b75c04-6661-49a3-86fc-46586c33206b",
@@ -23,9 +26,13 @@ const LOGROS_IDS = {
   cambioImagen: LOGRO_CAMBIO_IMAGEN,
 };
 
-const usaLogros = () => {
+const usaLogros = (sonidoActivo = true) => {
   const mostrandoLogro = useRef(false);
   const colaLogros = useRef([]);
+  const logrosObtenidos = useRef(new Set());
+
+  const audioRefNormal = useRef(new Audio(audioLogro));
+  const audioRefFinal = useRef(new Audio(audioUltimoLogro));
 
   const mostrarVariosLogros = async (logros) => {
     if (!logros || logros.length === 0) return;
@@ -44,21 +51,37 @@ const usaLogros = () => {
       )
       .join("<hr style='margin: 1rem 0; border: none; border-top: 1px dashed #ccc;'>");
 
-    colaLogros.current.push(html);
+    colaLogros.current.push({ html, total: logros.length });
+
     if (mostrandoLogro.current) return;
 
     mostrandoLogro.current = true;
+
     while (colaLogros.current.length > 0) {
-      const siguiente = colaLogros.current.shift();
+      const { html: siguienteHtml, total } = colaLogros.current.shift();
+
+      const totalLogros = Object.values(LOGROS_IDS).length;
+      const logrosActuales = logrosObtenidos.current.size;
+      const seraUltimo = logrosActuales + total >= totalLogros;
+
+      if (sonidoActivo) {
+        if (seraUltimo) {
+          audioRefFinal.current.play();
+        } else {
+          audioRefNormal.current.play();
+        }
+      }
+
       await Swal.fire({
         position: "top-end",
-        html: siguiente,
+        html: siguienteHtml,
         showConfirmButton: false,
         timer: 5000,
         toast: true,
         background: "#fff",
       });
     }
+
     mostrandoLogro.current = false;
   };
 
@@ -78,11 +101,13 @@ const usaLogros = () => {
         .eq("id_usuario", usuarioId);
 
       const idsLogrosUsuario = yaTiene.map((l) => l.id_logro);
+      idsLogrosUsuario.forEach((id) => logrosObtenidos.current.add(id));
+
       const logrosNuevos = [];
       const promesas = [];
 
       const intentarAgregarLogro = async (idLogro) => {
-        if (idsLogrosUsuario.includes(idLogro)) return;
+        if (logrosObtenidos.current.has(idLogro)) return;
 
         const { data: logroData } = await supabaseConexion
           .from("logros")
@@ -97,6 +122,7 @@ const usaLogros = () => {
           .insert({ id_usuario: usuarioId, id_logro: idLogro });
 
         logrosNuevos.push(logroData);
+        logrosObtenidos.current.add(idLogro);
       };
 
       if (fallo) promesas.push(intentarAgregarLogro(LOGROS_IDS.fallo));
@@ -107,16 +133,11 @@ const usaLogros = () => {
       const idsUsuario = [...galeriaUsuario, combinacionId].filter(Boolean);
       const idsTodas = combinacionesDisponibles.map((c) => c.id);
 
-      const tieneTodasLasCombinaciones = idsTodas.every((id) =>
-        idsUsuario.includes(id)
-      );
-
-      if (tieneTodasLasCombinaciones) {
+      if (idsTodas.every((id) => idsUsuario.includes(id))) {
         promesas.push(intentarAgregarLogro(LOGROS_IDS.todas));
       }
 
       const combo = combinacionesDisponibles.find((c) => c.id === combinacionId);
-
       if (combo?.id === ID_SKIN_LEGENDARIA) {
         promesas.push(intentarAgregarLogro(LOGROS_IDS.skinLegendaria));
       }
@@ -125,7 +146,6 @@ const usaLogros = () => {
       const tieneTodosPoro = COMBINACIONES_MUNDO_PORO.every((id) =>
         idsUsuarioPoro.includes(id)
       );
-
       if (tieneTodosPoro) {
         promesas.push(intentarAgregarLogro(LOGROS_IDS.mundoPoro));
       }

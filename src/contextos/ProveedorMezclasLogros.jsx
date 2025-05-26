@@ -4,6 +4,7 @@ import { supabaseConexion } from "../config/supabase";
 import { contextoSesion } from "./ProveedorSesion.jsx";
 import { useTranslation } from "react-i18next";
 import usaLogros from "../hooks/usaLogros.js";
+import { useSound } from "./AdministradorDeSonido.jsx";
 
 const contextoLogros = createContext();
 
@@ -30,8 +31,9 @@ const ProveedorMezclasLogros = ({ children }) => {
   const [skins, setSkins] = useState([]);
   const [items, setItems] = useState([]);
 
-  const { comprobarLogros } = usaLogros();
-
+  const { sonidoActivo } = useSound();
+  const { comprobarLogros } = usaLogros(sonidoActivo);
+  
   const obtenerLogros = async () => {
       try {
         setCargandoLogros(true);
@@ -161,14 +163,14 @@ const ProveedorMezclasLogros = ({ children }) => {
           text: "Esa combinación no se puede conseguir porque no existe.",
         });
 
-        await comprobarLogros({
-          usuarioId: usuario.id,
-          mezclasTotales,
-          fallo: true,
-          combinacionId: null,
-          combinacionesDisponibles,
-          galeriaUsuario,
-        });
+       await comprobarLogros({
+        usuarioId: usuario.id,
+        mezclasTotales: mezclasHechas,
+        fallo: true,
+        combinacionId: null,
+        combinacionesDisponibles,
+        galeriaUsuario,
+      });
 
         await obtenerLogros();
         return false;

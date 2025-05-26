@@ -98,19 +98,19 @@ const ZonaDeMezclaTablero = ({
         newAnimations[skin.reactId] = "mezcla-error";
         newAnimations[item.reactId] = "mezcla-error";
         setAnimaciones(newAnimations);
-        setTimeout(() => setAnimaciones({}), 3000);
+        setTimeout(() => setAnimaciones({}), 300);
       } else {
         newAnimations[skin.reactId] = "mezcla-exito";
         newAnimations[item.reactId] = "mezcla-exito";
         setAnimaciones(newAnimations);
-        setTimeout(() => setAnimaciones({}), 1500);
+        setTimeout(() => setAnimaciones({}), 150);
         setTimeout(() => {
           setMostrarCombinacion({
             nombre: resultado.nombre_combinacion,
             descripcion: resultado.descripcion,
             image_url: resultado.image_url,
           });
-        }, 1600);
+        }, 160);
       }
     };
 

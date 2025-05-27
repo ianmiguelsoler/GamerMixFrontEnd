@@ -92,7 +92,7 @@ const Navegacion = () => {
 
           {!sesionIniciada ? (
             <Link
-              className="navegacion__icono"
+              className="navegacion__icono login"
               to="/iniciarsesion"
               title={t("login")}
               onClick={() => cerrarMenu()}

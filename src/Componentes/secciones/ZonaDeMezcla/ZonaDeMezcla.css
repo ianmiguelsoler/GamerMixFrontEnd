@@ -75,14 +75,6 @@
     overflow: hidden;
   }
   
-  .zona-indicacion {
-    color: #555;
-    font-size: 12px;
-    font-family: monospace;
-    padding: 1rem;
-    text-align: center;
-  }
-  
   /* Skins soltadas */
   .mezcla-preview {
     width: 70px;

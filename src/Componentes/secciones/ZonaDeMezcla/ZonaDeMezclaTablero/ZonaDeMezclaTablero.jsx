@@ -56,7 +56,17 @@ const ZonaDeMezclaTablero = ({
   const [animaciones, setAnimaciones] = useState({});
   const [mostrarCombinacion, setMostrarCombinacion] = useState(null);
 
-  const limpiarTablero = () => setMezclasActivas([]);
+  const limpiarTablero = () => {
+    setMezclasActivas([]);
+    const btn = document.querySelector(".limpiar-boton");
+    if (btn) {
+      btn.classList.add("animando-icono");
+      setTimeout(() => {
+        btn.classList.remove("animando-icono");
+      }, 600);
+    }
+  };
+
 
   useEffect(() => {
     if (mostrarCombinacion) {

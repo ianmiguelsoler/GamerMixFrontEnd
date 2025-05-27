@@ -1,7 +1,7 @@
 const zonaDeMezcla = {
   popupTitle: "Zona de mezcla",
   popupText1: "Bienvenido, aquí puedes mezclar tus skins y elementos para desbloquear <b>nuevas skins exclusivas</b>.",
-  popupText2: "Cada mezcla te da puntos que podrás usar para canjear contenido.",
+  popupText2: "Arrastra tus skins a la zona de mezcla y combina elementos para crear nuevas mezclas.",
   understood: "¡Entendido!",
   markerText: "Mezclas: {{hechas}} / {{totales}}",
   tooltipInfo: "Información",

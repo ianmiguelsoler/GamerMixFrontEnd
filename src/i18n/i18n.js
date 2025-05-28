@@ -67,7 +67,7 @@ const resources = {
     cambiarPassword: esCambiarPassword,
     logros: esLogros, 
     error: esError,
-    esInicio
+    inicio: esInicio,
   },
   en: {
     navegacion: enNavegacion,
@@ -82,7 +82,7 @@ const resources = {
     cambiarPassword: enCambiarPassword,
     logros: enLogros, 
     error: enError,
-    enInicio
+    inicio: enInicio
   },
 };
 

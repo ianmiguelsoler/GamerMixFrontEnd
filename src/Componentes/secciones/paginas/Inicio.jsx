@@ -1,94 +1,66 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { motion } from "framer-motion";
-import { FaGamepad } from "react-icons/fa";
-import { createSwapy } from "swapy";
+import { useNavigate } from "react-router-dom";
+import Ballpit from "../../../bibliotecas/Ballpit.jsx";
+import StarBorder from "../../../bibliotecas/StarBorder.jsx";
+import ShinyText from "../../../bibliotecas/ShinyText.jsx";
+import RandomSkinBackground from "../../../bibliotecas/RandomSkinBackground.jsx";
 import "./inicio.css";
-
-const champions = [
-  {
-    id: 1,
-    name: "Ahri",
-    description: "Una maga encantadora con gran movilidad y daño explosivo.",
-    image: "https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Ahri_0.jpg",
-  },
-  {
-    id: 2,
-    name: "Yasuo",
-    description: "Un espadachín ágil con un alto dominio del viento y daño crítico.",
-    image: "https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Yasuo_0.jpg",
-  },
-  {
-    id: 3,
-    name: "Jinx",
-    description: "Una tiradora caótica con explosivos y muchas balas.",
-    image: "https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Jinx_0.jpg",
-  },
-  {
-    id: 4,
-    name: "Darius",
-    description: "Un guerrero brutal con un enorme hacha y gran daño físico.",
-    image: "https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Darius_0.jpg",
-  },
-  {
-    id: 5,
-    name: "Lux",
-    description: "Una maga brillante con control de luz y grandes efectos visuales.",
-    image: "https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Lux_0.jpg",
-  },
-  {
-    id: 6,
-    name: "Ekko",
-    description: "Un genio que manipula el tiempo con un ingenioso dispositivo.",
-    image: "https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Ekko_0.jpg",
-  }
-];
-
 const Inicio = () => {
-  useEffect(() => {
-    const container = document.querySelector(".swapy-container");
-    if (container) {
-      createSwapy(container, {
-        animation: "dynamic",
-      });
-    }
-  }, []);
+  const navegar = useNavigate();
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5 }}
-      className="inicio__fondo min-h-screen flex flex-col items-center p-6"
-    >
-      <h2 className="inicio__titulo">
-        <FaGamepad className="text-yellow-400" /> Bienvenido a GamerMix
-      </h2>
-
-      <p className="inicio__descripcion">
-        Esta aplicación te permitirá combinar skins con elementos y probar cómo se ven juntos. 
-        Puedes arrastrar y soltar los campeones para experimentar con diferentes combinaciones.
-      </p>
-
-      <div className="swapy-container inicio__columnas">
-        {champions.map((champion) => (
-          <div key={champion.id} className="swapy-slot inicio__columna" data-swapy-slot={champion.id}>
-            <div className="swapy-item cursor-grab active:scale-95" data-swapy-item={champion.id}>
-              <motion.div
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="flex flex-col items-center text-center"
-              >
-                <div className="inicio__imagen-container">
-                  <img src={champion.image} alt={champion.name} className="inicio__terminal" />
-                </div>
-                <h3 className="inicio__nombre">{champion.name}</h3>
-                <p className="inicio__texto">{champion.description}</p>
-              </motion.div>
-            </div>
-          </div>
-        ))}
+    <>
+       <RandomSkinBackground />
+      <div className="ballpit-background-inicio">
+        <Ballpit count={100} gravity={1.5} colors={["#a64dff", "#3b82f6", "#0ff", "#f472b6", "#0f172a"]} />
       </div>
-    </motion.div>
+    <div className="inicio__fondo">
+     
+
+      <motion.div
+        initial={{ opacity: 0, y: 25 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+        className="flex flex-col items-center justify-center z-10 relative text-center p-6"
+      >
+        <h1 className="inicio__titulo pixelated mb-6">
+          <ShinyText text="🎮 Bienvenido a GamerMix" speed="2s" color="yellow" />
+        </h1>
+
+        <div className="inicio__video-placeholder">
+          🎥 Aquí irá tu vídeo demostrativo
+        </div>
+
+        <ul className="inicio__lista mt-8 mb-6">
+          <li><StarBorder color="cyan" speed="1.5s">🔄 Combina skins con objetos únicos</StarBorder></li>
+          <li><StarBorder color="purple" speed="2s">🎮 Usa drag & drop para experimentar</StarBorder></li>
+          <li><StarBorder color="blue" speed="2s">🧠 Descubre combinaciones secretas</StarBorder></li>
+          <li><StarBorder color="pink" speed="2s">🏅 Desbloquea logros al jugar</StarBorder></li>
+          <li><StarBorder color="lime" speed="2s">💾 Guarda tus mezclas favoritas</StarBorder></li>
+        </ul>
+
+        <a
+          href="https://ianmiguelsoler.github.io/GamerMixFrontEnd/guia-usuario"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inicio__guia"
+        >
+          📘 Leer guía de usuario
+        </a>
+
+        <StarBorder
+          as="button"
+          className="boton-pixel mt-4"
+          color="indigo"
+          speed="1.8s"
+          onClick={() => navegar("/zona-de-mezcla")}
+        >
+          🚀 ¡Comienza tu aventura!
+        </StarBorder>
+      </motion.div>
+    </div>
+    </>
   );
 };
 

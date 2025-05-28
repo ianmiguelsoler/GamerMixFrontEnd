@@ -50,6 +50,9 @@ import enLogros from "./locales/en/logros/logros.js";
 import esError from "./locales/es/error/error.js";
 import enError from "./locales/en/error/error.js";
 
+// Inicio
+import esInicio from "./locales/es/inicio/inicio.js";
+import enInicio from "./locales/en/inicio/inicio.js";
 const resources = {
   es: {
     navegacion: esNavegacion,
@@ -64,6 +67,7 @@ const resources = {
     cambiarPassword: esCambiarPassword,
     logros: esLogros, 
     error: esError,
+    esInicio
   },
   en: {
     navegacion: enNavegacion,
@@ -78,6 +82,7 @@ const resources = {
     cambiarPassword: enCambiarPassword,
     logros: enLogros, 
     error: enError,
+    enInicio
   },
 };
 

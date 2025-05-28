@@ -102,11 +102,23 @@
 }
 
 .zona-indicacion {
-  color: #555;
+  font-family: "Press Start 2P";
+  color: #9e79ff;
   font-size: 12px;
-  font-family: monospace;
   padding: 1rem;
   text-align: center;
+}
+/* Animación de barrido */
+@keyframes barrer {
+  0% { transform: rotate(0deg); }
+  25% { transform: rotate(15deg); }
+  50% { transform: rotate(-10deg); }
+  75% { transform: rotate(10deg); }
+  100% { transform: rotate(0deg); }
+}
+
+.limpiar-boton.animando-icono svg {
+  animation: barrer 0.6s ease-in-out;
 }
 
 /* Elementos arrastrados al tablero */

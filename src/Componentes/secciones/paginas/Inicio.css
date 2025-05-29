@@ -1,11 +1,11 @@
 /* Fondo animado con desenfoque */
 .inicio__fondo {
-position: relative;
-  height: 100%;
-  width: 68vw;
+  position: relative;
+  height: auto;
+  width: 68vw;  
   display: flex;
   flex-direction: column;
-  padding: 140px 24px 24px 24px; /* Espacio generoso arriba */
+  padding: 140px 24px 24px 24px;
   background: rgba(17, 24, 39, 0.85);
   backdrop-filter: blur(8px);
   border-radius: 16px;
@@ -15,138 +15,318 @@ position: relative;
   z-index: 10;
 }
 
-/* Título pixelado con sombra brillante */
+/* Título pixelado */
 .inicio__titulo {
   font-size: 2.8rem;
   color: #fef08a;
   text-shadow: 0 0 6px #fde68a, 0 0 10px #facc15;
   font-family: "Press Start 2P", monospace;
-  text-align: center;
-  margin-bottom: 20px;
   display: flex;
   align-items: center;
-  gap: 10px;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: nowrap;
+  margin-bottom: 20px;
+  white-space: nowrap;
 }
 
-/* Estilo para el espacio del video */
-.inicio__video-placeholder {
+.inicio__emoji {
+  font-size: 3rem;
+  line-height: 1;
+}
+
+.inicio__text {
+  color: #7c3aed;
+  font-size: 3rem;
+  text-align: center;
+  white-space: normal;
+}
+
+/* Video */
+.inicio__video {
   width: 100%;
-  max-width: 768px;
+  max-width: 800px;
   aspect-ratio: 16 / 9;
+  border-radius: 1rem;
+  border: 4px solid #a64dff;
+  box-shadow: 0 0 24px rgba(147, 51, 234, 0.5);
+  margin: 1rem 0;
   background: black;
-  border: 4px solid #7c3aed;
+}
+
+/* Lista vintage */
+.television-vintage {
+  width: 100%;
+  max-width: 500px;
+  height: auto;
+  background: linear-gradient(to bottom, #1f2937, #111827);
+  border-radius: 20px;
+  border: 5px solid #0f172a;
+  box-shadow: 0 0 30px rgba(147, 51, 234, 0.6);
+  margin: 2rem auto;
+  padding: 12px;
+  position: relative;
+}
+
+.pantalla-vintage {
+  background: radial-gradient(circle at center, #3b82f6 0%, #1e3a8a 100%);
+  border: 3px inset #000;
   border-radius: 12px;
-  margin: 20px 0;
+  padding: 16px;
+  color: white;
+  font-family: "Press Start 2P", monospace;
+  box-shadow: inset 0 0 12px #38bdf8;
   display: flex;
   justify-content: center;
-  align-items: center;
-  color: white;
-  font-family: monospace;
-  font-size: 1rem;
 }
 
-/* Listado de características */
-.inicio__lista {
-  font-family: "Press Start 2P", monospace;
-  background: rgba(0, 0, 0, 0.6);
-  border: 2px solid #a78bfa;
-  border-radius: 1rem;
-  color: #f8fafc;
-  padding: 20px;
-  max-width: 640px;
+.lista-vintage {
   list-style: none;
+  padding: 0;
+  margin: 0;
+  font-size: 0.6rem;
+  line-height: 1.6;
+  color: #f8fafc;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
   text-align: left;
-  margin-bottom: 2rem;
-  line-height: 1.8;
-  box-shadow: 0 0 20px rgba(147, 51, 234, 0.4);
 }
 
-.inicio__lista li {
-  margin-bottom: 1rem;
+/* Botones decorativos */
+.tv-botones {
+  position: absolute;
+  right: 10px;
+  top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  z-index: 5;
 }
 
-/* Enlace a guía de usuario */
-.inicio__guia {
-  color: #0ff;
-  text-decoration: underline;
-  font-family: "Press Start 2P", monospace;
-  transition: color 0.3s ease;
-  margin-bottom: 1.5rem;
-  font-size: 0.85rem;
+.tv-boton {
+  background: #0f172a;
+  border: 2px solid #64748b;
+  border-radius: 50%;
+  box-shadow: 0 0 6px rgba(147, 51, 234, 0.4);
 }
 
-.inicio__guia:hover {
-  color: #a5f3fc;
-}
+.tv-boton.grande { width: 18px; height: 18px; background: #7c3aed; }
+.tv-boton.mediano { width: 14px; height: 14px; background: #3b82f6; }
+.tv-boton.pequeño { width: 10px; height: 10px; background: #0ff; }
 
-/* Botón pixelado */
+/* Botón pixel */
 .boton-pixel {
   padding: 12px 24px;
+  margin-top: 5%;
   font-family: "Press Start 2P", monospace;
   font-size: 12px;
   text-align: center;
   cursor: pointer;
-  transition: all 0.3s ease;
   background: linear-gradient(135deg, #9333ea, #3b82f6);
   color: white;
   border: none;
   border-radius: 10px;
   box-shadow: 0 4px 12px rgba(147, 51, 234, 0.4);
+  transition: all 0.3s ease;
 }
-
 .boton-pixel:hover {
   transform: translateY(-2px) scale(1.03);
   box-shadow: 0 6px 16px rgba(59, 130, 246, 0.6);
 }
 
- .ballpit-background-inicio {
-    position: fixed;     /* Se mantiene fija al viewport */
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    z-index: 1;
-    pointer-events: none;
-  }
-    .inicio__video {
-    width: 100%;
-    max-width: 800px;
-    aspect-ratio: 16 / 9;
-    border-radius: 1rem;
-    border: 4px solid #a64dff;
-    box-shadow: 0 0 24px rgba(147, 51, 234, 0.5);
-    margin: 1rem 0;
-    background: black;
-    }
+/* Enlace guía */
+.inicio__guia {
+  margin-top: 1rem;
+  padding: 8px 16px;
+  font-family: "Press Start 2P", monospace;
+  font-size: 0.75rem;
+  color: #0ff;
+  background: rgba(59, 130, 246, 0.15);
+  border: 2px solid #0ff;
+  border-radius: 10px;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+.inicio__guia:hover {
+  background: rgba(59, 130, 246, 0.3);
+  color: #a5f3fc;
+  box-shadow: 0 0 8px #0ff;
+}
 
+.pixelated {
+  display: block; /* antes tenía flex innecesario */
+  font-family: "Press Start 2P", monospace;
+  text-align: center;
+  white-space: normal;
+  word-break: break-word;
+  overflow-wrap: break-word;
+  max-width: 100%;
+}
+
+.ballpit-background-inicio {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 1;
+  pointer-events: none;
+}
+.pixelated {
+  display: flex;
+  align-items: stretch;
+}
+.click-mouse {
+  position: absolute;
+  width: 32px;
+  height: 32px;
+  background: url('../../../assets/cursor.png') no-repeat center center;
+  background-size: contain;
+  animation: click-animation 3.5s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 999;
+}
+.click-mouse::after {
+  content: "";
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.3);
+  animation: click-pulse 3.5s ease-in-out infinite;
+}
+
+@keyframes click-pulse {
+  0%, 34% {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+  35% {
+    opacity: 1;
+    transform: scale(1.4);
+  }
+  36% {
+    opacity: 0;
+    transform: scale(2);
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+
+@keyframes click-animation {
+  0% {
+    transform: translate(200px, 50px) scale(1);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  25% {
+    transform: translate(60px, 0px);
+  }
+  35% {
+    transform: translate(60px, 0px) scale(0.9);
+    animation-timing-function: ease-in;
+  }
+  40% {
+    transform: translate(60px, 0px) scale(1);
+  }
+  50% {
+    transform: translate(0px, 0px);
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translate(0px, 0px);
+  }
+}
+
+@keyframes cursor-click {
+  0% {
+    transform: scale(1);
+    filter: brightness(1);
+  }
+  10% {
+    transform: scale(0.9);
+    filter: brightness(0.8);
+  }
+  20% {
+    transform: scale(1);
+    filter: brightness(1);
+  }
+}
 
 /* Responsive */
 @media (max-width: 768px) {
-  .inicio__titulo {
-    font-size: 2rem;
-    flex-direction: column;
+  .inicio__fondo {
+    width: 90vw;
+    padding: 30px 16px 24px 16px;
+  }
+  
+  
+.inicio__titulo {
+  font-size: 2.8rem;
+  color: #fef08a;
+  text-shadow: 0 0 6px #fde68a, 0 0 10px #facc15;
+  font-family: "Press Start 2P", monospace;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap; /* cambia a wrap en lugar de nowrap */
+  margin-bottom: 20px;
+  white-space: normal; /* permite salto de línea */
+  text-align: center;
+  word-break: break-word;
+  max-width: 100%;
+}
+
+  .inicio__emoji {
+    font-size: 3rem;
   }
 
-  .inicio__lista {
-    font-size: 0.65rem;
-    padding: 15px;
+  .inicio__text {
+    font-size: 1.8rem;
+    text-align: center;
+    white-space: normal;
   }
 
-  .inicio__video-placeholder {
-    aspect-ratio: 4 / 3;
+  .pantalla-vintage {
+    padding: 8px;
+  }
+
+  .lista-vintage {
+    font-size: 0.55rem;
+  }
+
+  .television-vintage {
+    width: 100%;
+    height: auto;
   }
 
   .boton-pixel {
     width: 100%;
+    font-size: 0.65rem;
+    margin-top: 20%;
   }
 
-    .ballpit-background-inicio {
+  .inicio__guia {
+    font-size: 0.65rem;
+    text-align: center;
+    width: 100%;
+  }
+
+  .ballpit-background-inicio {
     position: absolute;
     bottom: 0;
     left: 0;
     width: 100%;
     height: 100%;
     z-index: -1;
-    pointer-events: none;
   }
 }

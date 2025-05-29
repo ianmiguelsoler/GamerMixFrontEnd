@@ -1,4 +1,6 @@
-import React, { useRef } from "react";
+import React, { useRef, useContext} from "react";
+import { contextoSesion } from "../../../contextos/ProveedorSesion.jsx";
+
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
@@ -15,14 +17,22 @@ const Inicio = () => {
   const { t } = useTranslation("inicio");
   const navegar = useNavigate();
   const audioRef = useRef(new Audio(sonidoInicio));
+  const { usuario, sesionIniciada } = useContext(contextoSesion);
 
-  const manejarComienzo = () => {
-    audioRef.current.currentTime = 0;
-    audioRef.current.play();
-    setTimeout(() => {
+
+const manejarComienzo = () => {
+  audioRef.current.currentTime = 0;
+  audioRef.current.play();
+
+  setTimeout(() => {
+    if (usuario && sesionIniciada) {
+      navegar("/jugar");
+    } else {
       navegar("/iniciarsesion");
-    }, 300);
-  };
+    }
+  }, 300);
+};
+
 
   return (
     <>

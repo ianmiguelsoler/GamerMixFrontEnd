@@ -12,6 +12,7 @@ const enProfile = {
   changeLanguageButton: "🌐 Change Language",
   recoverPassword: "🔑 Recover Password",
   changePasswordButton: "Change Password",
+  userGuideButton: "User Guide", // 🆕
 
   // 🚫 Acceso restringido
   noAccess: "You do not have access to this page. Please log in.",

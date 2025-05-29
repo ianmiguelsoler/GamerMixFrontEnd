@@ -12,6 +12,7 @@ const esPerfil = {
   changeLanguageButton: "🌐 Cambiar idioma",
   recoverPassword: "🔑 Recuperar contraseña",
   changePasswordButton: " Cambiar contraseña", 
+  userGuideButton: "Guía de Usuario", // 🆕
 
   // 🚫 Acceso restringido
   noAccess: "No tienes acceso a esta página. Por favor, inicia sesión.",

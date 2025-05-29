@@ -14,14 +14,17 @@ import { mostrarNotificacion } from "../../../bibliotecas/notificacionesUsuario/
 const Perfil = () => {
   const navegar = useNavigate();
   const { t } = useTranslation("perfil");
-  const { usuario, imagenesDisponibles, guardarPerfilUsuario } = useContext(contextoSesion);
+  const { usuario, imagenesDisponibles, guardarPerfilUsuario } =
+    useContext(contextoSesion);
 
   const [modalAbierto, setModalAbierto] = useState(false);
   const [avatarSeleccionado, setAvatarSeleccionado] = useState(null);
   const [imagenCambiada, setImagenCambiada] = useState(false);
 
   const [modoEdicion, setModoEdicion] = useState({ nombre_usuario: false });
-  const [valoresEditables, setValoresEditables] = useState({ nombre_usuario: "" });
+  const [valoresEditables, setValoresEditables] = useState({
+    nombre_usuario: "",
+  });
 
   const imagenAleatoria = useMemo(() => {
     if (!imagenesDisponibles?.length) return null;
@@ -37,10 +40,12 @@ const Perfil = () => {
         setAvatarSeleccionado(aleatoria);
         mostrarNotificacion({
           title: t("chooseAvatarTitle") || "¡Elige tu Avatar!",
-          text: t("chooseAvatarMessage") || "Aún no has elegido una imagen de perfil. Se te asignará una aleatoriamente.",
+          text:
+            t("chooseAvatarMessage") ||
+            "Aún no has elegido una imagen de perfil. Se te asignará una aleatoriamente.",
           icon: "info",
           confirmButtonText: "OK",
-          timer: 4000
+          timer: 4000,
         });
       } else {
         setAvatarSeleccionado(usuario.imagen);
@@ -56,7 +61,10 @@ const Perfil = () => {
   }, [imagenesDisponibles]);
 
   const manejarCambio = (e) => {
-    setValoresEditables({ ...valoresEditables, [e.target.name]: e.target.value });
+    setValoresEditables({
+      ...valoresEditables,
+      [e.target.name]: e.target.value,
+    });
   };
 
   const activarEdicion = (campo) => {
@@ -67,7 +75,9 @@ const Perfil = () => {
     if (usuario[campo] !== valoresEditables[campo]) {
       mostrarNotificacion({
         title: t("unsavedChangesTitle") || "¿Salir sin guardar?",
-        text: t("unsavedChangesText") || "Has realizado cambios. ¿Qué deseas hacer?",
+        text:
+          t("unsavedChangesText") ||
+          "Has realizado cambios. ¿Qué deseas hacer?",
         icon: "warning",
         showDenyButton: true,
         showCancelButton: true,
@@ -96,13 +106,16 @@ const Perfil = () => {
 
     if (Object.keys(camposActualizados).length === 0) return;
 
-    const resultado = await guardarPerfilUsuario(usuario.id, camposActualizados);
+    const resultado = await guardarPerfilUsuario(
+      usuario.id,
+      camposActualizados
+    );
 
     if (resultado?.error) {
       mostrarNotificacion({
         title: "Error",
         text: "No se pudieron guardar los cambios.",
-        icon: "error"
+        icon: "error",
       });
       return;
     }
@@ -110,7 +123,7 @@ const Perfil = () => {
     mostrarNotificacion({
       title: t("successTitle") || "¡Listo!",
       text: t("savedMessage") || "Tus cambios han sido guardados.",
-      icon: "success"
+      icon: "success",
     });
 
     setModoEdicion({ nombre_usuario: false });
@@ -130,14 +143,25 @@ const Perfil = () => {
   return (
     <div className="perfil-container">
       <div className="ballpit-background">
-        <Ballpit count={100} gravity={1.5} colors={["#6fa8dc", "#a64dff", "#ff6666", "#f0f0f0", "#0f380f"]} />
+        <Ballpit
+          count={100}
+          gravity={1.5}
+          colors={["#6fa8dc", "#a64dff", "#ff6666", "#f0f0f0", "#0f380f"]}
+        />
       </div>
 
       <div className="perfil-card">
         <div className="perfil-contenido">
           <div className="perfil-avatar">
-            <img src={avatarSeleccionado || imagenPorDefecto} alt={t("title")} className="perfil-avatar-img" />
-            <button className="boton-pixel boton-avatar" onClick={() => setModalAbierto(true)}>
+            <img
+              src={avatarSeleccionado || imagenPorDefecto}
+              alt={t("title")}
+              className="perfil-avatar-img"
+            />
+            <button
+              className="boton-pixel boton-avatar"
+              onClick={() => setModalAbierto(true)}
+            >
               ✨ {t("chooseAvatar")}
             </button>
           </div>
@@ -146,8 +170,13 @@ const Perfil = () => {
             <div className="perfil-editable perfil-campo-editable">
               {!modoEdicion.nombre_usuario ? (
                 <>
-                  <EditIcon className="icono-editar" onClick={() => activarEdicion("nombre_usuario")} />
-                  <p className="perfil-titulo pixelated">{valoresEditables.nombre_usuario}</p>
+                  <EditIcon
+                    className="icono-editar"
+                    onClick={() => activarEdicion("nombre_usuario")}
+                  />
+                  <p className="perfil-titulo pixelated">
+                    {valoresEditables.nombre_usuario}
+                  </p>
                 </>
               ) : (
                 <div className="campo-edicion">
@@ -162,7 +191,10 @@ const Perfil = () => {
                     autoFocus
                     className="input-editar"
                   />
-                  <button className="boton-cancelar-edicion" onClick={() => cancelarEdicion("nombre_usuario")}>
+                  <button
+                    className="boton-cancelar-edicion"
+                    onClick={() => cancelarEdicion("nombre_usuario")}
+                  >
                     ✖️
                   </button>
                 </div>
@@ -217,7 +249,13 @@ const Perfil = () => {
 
           <div className="perfil-botones">
             {hayCambios && (
-              <StarBorder as="button" className="boton-pixel boton-guardar" color="purple" speed="2s" onClick={guardarCambios}>
+              <StarBorder
+                as="button"
+                className="boton-pixel boton-guardar"
+                color="purple"
+                speed="2s"
+                onClick={guardarCambios}
+              >
                 💾 {t("saveChanges") || "Guardar Cambios"}
               </StarBorder>
             )}
@@ -230,6 +268,18 @@ const Perfil = () => {
               onClick={mostrarModalIdioma}
             >
               {t("changeLanguageButton")}
+            </StarBorder>
+
+            <StarBorder
+              as="a"
+              href="https://ianmiguelsoler.github.io/GamerMixFrontEnd/guia-usuario"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="boton-pixel boton-guia"
+              color="cyan"
+              speed="2s"
+            >
+              📘 {t("userGuideButton")}
             </StarBorder>
 
             <StarBorder
@@ -246,7 +296,10 @@ const Perfil = () => {
       </div>
 
       {/* 🌟 Modal de selección de avatar */}
-      <div className={`modal-overlay ${modalAbierto ? "visible" : "hidden"}`} onClick={() => setModalAbierto(false)}>
+      <div
+        className={`modal-overlay ${modalAbierto ? "visible" : "hidden"}`}
+        onClick={() => setModalAbierto(false)}
+      >
         <div className="modal-avatar" onClick={(e) => e.stopPropagation()}>
           <h2>{t("chooseAvatar")}</h2>
           <div className="galeria-avatars">
@@ -255,7 +308,9 @@ const Perfil = () => {
                 key={index}
                 src={url}
                 loading="eager"
-                className={`avatar-opcion ${avatarSeleccionado === url ? "seleccionado" : ""}`}
+                className={`avatar-opcion ${
+                  avatarSeleccionado === url ? "seleccionado" : ""
+                }`}
                 onClick={() => {
                   setAvatarSeleccionado(url);
                   setImagenCambiada(true);

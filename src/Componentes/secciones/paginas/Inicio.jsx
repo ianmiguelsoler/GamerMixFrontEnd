@@ -81,7 +81,7 @@ const Inicio = () => {
 
           <StarBorder
             as="button"
-            className="boton-pixel mt-4"
+            className="boton-pixel boton-inicio-aventura"
             color="indigo"
             speed="1.8s"
             onClick={manejarComienzo}

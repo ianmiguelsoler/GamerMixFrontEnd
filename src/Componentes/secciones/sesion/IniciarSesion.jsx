@@ -145,13 +145,13 @@ const IniciarSesion = () => {
                   </div>
                 </div>
 
-                <button
+                {/* <button
                   type="button"
                   className="forgot-password-text"
                   onClick={handleForgotPassword}
                 >
                   {t("forgotPassword")}
-                </button>
+                </button> */}
               </form>
             </div>
           </div>

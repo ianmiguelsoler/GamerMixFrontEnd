@@ -130,12 +130,14 @@ const usaLogros = (sonidoActivo = true) => {
       if (mezclasTotales >= 5) promesas.push(intentarAgregarLogro(LOGROS_IDS.cinco));
       if (mezclasTotales >= 10) promesas.push(intentarAgregarLogro(LOGROS_IDS.diez));
 
+     if (combinacionId && galeriaUsuario.length > 0 && combinacionesDisponibles.length > 0) {
       const idsUsuario = [...galeriaUsuario, combinacionId].filter(Boolean);
       const idsTodas = combinacionesDisponibles.map((c) => c.id);
-
       if (idsTodas.every((id) => idsUsuario.includes(id))) {
         promesas.push(intentarAgregarLogro(LOGROS_IDS.todas));
       }
+    }
+
 
       const combo = combinacionesDisponibles.find((c) => c.id === combinacionId);
       if (combo?.id === ID_SKIN_LEGENDARIA) {

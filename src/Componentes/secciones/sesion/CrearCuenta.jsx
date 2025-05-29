@@ -94,14 +94,14 @@ const handleRegister = async () => {
   };
 
   return (
-    <div className="contenedor-principal-registro" style={{ height: "65vh" }}>
+    <div className="contenedor-principal-registro" >
       <RandomSkinBackground />
       <motion.div
         initial={{ opacity: 0, y: -30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8 }}
         className="crear-cuenta-container"
-        style={{ position: "relative", zIndex: 1, height: "140vh" }}
+        style={{ position: "relative", zIndex: 1 }}
       >
         <div className="div-estilos-movil" style={{ position: "relative" }}>
           <TextPressure

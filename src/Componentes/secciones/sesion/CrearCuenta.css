@@ -10,12 +10,35 @@
     box-shadow: 0 0 12px rgba(0, 0, 0, 0.5);
   }
   
-  .contenedor-principal-registro{
-    position: relative; 
-    width: 100%;
-    height: 100vh;
-    overflow: hidden;
-  }
+.contenedor-principal-registro {
+  position: relative; 
+  width: 100%;
+  min-height: 100vh;
+  height: auto;
+  overflow-y: auto;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 2rem 1rem;
+}
+
+.crear-cuenta-container {
+  width: 100%;
+  max-width: 800px;
+  margin: 40px auto;
+  padding: 2rem;
+  background-color: #121212;
+  border: 1px solid #2c2c2c;
+  border-radius: 12px;
+  color: white;
+  font-family: monospace;
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.5);
+  min-height: 62vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
   /* TÍTULO */
   .crear-cuenta-title {
     text-align: center;

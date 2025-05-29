@@ -53,14 +53,21 @@ const { comprobarLogros } = usaLogros();
       const { data, error } = await supabaseConexion.auth.signUp({
         email,
         password,
+        options: {
+          emailRedirectTo:
+            "https://ianmiguelsoler.github.io/GamerMixFrontEnd/#/iniciarsesion",
+        },
       });
+
       if (error) {
         if (error.message.includes("already"))
           return { success: false, error: "emailAlreadyRegistered" };
         return { success: false, error: error.message };
       }
 
-      const userId = data.user.id;
+      const userId = data.user?.id;
+      if (!userId) return { success: true }; // El usuario todavía no ha verificado email
+
       const { error: insertError } = await supabaseConexion
         .from("users")
         .insert([{ id: userId, nombre_usuario, email }]);
@@ -74,11 +81,13 @@ const { comprobarLogros } = usaLogros();
         }
         return { success: false, error: insertError.message };
       }
+
       return { success: true };
     } catch (error) {
       return { success: false, error: error.message };
     }
   };
+
 
   const iniciarSesion = async () => {
     try {

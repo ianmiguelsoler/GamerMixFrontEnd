@@ -26,6 +26,20 @@
   white-space: nowrap;
   border: 0;
 }
+.fondo-perfil-lol {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-image: url("../../../assets/fondoDePerfil.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  opacity: 0.7; /* Ajusta si quieres que se vea más */
+  z-index: -2;
+  pointer-events: none;
+}
 
 .boton-guia{
   text-decoration: none;
@@ -333,6 +347,11 @@
     height: 100%;
     z-index: 0;
     pointer-events: none;
+  }
+
+  .fondo-perfil-lol {
+    width: 118vw;
+    height: 100%;
   }
 
   .perfil-card {

@@ -142,6 +142,8 @@ const Perfil = () => {
 
   return (
     <div className="perfil-container">
+      <div className="fondo-perfil-lol" />
+
       <div className="ballpit-background">
         <Ballpit
           count={100}

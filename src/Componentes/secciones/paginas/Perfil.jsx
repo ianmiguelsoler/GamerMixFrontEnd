@@ -274,7 +274,7 @@ const Perfil = () => {
 
             <StarBorder
               as="a"
-              href="https://ianmiguelsoler.github.io/GamerMixFrontEnd/guia-usuario"
+              href="https://drive.google.com/file/d/160xuPZdH6ZT1nb9jpaFMt6OcVPemrnmS/view?usp=sharing"
               target="_blank"
               rel="noopener noreferrer"
               className="boton-pixel boton-guia"
